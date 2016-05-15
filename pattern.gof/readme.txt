@@ -1,44 +1,46 @@
 1) Proxy 
-Als Sarah Palin möchte ich verhindern das sich gleichgeschlechtliche Personen miteinander vernügen.
+Als Sarah Palin mï¿½chte ich verhindern das sich gleichgeschlechtliche Personen miteinander vernï¿½gen.
 
 Gegeben: 
 -Interface Kissable 
 -abstracte Klasse Person, die Kissable implementiert 
 -Klassen Boy and Girl, die von Person erben
--PersonService als Interface und BasicPersonServiceImpl, die Kissable Instanzen für Boy und Girl erzeugen
+-PersonService als Interface und BasicPersonServiceImpl, die Kissable Instanzen fï¿½r Boy und Girl erzeugen
 
 
 Aufgabenstellung:
 
-
-1.1) DynamicKissProxyImpl erstellen: Bei Aufruf von "Kiss public final String kiss(final Kissable kissed)"
+1.1)  KissProtectionProxyImpl (analog dem GoF-Pattern) erstellen, Bei Aufruf von "Kiss public final String kiss(final Kissable kissed)"
+ wird eine Exception geworfen,wenn: kissed.type() == this.type , sonst wird an die kiss Methode des Objektes delegiert.
+ 
+1.2) DynamicKissProxyImpl erstellen: Bei Aufruf von "Kiss public final String kiss(final Kissable kissed)"
  wird eine Exception geworfen,wenn: kissed.type() == this.type , sonst wird an die kiss Methode des Objektes delegiert.
 
-1.2) DynamicProxyPersonServiceImpl: Dynamic-Proxies für Girl und Boys erstellen, 
-Service erbt von BasicPersonServiceImpl: überschreiben der Methode: "protected Kissable proxy(final Kissable person)".
+1.3) DynamicProxyPersonServiceImpl: Dynamic-Proxies fï¿½r Girl und Boys erstellen, 
+Service erbt von BasicPersonServiceImpl: ï¿½berschreiben der Methode: "protected Kissable proxy(final Kissable person)".
 
 
-3) Das gleiche für CGLIB-Proxies: Proxy und CGLIBProxyPersonServiceImpl erstellen
+3) Das gleiche fï¿½r CGLIB-Proxies: Proxy und CGLIBProxyPersonServiceImpl erstellen
 
 
 
 2) Strategy
 
-Als Anwender einer math. Funktionsbibliotek  möchte ich bestimmte Integrale numerisch lösen 
-und dabei unterschiedliche (auch selbst implementierte) Algorithmen (Simpson-, Trapez-Regel usw.) verwenden können.
+Als Anwender einer math. Funktionsbibliotek  mï¿½chte ich bestimmte Integrale numerisch lï¿½sen 
+und dabei unterschiedliche (auch selbst implementierte) Algorithmen (Simpson-, Trapez-Regel usw.) verwenden kï¿½nnen.
 
 
 Gegeben:
 - ServiceInterface "double area(double min, double max, int n)" zur Integration reeller Funktionen. 
 - Interface RealFunction  double result(double value) zur Berechnung des Funktionswertes einer reelen Funktion,
-- Implementierungen für RealFunktion: Parabel und BshRealFunctionImpl 
+- Implementierungen fï¿½r RealFunktion: Parabel und BshRealFunctionImpl 
 
 
 Trapezformel:
 
 Streifenbreite h= (b-a)/n 
-Stützstellen xk= a+k*h (k=0,1,...,n) 
-Stützwerte: y0, y1,...,y2n
+Stï¿½tzstellen xk= a+k*h (k=0,1,...,n) 
+Stï¿½tzwerte: y0, y1,...,y2n
 
 s1= y0 + yn , s2=y1+y2+...+yn-1
 
@@ -48,8 +50,8 @@ integral=(1/2*s1+s2)*h
 Simsonsche Formel:
 
 Streifenbreite h= (b-a)/n 
-Stützstellen xk= a+k*h (k=0,1,...,2*n) 
-Stützwerte: y0, y1,...,yn
+Stï¿½tzstellen xk= a+k*h (k=0,1,...,2*n) 
+Stï¿½tzwerte: y0, y1,...,yn
 
 Streifenbreite h= (b-a)/(2*n)
 
@@ -60,7 +62,7 @@ s2=y2+y4+...+y2n-2
 integral=/s0+4*s1+2*s2)*h/3
 
 
-Fehlerabschätzung (2*n is durch 4 teilbar):
+Fehlerabschï¿½tzung (2*n is durch 4 teilbar):
 
 deltaI=1/15*(integral(h) - integral(2*h))
 
@@ -69,35 +71,35 @@ integral =integral(h) + daltaI
 
 Aufgabenstellung:
 
-2.1 Zu Implementieren sind SimpsonIntegrationServiceImpl und TrapezIntegrationServiceImpl (für Simpson bzw. Trapez-Regel).
+2.1 Zu Implementieren sind SimpsonIntegrationServiceImpl und TrapezIntegrationServiceImpl (fï¿½r Simpson bzw. Trapez-Regel).
 Beide verwenden das Interface IntegrationService
 
 2.2. Es ist ein universeller Mechanismus zur Erstellung von Java-Beans 
-und das automatische Setzen der Abhängigkeiten zu erstellen : SimpleBeanFactoryImpl 
+und das automatische Setzen der Abhï¿½ngigkeiten zu erstellen : SimpleBeanFactoryImpl 
 SimpleBeanFactoryImpl implemtiert das Interface BeanFactory.
 
 
 3 State
 
-Als MusikProduzent möchte ich, das Pop-Sängerinnen einem bestimmten vorgefertigten Verhalten, abhängig von 
-ihrem Karrie-Status entsprechen, um sie mit vorgefertigten Maketing-Strategien vermarkten zu können und
-möglichst leicht Geld an ihnen zu verdienen.
+Als MusikProduzent mï¿½chte ich, das Pop-Sï¿½ngerinnen einem bestimmten vorgefertigten Verhalten, abhï¿½ngig von 
+ihrem Karrie-Status entsprechen, um sie mit vorgefertigten Maketing-Strategien vermarkten zu kï¿½nnen und
+mï¿½glichst leicht Geld an ihnen zu verdienen.
 
 
 Gegeben:
 
 - Interface ArtistState
 
-- Enum ArtistStateFactory, für alle möglichen Stati wird eine Status-Klasse erzeugt.
+- Enum ArtistStateFactory, fï¿½r alle mï¿½glichen Stati wird eine Status-Klasse erzeugt.
 
-- Interface Checker, dessen Implentierungen die Statusübergänge vom aktuellen in den FolgeStatus ermittelt
+- Interface Checker, dessen Implentierungen die Statusï¿½bergï¿½nge vom aktuellen in den FolgeStatus ermittelt
 
 - RandomCheckerImpl als Implementierung von Checker 
-  und InnerClass für StayOnStateChecker als konkrete Implementierungen von Checker
-  RandomChecker wählt zufälling nach Wahrscheinlichkeiten:  50%  CheckResult.Stay 25% CheckResult.Success 25% CheckResult.Failed,
-  StayOnStateChecker liefert immer CheckResult.Stay (wird für die finalen Zustände verwendet)
+  und InnerClass fï¿½r StayOnStateChecker als konkrete Implementierungen von Checker
+  RandomChecker wï¿½hlt zufï¿½lling nach Wahrscheinlichkeiten:  50%  CheckResult.Stay 25% CheckResult.Success 25% CheckResult.Failed,
+  StayOnStateChecker liefert immer CheckResult.Stay (wird fï¿½r die finalen Zustï¿½nde verwendet)
   
- - Main-Klasse StupidGirls um den LifeCycle simmulieren zu können 
+ - Main-Klasse StupidGirls um den LifeCycle simmulieren zu kï¿½nnen 
    und die Anzahl der durchlaufenen Stati, den EndStatus und das Einkommen auszugeben
 
 
@@ -120,50 +122,50 @@ OutArtistStateImpl		out			out			-			-			0
 BreakedArtistStateImpl	breaked		breaked		hot			out			0
 
 
-4 + 5 )  Als CO des Flugzeugträgers "USS Erich Gamma"  möchte ich , das  für die vom Tracking Radar erfaßten Flugzeuge Feuerleitlösungen errechnet werden,
-und die Geschütze automatisch auf die Ziele ausgerichtet werden.
+4 + 5 )  Als CO des Flugzeugtrï¿½gers "USS Erich Gamma"  mï¿½chte ich , das  fï¿½r die vom Tracking Radar erfaï¿½ten Flugzeuge Feuerleitlï¿½sungen errechnet werden,
+und die Geschï¿½tze automatisch auf die Ziele ausgerichtet werden.
 
 
 4) Observer:
 
-Als Feuerleitoffizier des Flugzeugträgers "USS Erich Gamma" möchte ich, 
-das die vom Tracking-Radar erfaßten Koordinaten  der Flugzeuge automatisch  zur Errechnung einer Feuerleitlösung (Positionsparameter des Geschützturms 
-für die Bekämpfung der entsprechenden Ziels) führen. Unter Koordinaten sind Lattitude, Longitude und Altitude des Ziels zu verstehen.
-Als Positionsparameter für das Feuerleitsystem werden der Winkel des Waffenturms zur Nordrichtung, 
-die Elevaltion des Geschützrohres (bei gerader Flugbahn des Geschosses), die Entfernung des Zieles über Grund vom Schiff 
-und die direkte Entfernung des Schiffs zum Ziel benötigt.
-Ziele mit einer Entfernung > 100 km   sind für das Waffensystem mangels Reichweite nicht von Interesse. 
+Als Feuerleitoffizier des Flugzeugtrï¿½gers "USS Erich Gamma" mï¿½chte ich, 
+das die vom Tracking-Radar erfaï¿½ten Koordinaten  der Flugzeuge automatisch  zur Errechnung einer Feuerleitlï¿½sung (Positionsparameter des Geschï¿½tzturms 
+fï¿½r die Bekï¿½mpfung der entsprechenden Ziels) fï¿½hren. Unter Koordinaten sind Lattitude, Longitude und Altitude des Ziels zu verstehen.
+Als Positionsparameter fï¿½r das Feuerleitsystem werden der Winkel des Waffenturms zur Nordrichtung, 
+die Elevaltion des Geschï¿½tzrohres (bei gerader Flugbahn des Geschosses), die Entfernung des Zieles ï¿½ber Grund vom Schiff 
+und die direkte Entfernung des Schiffs zum Ziel benï¿½tigt.
+Ziele mit einer Entfernung > 100 km   sind fï¿½r das Waffensystem mangels Reichweite nicht von Interesse. 
 
 Gegeben:
 
 -Angle Klasse zur Representaion von Winkeln  
--Location Interface für Koordinaten (Longitude, Lattitude und Altitude, LocationImpl als konkrete Implementirung des Interfaces
+-Location Interface fï¿½r Koordinaten (Longitude, Lattitude und Altitude, LocationImpl als konkrete Implementirung des Interfaces
 -Aircraft Interface zur Beschreibung eines Flugzeugs und seiner Koordinaten
 -Mig29 als konkrete Implementierung von Aircraft
--TargetAware Interface zur Übergabe von Flugzeugen und den entsprechenden PositionsParametern an die Waffe
--Interface Subject für ObserverSubject
--Interface Observer für Observer 
+-TargetAware Interface zur ï¿½bergabe von Flugzeugen und den entsprechenden PositionsParametern an die Waffe
+-Interface Subject fï¿½r ObserverSubject
+-Interface Observer fï¿½r Observer 
 -Interface PositionCalculator zur Berechnung der Positionsparameter der Waffe, PositionCalculatorImpl als konkrete Implementierung
 -SwingGui zur Simmulation von Radar und Waffe
 
-Es wird nicht die ObserverImplemntierung von Java verwendet (da sie Unsauber ist), darum die eigenen Interfaces für Subject und Observer
+Es wird nicht die ObserverImplemntierung von Java verwendet (da sie Unsauber ist), darum die eigenen Interfaces fï¿½r Subject und Observer
 
 AufgabenStellung:
 Realisierung des Observermusters: Vom Radar getracktes Flugzeug  (AircraftSubjectImpl) ist ObserverSubject,
 das Waffensysten (AircraftObserverImpl) ist Observer
 - AircraftSubjectImpl erstellen: implements Subject und  Aircraft. 
-  Die Koordinaten werden von einer über Strategy austauschbaren konkreten Implementierung (Mig29) geliefert.
-  Die Berechnung der Positionsparameter erfolgt über eine per Strategie austauschbare Implementierung (PositionsparameterImpl)
+  Die Koordinaten werden von einer ï¿½ber Strategy austauschbaren konkreten Implementierung (Mig29) geliefert.
+  Die Berechnung der Positionsparameter erfolgt ï¿½ber eine per Strategie austauschbare Implementierung (PositionsparameterImpl)
   Equals und HashCode sind zu implemtieren.
 - AircraftObserver erstellen: implements Observer und TargetsAware.
-  Als Abweichung zum Observer der GoF können einem Observer n Subjects (Flugzeuge, Ziele) zugeordnet sein. 
-  Die Bekämpfung erfolgt dann entweder durch unterschiedliche Geschütze oder zeitlich nacheinander, was nicht von Relevanz ist)
+  Als Abweichung zum Observer der GoF kï¿½nnen einem Observer n Subjects (Flugzeuge, Ziele) zugeordnet sein. 
+  Die Bekï¿½mpfung erfolgt dann entweder durch unterschiedliche Geschï¿½tze oder zeitlich nacheinander, was nicht von Relevanz ist)
   Die Zuordnung der Subjects zu den errechneten Positionsparametern  wird als private final Map<Aircraft, Position> positions abgebildet und
-  über TargetAware vom Feuerleitsystem gelesen und weiterverarbeitet.
+  ï¿½ber TargetAware vom Feuerleitsystem gelesen und weiterverarbeitet.
   
  
 Anmerkung zur Bestimmung der Positionsparameter der Waffe: 
-Die Entfernungsberechnung über Grund und der Geschützwinkel zur Nordrichtung sind Ergebnis der  Lösung 2. geod. Haupaufgabe. 
+Die Entfernungsberechnung ï¿½ber Grund und der Geschï¿½tzwinkel zur Nordrichtung sind Ergebnis der  Lï¿½sung 2. geod. Haupaufgabe. 
 l2,l1: longitude
 b2,b1: lattitude
 
@@ -177,64 +179,64 @@ sin(x12) = (sin(l2-l1)*cos(b2))/sin(e12)
 
 azimuth=artan2(sin(x12) , cos(x12))
 
-d12 ist die Entfernung des Ziels über der Erdoberfläche
+d12 ist die Entfernung des Ziels ï¿½ber der Erdoberflï¿½che
 azimuth ist der Peilwinkel zur Nordrichtung
 
  
-Der Elevationswinkel der Waffe wird über Anwendung des Kosinus und Sinussatzes ermittelt:
+Der Elevationswinkel der Waffe wird ï¿½ber Anwendung des Kosinus und Sinussatzes ermittelt:
  
-(RE+h) und RE sind Schenkel eines nicht rechtwinkligen Dreiecks. Der Winkel (e12) ist durch die Lösung der 2. geod. Haupaufgabe bereits bekannt.
+(RE+h) und RE sind Schenkel eines nicht rechtwinkligen Dreiecks. Der Winkel (e12) ist durch die Lï¿½sung der 2. geod. Haupaufgabe bereits bekannt.
  
-Über den Kosinus-Satz ergibt sich die Schussentfernung zwischen Schiff und Flugzeug.
+ï¿½ber den Kosinus-Satz ergibt sich die Schussentfernung zwischen Schiff und Flugzeug.
 
 schussentfernung^2=RE^2+(RE+h)^2-2*RE*(RE+h)*cos(e12)
 
-(RE+h) und die Geschoßbahn sind ebenfalls 2 Schenkel eines nicht rechtwinkligen Dreiecks. Beide Längen sind bekannt. 
-Zusätzlich ist ein Winkel bekannt (e12 aus  der Lösung der 2. geod. Haupaufgabe). 
+(RE+h) und die Geschoï¿½bahn sind ebenfalls 2 Schenkel eines nicht rechtwinkligen Dreiecks. Beide Lï¿½ngen sind bekannt. 
+Zusï¿½tzlich ist ein Winkel bekannt (e12 aus  der Lï¿½sung der 2. geod. Haupaufgabe). 
 
-Damit läßt sich der Winkel zwischen RE und der Schussbahn mittels Sinus-Satz errechnen. 
+Damit lï¿½ï¿½t sich der Winkel zwischen RE und der Schussbahn mittels Sinus-Satz errechnen. 
 
 sin(gamma) = (RE+h)*sin(e12) / schussentfernung 
 
-Die Tangente an der Erdoberfläche am Geschütz steht  senkrecht zu RE. 
-Der errechnete Winkel gamma muss > 90°  sein, da sich das Ziel oberhalb der Erdoberfläche befindet. 
-Neben gamma ist auch 180°-gamma Lösung obiger Gleichung und nur in diesem Fall ist auch  gamma > 90°
+Die Tangente an der Erdoberflï¿½che am Geschï¿½tz steht  senkrecht zu RE. 
+Der errechnete Winkel gamma muss > 90ï¿½  sein, da sich das Ziel oberhalb der Erdoberflï¿½che befindet. 
+Neben gamma ist auch 180ï¿½-gamma Lï¿½sung obiger Gleichung und nur in diesem Fall ist auch  gamma > 90ï¿½
 
-Die Elevation ist der Winkel zwischen Tangete und Geschützrohr, nicht zwischen Erdradius und Geschützrohr (gamma ist der Hautwert): 
+Die Elevation ist der Winkel zwischen Tangete und Geschï¿½tzrohr, nicht zwischen Erdradius und Geschï¿½tzrohr (gamma ist der Hautwert): 
 
-elevation = 180° - gamma - 90° = 90° - asin((RE+h)*sin(e12) / schussentfernung)
+elevation = 180ï¿½ - gamma - 90ï¿½ = 90ï¿½ - asin((RE+h)*sin(e12) / schussentfernung)
 
-Die Erde wird als Kugel angenommen. Das Schiff hat die Altitude 0, da es sich immer auf Meereshöhe befinden muß.
+Die Erde wird als Kugel angenommen. Das Schiff hat die Altitude 0, da es sich immer auf Meereshï¿½he befinden muï¿½.
 
   
 
 5) Command:
   
-Als Geschützbesatzung des Flugzeugträgers "USS Erich Gamma" möchte ich, das die vom Feuerleitsystem berechneten Positionsparameter
-zur Ansteuerung der Hydraulik  des Geschützturms verwendet werden:
+Als Geschï¿½tzbesatzung des Flugzeugtrï¿½gers "USS Erich Gamma" mï¿½chte ich, das die vom Feuerleitsystem berechneten Positionsparameter
+zur Ansteuerung der Hydraulik  des Geschï¿½tzturms verwendet werden:
 
-Die errechnete Elevation steuert den Höhenrichtzylinder aufwärts bzw. abwärts, 
-abhängig von der aktuellen Position der Waffe und den errechneten Positionparameter.
+Die errechnete Elevation steuert den Hï¿½henrichtzylinder aufwï¿½rts bzw. abwï¿½rts, 
+abhï¿½ngig von der aktuellen Position der Waffe und den errechneten Positionparameter.
 Das AZimuth steuert den Hydraulik-Motor rechts oder lins herum, 
-abhängig von der aktuellen Position des Geschützturms  und den errechneten Positionparameter
+abhï¿½ngig von der aktuellen Position des Geschï¿½tzturms  und den errechneten Positionparameter
 
 Gegeben:
 
--Valve als Interface und ValveMock als konkrete Implementierung für ein  Magnetventil.
--AngleSwitch und AngleSwitchMock für einen Schalter, der bei Erreichen eines Winkels den Höhenrichtzylinder bzw. den Hydraulik-Motor abschaltet.
--Interface GunControl für die Implementierungen der einzelnen Kommandos
+-Valve als Interface und ValveMock als konkrete Implementierung fï¿½r ein  Magnetventil.
+-AngleSwitch und AngleSwitchMock fï¿½r einen Schalter, der bei Erreichen eines Winkels den Hï¿½henrichtzylinder bzw. den Hydraulik-Motor abschaltet.
+-Interface GunControl fï¿½r die Implementierungen der einzelnen Kommandos
 -Interface GunControlFactory zur Erstellung eines Makro-Kommandos
 -Interface StatefullValve, erweitert Valve um Information, ob ein Ventil auf oder geschlossen ist.
--Priority Interface für die zeitliche Abfolge der Befehle 
+-Priority Interface fï¿½r die zeitliche Abfolge der Befehle 
 -Swing-Gui zur Anzeige der Hydraulik-Befehle
 
 
 Aufgabenstellung:
 
 -Erstellen von StatefullValveImpl 
-Um entscheiden zu können, welche Ventile wieder zuschließen sind, muß der Zustand des Ventils bekannt sein.
-Dazu ist für das Interface StatefullValve eine Implementierung StatefullValveImpl zu erstellen (Valve wird über Strategy gesetzt)
-um das vom Hersteller zur Verfügung gestellte Valve bzw. ValveMock um diese Funktionalität zu ergänzen 
+Um entscheiden zu kï¿½nnen, welche Ventile wieder zuschlieï¿½en sind, muï¿½ der Zustand des Ventils bekannt sein.
+Dazu ist fï¿½r das Interface StatefullValve eine Implementierung StatefullValveImpl zu erstellen (Valve wird ï¿½ber Strategy gesetzt)
+um das vom Hersteller zur Verfï¿½gung gestellte Valve bzw. ValveMock um diese Funktionalitï¿½t zu ergï¿½nzen 
 
 
 -Erstellen der einzelnen Kommandos (alle nutzen das Interface GunControl):
@@ -244,46 +246,46 @@ um das vom Hersteller zur Verfügung gestellte Valve bzw. ValveMock um diese Funk
 	ElevationOpenValveControlImpl
 	CloseValveControlImpl
 	
-Das Commandpatern ist auch gedacht um Kommandos zusammenzufassen oder Statusinformationen hinzufügen.
+Das Commandpatern ist auch gedacht um Kommandos zusammenzufassen oder Statusinformationen hinzufï¿½gen.
 TowerOpenValveControlImpl bzw. ElevationOpenValveControlImpl setzen   forwardStatefullValve und inverseStatefullValve per Strategy  und halten 
-Informationen über den (aktuellen) Winkel (Azimuth bzw. Elevation) um entscheiden zu können, welches Ventil angesteuert werden muß.
+Informationen ï¿½ber den (aktuellen) Winkel (Azimuth bzw. Elevation) um entscheiden zu kï¿½nnen, welches Ventil angesteuert werden muï¿½.
 
--Erstellen von GunControlMarcoImpl, als Liste aller Kommandos zur Hydraulik-Steuerung für die Positionierung des Geschützturms auf ein Ziel.
+-Erstellen von GunControlMarcoImpl, als Liste aller Kommandos zur Hydraulik-Steuerung fï¿½r die Positionierung des Geschï¿½tzturms auf ein Ziel.
 
 Damit die Kommandos in der richtigen Reihenfolge erfolgen (Setzen der Enpositionen (azimuth, elevation) , 
-Öffnen des Ventils (Höhenrichtzylinder, Hydraulik-Motor), Schließen der Vertile kann man den Kommandos eine Priorität geben (Interface Priority) . 
+ï¿½ffnen des Ventils (Hï¿½henrichtzylinder, Hydraulik-Motor), Schlieï¿½en der Vertile kann man den Kommandos eine Prioritï¿½t geben (Interface Priority) . 
 Die Liste der Kommandoskann dann einfach nur entsprechend sortiert werden. 
 
 -Erstellung von GunControlMarcoFactoryImpl (implements Interface GunControlFactory)
 
 
-Anmerkung zur Bestimmung der Winkel der Waffe (Höhenrichtzylinder und Drehwinkel): 
-Der Winkel kann als rotierender Zeiger aufgefaßt werden. Nach der Euler'schen Formel ist dieser:
+Anmerkung zur Bestimmung der Winkel der Waffe (Hï¿½henrichtzylinder und Drehwinkel): 
+Der Winkel kann als rotierender Zeiger aufgefaï¿½t werden. Nach der Euler'schen Formel ist dieser:
 
-k*e°j(omega*t+x)=k*(cos(omega*t+x) - j*sin(omega*t+x))
+k*eï¿½j(omega*t+x)=k*(cos(omega*t+x) - j*sin(omega*t+x))
 
 Die Turmposition kann in ein elektr. Signal umgesetzt werden:
-2 Spulen sind um 90° versetzt angeordnet. Parallel zur ersten Spule wird eine 3. Spule von einem cosförmigen Wechselstorm mit konst. Frequenz durchflossen.
+2 Spulen sind um 90ï¿½ versetzt angeordnet. Parallel zur ersten Spule wird eine 3. Spule von einem cosfï¿½rmigen Wechselstorm mit konst. Frequenz durchflossen.
 Die 3. Spule wird proportional dem Turmwinkel zu den beiden anderen verdreht. 
 Nach dem Induktionsgesetz  wird in den beiden anderen Spulen eine Spannung induziert.
-Diese wird sich nach der eulerschen Formel auf die beiden Spulen verteilen (abhängig vom Winkel x). 
+Diese wird sich nach der eulerschen Formel auf die beiden Spulen verteilen (abhï¿½ngig vom Winkel x). 
 Mit entspechender Messtechnik kann z. B. der Scheitelwert der beiden Spannungen gemessen werden. 
-(Drehfrequenz des Turms << Frequenz der Wechselspannung, Induktion durch die Drehbewegung kann vernachlässigt werden)
+(Drehfrequenz des Turms << Frequenz der Wechselspannung, Induktion durch die Drehbewegung kann vernachlï¿½ssigt werden)
 
 Im  Beispiel werden die entsprechenden Schwellwerte (als komplexe Amplituden) vorgegeben. 
-Werden diese erreicht (Turm ist in die entsprechende Position gedreht), wird der Ölkreislauf  abgeschaltet 
-und die Waffe verbleibt in der entsprechenden Position. Höhe und Drehwinkel der Waffe sind nach diesem Verfahren ermittelbar.
+Werden diese erreicht (Turm ist in die entsprechende Position gedreht), wird der ï¿½lkreislauf  abgeschaltet 
+und die Waffe verbleibt in der entsprechenden Position. Hï¿½he und Drehwinkel der Waffe sind nach diesem Verfahren ermittelbar.
  
 
 
 Decorator
 
-Als  Rüstungsfabrikant möchte ich, nachdem die Geschäftsverbingung zu einem charakterlich degenerierten Monarchen weggebrochen ist,
-mit einem faschistischen Diktator Geschäfte machen. Dazu will ich diesen mit gepanzerten Kettenfahrzeugen beliefern, 
-die mit bereits existierenden Waffen bestückt (dekoriert) werden können.  
-Dadurch steigere ich den Absatz für die bereits produzierten Kanonen und Maschinengewehre 
-und verdiene zusätzlich an den Kettenfahrzeugen auf Kosten fast der gesammten Welt.
-Bricht das System erneut zusammen, schiebe ich es auf den Diktator, und versuche ähnliche Geschäfte mit dem dann folgenden System zu machen.
+Als  Rï¿½stungsfabrikant mï¿½chte ich, nachdem die Geschï¿½ftsverbingung zu einem charakterlich degenerierten Monarchen weggebrochen ist,
+mit einem faschistischen Diktator Geschï¿½fte machen. Dazu will ich diesen mit gepanzerten Kettenfahrzeugen beliefern, 
+die mit bereits existierenden Waffen bestï¿½ckt (dekoriert) werden kï¿½nnen.  
+Dadurch steigere ich den Absatz fï¿½r die bereits produzierten Kanonen und Maschinengewehre 
+und verdiene zusï¿½tzlich an den Kettenfahrzeugen auf Kosten fast der gesammten Welt.
+Bricht das System erneut zusammen, schiebe ich es auf den Diktator, und versuche ï¿½hnliche Geschï¿½fte mit dem dann folgenden System zu machen.
 Die Nachfrage ist durch die Weltmacht-Utopien des Diktators zumindest noch auf Jahre gesichert. 
 
 Die Kettenfahrzeuge  werden mit folgenden Waffen erweitert:
