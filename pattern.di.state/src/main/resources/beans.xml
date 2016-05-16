@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:lang="http://www.springframework.org/schema/lang" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-4.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+
+
+	<bean name="checker" class="de.mq.pattern.di.state.support.RandomCheckerImpl">
+
+		<constructor-arg value="0.25" />
+		<constructor-arg value="0.25" />
+
+	</bean>
+
+	<bean name="outArtist" class="de.mq.pattern.di.state.support.FinalArtistStateImpl">
+		<constructor-arg value="out" />
+
+	</bean>
+
+	<bean name="unkownArtist"
+		class="de.mq.pattern.di.state.support.NonFinalArtistStateImpl">
+
+		<constructor-arg ref="checker" />
+		<constructor-arg value="unkown" />
+		<constructor-arg value="0" />
+		<constructor-arg ref="blessedArtist" />
+		<constructor-arg value="outArtist" />
+	</bean>
+
+
+
+	<bean name="blessedArtist"
+		class="de.mq.pattern.di.state.support.NonFinalArtistStateImpl">
+		<constructor-arg ref="checker" />
+
+		<constructor-arg value="blessed" />
+		<constructor-arg value="10e3" />
+		<constructor-arg ref="hotArtist" />
+		<constructor-arg value="outArtist" />
+
+	</bean>
+
+
+	<bean name="famousArtist"
+		class="de.mq.pattern.di.state.support.NonFinalArtistStateImpl"
+		lazy-init="true">
+		<constructor-arg ref="checker" />
+		<constructor-arg value="famous" />
+		<constructor-arg value="10e6" />
+		<constructor-arg ref="inmortableArtist" />
+		<constructor-arg value="breakedArtist" />
+
+	</bean>
+
+
+
+
+
+
+
+	<bean name="hotArtist"
+		class="de.mq.pattern.di.state.support.NonFinalArtistStateImpl">
+		<constructor-arg ref="checker" />
+
+		<constructor-arg value="hot" />
+		<constructor-arg value="500e3" />
+		<constructor-arg ref="famousArtist" />
+		<constructor-arg value="breakedArtist" />
+
+	</bean>
+
+
+
+
+
+	<bean name="breakedArtist"
+		class="de.mq.pattern.di.state.support.NonFinalArtistStateImpl">
+		<constructor-arg ref="checker" />
+		<constructor-arg value="breaked" />
+		<constructor-arg value="0" />
+		<constructor-arg ref="hotArtist" />
+		<constructor-arg value="outArtist" />
+
+	</bean>
+
+
+
+
+
+	<bean name="inmortableArtist" class="de.mq.pattern.di.state.support.FinalArtistStateImpl">
+		<constructor-arg value="inmortable" />
+
+	</bean>
+
+
+
+	<bean
+		class="de.mq.pattern.di.state.support.FailedStateBeanFactoryPostProcessor" />
+
+</beans>
