@@ -93,9 +93,7 @@
 
 	<bean name="inmortableArtist" class="de.mq.pattern.di.state.support.FinalArtistStateImpl">
 		<constructor-arg value="inmortable" />
-
 	</bean>
-
 
 
 	<bean
