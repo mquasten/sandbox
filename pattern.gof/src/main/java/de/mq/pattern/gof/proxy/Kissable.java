@@ -5,7 +5,7 @@ public interface Kissable {
 		Boy(new Boy()), 
 		Girl(new Girl());
 
-		final Kissable person;
+		private final Kissable person;
 
 		private PersonType(final Kissable person) {
 			this.person = person;

@@ -10,12 +10,12 @@ public class BasicPersonServiceImpl implements PersonService {
 
 	@Override
 	public final Kissable boy() {
-		return proxy(PersonType.Boy.person);
+		return proxy(PersonType.Boy.person());
 	}
 
 	@Override
 	public final Kissable girl() {
-		return proxy(PersonType.Girl.person);
+		return proxy(PersonType.Girl.person());
 	}
 
 }

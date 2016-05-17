@@ -2,14 +2,14 @@ package de.mq.pattern.gof.proxy;
 
 class KissProtectionProxyImpl  implements Kissable{
 	
-	private Kissable target; 
+	private final Kissable target; 
 
-	KissProtectionProxyImpl(Kissable kissable) {
+	KissProtectionProxyImpl(final Kissable kissable) {
 		this.target = kissable;
 	}
 
 	@Override
-	public String kiss(final Kissable kissable) {
+	public final String kiss(final Kissable kissable) {
 		if ( this.target.type() == kissable.type()){
 			throw new IllegalArgumentException(this.target.getClass().getSimpleName().toLowerCase() + " should not kiss " + kissable.type().name().toLowerCase());
 		} 
@@ -18,7 +18,7 @@ class KissProtectionProxyImpl  implements Kissable{
 	}
 
 	@Override
-	public PersonType type() {
+	public final PersonType type() {
 		return target.type();
 	}
 
