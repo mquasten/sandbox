@@ -4,5 +4,4 @@ package de.mq.pattern.di.state.support;
 interface Checker {
 
 	CheckResult checkResult();
-
 }
