@@ -5,17 +5,13 @@ class RandomCheckerImpl implements Checker{
 
 	private final double successRange;
 	
+	private final double failedRange;
+	
 	public RandomCheckerImpl(double successRange, double failedRange) {
 		this.successRange = successRange;
 		this.failedRange = failedRange;
 	}
 
-
-
-	private final double failedRange;
-	
-	
-	
 	@Override
 	public final CheckResult checkResult() {
 		

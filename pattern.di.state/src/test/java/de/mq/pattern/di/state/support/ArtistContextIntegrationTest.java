@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.junit.Assert;
-
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,7 @@ import de.mq.pattern.di.state.ArtistState;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/beans.xml" })
+@Ignore
 public class ArtistContextIntegrationTest {
 	
 	@Autowired
