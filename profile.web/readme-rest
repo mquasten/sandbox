@@ -1,4 +1,4 @@
-Datenbank anpassen in glassfish-resources.xml (unter WEB-INF) , Postgres + mysql sind vorhanden, die auskommentieren, die man nicht braucht:
+Datenbank anpassen in glassfish-resources.xml (unter WEB-INF) , PostgreSQL + mysql sind vorhanden, die auskommentieren, die man nicht braucht:
 
   ...	
   <jdbc-resource enabled="true" jndi-name="jdbc/riri" object-type="user" pool-name="post-gre-sql_ririPool"/>  
@@ -6,9 +6,9 @@ Datenbank anpassen in glassfish-resources.xml (unter WEB-INF) , Postgres + mysql
   <!-- jdbc-resource enabled="true" jndi-name="jdbc/riri" object-type="user" pool-name="mysql_ririPool"/-->   
   ...
   
-Beide jdbc-treiber stehen im pom, postgres + mysql.
+Beide jdbc-treiber stehen im pom, postgreSQL + mysql.
 
-Starten: clean package embedded-glassfish:run (in ide oder mit maven)
+Starten: clean package embedded-glassfish:run (in eclipse oder mit maven)
 
 url im browser: http://localhost:8080/profile oder http://localhost:8080/profile/profiles.jsf
 
