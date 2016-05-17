@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="template.xhtml">
+	<ui:param name="headline" value="#{msg.profiles_headline}" />
+
+	<ui:define name="content">
+		<h:form id="form">
+			<p:dataTable id="profileTable" var="profile"
+				value="#{profileSearchController.profiles()}"
+				selection="#{profileSearch.selectedProfile}" rowKey="#{profile.id}">
+
+				<p:column selectionMode="single"
+					style="width:16px;text-align:center" />
+
+
+				<p:ajax event="rowSelectRadio" process="@form" update="@form" />
+
+
+
+
+				<p:column headerText="#{msg.profiles_name_col}">
+					
+					<h:outputText value="#{profile.name}" />
+				</p:column>
+
+				<p:column headerText="#{msg.profiles_template_col}">
+					<h:outputText value="#{profile.profileTemplate.name}" />
+				</p:column>
+
+				<p:column headerText="#{msg.profiles_image_col}">
+
+					<h:link
+						value="#{profile.images.size()}&nbsp;#{msg.profiles_image_col}"
+						outcome="images" rendered="#{profile.images.size() > 0}">
+						<f:param name="profileId" id="profileId" value="#{profile.id}" />
+					</h:link>
+
+
+
+				</p:column>
+
+
+			</p:dataTable>
+
+			<h:panelGroup style="display:block; text-align:center">
+				<p:button process="profileTable" update=":form:profileTable"
+					icon="ui-icon-document" value="#{msg.profiles_edit_button}"
+					outcome="profile" disabled="#{profileSearch.selectedProfile==null}">
+					<f:param name="profileId"
+						value="#{profileSearch.selectedProfile.id}" />
+				</p:button>
+
+
+				<p:button process="profileTable" update=":form:profileTable"
+					icon="ui-icon-plus" value="#{msg.profiles_new_button}"
+					outcome="profile" />
+
+			</h:panelGroup>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

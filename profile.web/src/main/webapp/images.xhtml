@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui" >
+  
+ 
+  
+  <ui:composition template="template.xhtml">
+	<ui:param name="headline" value="#{msg.image_headline}&nbsp;#{imageView.name}" />
+	<ui:define name="meta">
+	  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />	
+		<f:metadata>
+		
+		<f:viewParam id="profileId" name="profileId" value="#{imageView.profileId}" required="true" />
+        
+    	
+    	<f:viewAction action="#{imageController .init(imageView)}" />
+    	</f:metadata>
+	</ui:define>
+	
+	<ui:define name="content">
+	<h:panelGrid style=" margin: 0 auto">
+	<p:galleria value="#{imageView.images}" var="image"  panelWidth="700" panelHeight="700">
+    	<h:graphicImage url="/images?fileName=#{image.name}"  cache="false"  width="100%"/>
+	</p:galleria>
+	</h:panelGrid>
+	<h:panelGroup style="display:block; text-align:center">
+		
+		<p:button value="#{msg.image_cancel}"  outcome="profiles"/>
+	</h:panelGroup>
+	
+	</ui:define>
+	
+	</ui:composition>
+	
+	
+	</html>
+  

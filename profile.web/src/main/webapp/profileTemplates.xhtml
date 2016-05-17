@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="template.xhtml">
+	<ui:param name="headline" value="#{msg.templates_headline}" />
+	
+	<ui:define name="content">
+	
+	<h:form id="form">
+			<p:dataTable id="profileTemplateTable" var="profileTemplate"
+				value="#{profileTemplateSearchController.templates()}"
+				selection="#{profileTemplateSearch.selectedProfileTemplate}" rowKey="#{profileTemplate.id}">
+
+				<p:column selectionMode="single"
+					style="width:16px;text-align:center" />
+
+
+				<p:ajax event="rowSelectRadio" process="@form" update="@form" />
+
+
+
+
+				<p:column headerText="#{msg.templates_name_col}">
+					
+					<h:outputText value="#{profileTemplate.name}" />
+				</p:column>
+
+
+				<p:column headerText="#{msg.templates_description_col}">
+					
+					<h:outputText value="#{profileTemplate.description}" />
+				</p:column>
+				
+
+			</p:dataTable>
+
+			<h:panelGroup style="display:block; text-align:center">
+				<p:button process="profileTemplateTable" update=":form:profileTemplateTable"
+					icon="ui-icon-document" value="#{msg.templates_edit_button}"
+					outcome="profileTemplate" disabled="#{profileTemplateSearch.selectedProfileTemplate.id == null}">
+					<f:param name="profileTemplateId"
+						value="#{profileTemplateSearch.selectedProfileTemplate.id}" />
+				</p:button>
+
+
+				<p:button process="profileTemplateTable" update=":form:profileTemplateTable"
+					icon="ui-icon-plus" value="#{msg.templates_new_button}"
+					outcome="profileTemplate" />
+
+			</h:panelGroup>
+		</h:form>
+	
+	</ui:define>
+	
+	
+</ui:composition>
+
+</html>

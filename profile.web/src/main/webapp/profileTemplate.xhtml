@@ -1,0 +1,322 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="template.xhtml">
+	<ui:param name="headline"
+		value="#{profileTemplateEdit.profileTemplateId != null ? msg.template_headline_edit : msg.template_headline_new }" />
+
+	<ui:define name="meta">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<f:metadata>
+
+			<f:viewParam id="profileTemplateId" name="profileTemplateId"
+				value="#{profileTemplateEdit.profileTemplateId}" required="false" />
+
+
+			<f:viewAction
+				action="#{profileTemplateController.init(profileTemplateEdit)}" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h:form id="form">
+			<p:panelGrid id="profileGrid" columns="2"
+				style="margin-top: 25px; width: 100%; ">
+				<p:outputLabel for="name" value="#{msg.template_name}" />
+
+				<h:panelGrid columns="2">
+					<p:inputText id="name"
+						value="#{profileTemplateEdit.profileTemplate.name}" />
+					<p:message for="name" display="text" />
+
+				</h:panelGrid>
+
+
+				<p:outputLabel for="description" value="#{msg.template_description}" />
+				<p:inputTextarea id="description" rows="5" cols="30"
+					value="#{profileTemplateEdit.profileTemplate.description}" />
+
+				<p:outputLabel for="features" value="#{msg.template_features}" />
+
+				<h:panelGrid style="display:block; text-align:center">
+					<p:dataTable id="features" var="feature"
+						value="#{profileTemplateEdit.profileTemplate.features}"
+						rowKey="#{feature}" scrollable="true" scrollHeight="150"
+						resizableColumns="true">
+
+
+
+						<p:column style="width: 20px;">
+
+
+
+							<p:commandButton immeditate="true" update="@form" process="@form"
+								immediate="true"
+								action="#{profileTemplateEdit.setSelectedFeature(feature)}"
+								icon="ui-icon-check"
+								rendered="#{profileTemplateEdit.selectedFeature==feature}"
+								style="height:16px; width:16px; vertical-align: middle;" />
+
+							<p:commandButton immeditate="true" update="@form" process="@form"
+								immediate="true"
+								action="#{profileTemplateEdit.setSelectedFeature(feature)}"
+								icon="ui-icon-blank"
+								rendered="#{profileTemplateEdit.selectedFeature!=feature}"
+								style="height:16px;  width:16px; vertical-align: middle;" />
+
+						</p:column>
+
+						<p:column style="text-align: center  !important;"
+							headerText="#{msg.template_name_col}">
+
+
+							<h:inputText id="name" value="#{feature.name}" style="width:100%">
+								<p:ajax event="change" update="@form" process="@this" />
+							</h:inputText>
+
+							<p:message for="name" display="text" />
+
+						</p:column>
+
+						<p:column style="text-align: center;"
+							headerText="#{msg.template_type_col}">
+
+
+							<h:selectOneMenu id="type" value="#{feature.featureType}"
+								style="width:100%" required="true"
+								requiredMessage="#{msg.mandatory}">
+								<f:selectItem itemLabel="#{msg.template_feature_select}" />
+								<f:selectItems
+									value="#{profileTemplateController.featureTypes()}" />
+								<p:ajax event="change" update="@form" process="@this" />
+							</h:selectOneMenu>
+							<p:message for="type" display="text" />
+
+						</p:column>
+
+
+						<p:column style="text-align: center; width: 10%;"
+							headerText="#{msg.template_mandatory_col}">
+
+
+							<h:selectBooleanCheckbox value="#{feature.mandatory}"
+								style="width:100%">
+
+								<p:ajax event="change" process="@this" update="@form" />
+							</h:selectBooleanCheckbox>
+
+
+
+						</p:column>
+
+						<p:column style="text-align: center; width: 10%;"
+							headerText="#{msg.template_min_col}">
+
+
+							<h:inputText id="min" value="#{feature.minRange}"
+								style="width:100%" converterMessage="#{msg.invalid}">
+								<f:convertNumber minFractionDigits="0" maxFractionDigits="5" />
+								<p:ajax event="change" update="@form" process="@this" />
+							</h:inputText>
+
+
+
+							<p:message for="min" display="text" />
+						</p:column>
+
+						<p:column style="text-align: center; width: 10%;"
+							headerText="#{msg.template_max_col}">
+
+
+							<h:inputText id="max" value="#{feature.maxRange}"
+								style="width:100%" converterMessage="#{msg.invalid}">
+								<f:convertNumber minFractionDigits="0" maxFractionDigits="5" />
+								<p:ajax event="change" update="@form" process="@this" />
+							</h:inputText>
+
+
+
+							<p:message for="max" display="text" />
+						</p:column>
+
+						<p:column style="text-align: center; width: 5%;"
+							headerText="#{msg.template_permitted_values_col}">
+							<p:commandLink process="@this,form:values"
+								update="features,form:values,form:deleteValue,form:newInputValue"
+								value="#{feature.permittedValues.size()}"
+								action="#{profileTemplateEdit.assignFeatureOperation(feature, 'PermittedValues')}"
+								onsuccess="PF('valuesDialog').show();" />
+
+						</p:column>
+						
+						
+						<p:column style="text-align: center; width: 5%;"
+							headerText="#{msg.template_rule_col}">
+							<p:commandLink process="@this,form:values"
+								update="features,form:values,form:deleteValue,form:newInputValue"
+								value="#{feature.rules.size()}"
+								action="#{profileTemplateEdit.assignFeatureOperation(feature, 'Rules')}"
+								onsuccess="PF('valuesDialog').show();" />
+
+						</p:column>
+
+
+					</p:dataTable>
+					<h:panelGroup style="display:block; text-align:center">
+						<p:commandButton value="#{msg.template_feature_add}"
+							process="@this" update="@form" icon="ui-icon-plus"
+							action="#{profileTemplateController.addFeature(profileTemplateEdit.profileTemplate)}" />
+
+						<p:commandButton id="deleteFeature"
+							value="#{msg.template_feature_remove}" process="@this"
+							update="@form" icon="ui-icon-minus"
+							action="#{profileTemplateController.removeFeature(profileTemplateEdit)}"
+							disabled="#{profileTemplateEdit.selectedFeature == null || profileTemplateEdit.selectedFeature.featureValues.size() > 0}" />
+					</h:panelGroup>
+				</h:panelGrid>
+
+				<p:outputLabel value="#{msg.template_services}" />
+					<h:panelGrid >	
+					<h:panelGrid  columns="4" id="inputServiceGrid" >
+						<h:inputText id="newService"  value="#{profileTemplateEdit.newService}"   />
+						
+						<p:message for="newService" display="text" />
+						<p:commandButton value="#{msg.template_serive_add}"
+							process="inputServiceGrid" update="@form" icon="ui-icon-plus"
+							action="#{profileTemplateController.addService(profileTemplateEdit, facesContext)}" />
+					</h:panelGrid>
+					
+					
+				
+					<p:dataTable id="services" var="service"
+						value="#{profileTemplateEdit.profileTemplate.services}"
+						selection="#{profileTemplateEdit.selectedService}"
+						rowKey="#{service}">	
+						
+						
+						
+					
+					<p:column selectionMode="single" style="width:16px;text-align:center" />
+					<p:ajax event="rowSelectRadio" process="@this" update="@form"  />
+						
+						<p:column>
+						
+							<h:outputText value="#{service}" />
+								
+							
+							
+						</p:column>
+						
+						
+					</p:dataTable>
+					 <h:panelGroup id="deleteService"  style="display:block; text-align:center">
+				
+						<p:commandButton 
+							value="#{msg.template_service_remove}" process="@this,form:services"
+							update="@form" icon="ui-icon-minus"
+							action="#{profileTemplateController.removeService(profileTemplateEdit)}" disabled="#{profileTemplateEdit.selectedService == null}" />
+							
+					</h:panelGroup>					
+					
+
+					</h:panelGrid>
+					
+					
+					
+				<h:panelGrid>
+
+
+
+				</h:panelGrid>
+
+			</p:panelGrid>
+
+
+			<h:panelGroup style="display:block; text-align:center">
+
+				<p:messages globalOnly="true" display="text" />
+				<p:button icon="ui-icon-close" value="#{msg.template_cancel}"
+					outcome="profileTemplates" />
+				<p:commandButton process="@this,profileGrid" update=":form"
+					icon="ui-icon-check" value="#{msg.template_save}"
+					action="#{profileTemplateController.save(profileTemplateEdit)}" />
+					
+				<p:commandButton process="@this" update="@form" 
+					icon="ui-icon-minus" value="#{msg.template_delete}"
+					action="#{profileTemplateController.remove(profileTemplateEdit, facesContext)}"  rendered="#{profileTemplateEdit.profileTemplateId != null}"/>
+
+			</h:panelGroup>
+
+
+			<p:dialog header="#{msg.values_dialog_headline}"
+				widgetVar="valuesDialog" modal="true" width="75%">
+			
+				<h:panelGrid>
+
+					<h:panelGrid id="newInputValue" columns="3">
+						<p:inputText id="newValue" value="#{profileTemplateEdit.newValue}"
+							requiredMessage="#{msg.mandatory}">
+
+						</p:inputText>
+						<p:message for="newValue" display="text" />
+						<p:commandButton update="features values newInputValue"
+							icon="ui-icon-plus" value="#{msg.values_dialog_add}"
+							action="#{profileTemplateEdit.addValue()}" />
+					</h:panelGrid>
+
+
+
+					<p:dataTable id="values" var="value"
+						value="#{profileTemplateEdit.values}"
+						selection="#{profileTemplateEdit.selectedValue}" rowKey="#{value}"
+						styleClass="hide-column-names" scrollable="true"
+						scrollHeight="150">
+
+						<p:column selectionMode="single"
+							style="width:16px;text-align:center" />
+
+						<p:ajax event="rowSelectRadio" update="@form:deleteValue" />
+
+
+						<p:column>
+							<h:outputText value="#{value}" />
+						</p:column>
+					</p:dataTable>
+
+				</h:panelGrid>
+
+
+				<h:panelGroup style="display:block; text-align:center">
+					<p:commandButton icon="ui-icon-close"
+						value="#{msg.values_dialog_cancel}" immediate="true"
+						onclick="PF('valuesDialog').hide();" />
+					<p:commandButton id="deleteValue" update="features values @this"
+						icon="ui-icon-minus" value="#{msg.values_dialog_remove}"
+						immediate="true" action="#{profileTemplateEdit.removeValue()}"
+						disabled="#{profileTemplateEdit.selectedValue==null}" />
+				</h:panelGroup>
+
+			</p:dialog>
+
+
+		</h:form>
+
+
+
+	</ui:define>
+
+
+
+
+</ui:composition>
+
+
+
+
+</html>
+

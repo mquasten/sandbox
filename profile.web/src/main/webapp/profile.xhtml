@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="template.xhtml">
+	<ui:param name="headline"
+		value="#{profileEdit.profileId != null ? msg.profile_headline_edit : msg.profile_headline_new }" />
+	<ui:define name="meta">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<f:metadata>
+			<f:viewParam id="profileId" name="profileId"
+				value="#{profileEdit.profileId}" required="false" />
+			<f:viewAction action="#{profileController.init(profileEdit)}" />
+
+		</f:metadata>
+
+	</ui:define>
+	
+	<ui:define name="menu" />
+	
+	<ui:define name="content">
+	
+	<h:form id="form">
+	<p:panelGrid id="profileGrid" columns="2" style="margin-top: 25px; width: 100%; ">
+	<p:outputLabel for="name" value="#{msg.profile_name}"  />	
+	 
+	
+	<h:panelGrid columns="2">
+		<p:inputText id="name" value="#{profileEdit.profile.name}" />
+		<p:message for="name" display="text" />
+	</h:panelGrid>	
+	
+	
+	<p:outputLabel for="template" value="#{msg.profile_template}" />
+	
+	<h:panelGrid columns="2">
+	  <p:selectOneMenu id="template" value="#{profileEdit.profile.profileTemplate.id}" disabled="#{profileEdit.profileId!=null}" required="true" requiredMessage="#{msg.mandatory}">
+	  <f:selectItem itemLabel="#{msg.profile_select}" itemValue="" />
+	  	<f:selectItems value="#{profileController.templates()}" />
+	  </p:selectOneMenu>
+	
+		<p:message for="template" display="text" />
+   </h:panelGrid>                
+                
+	<p:outputLabel for="description" value="#{msg.profile_description}" />
+	 <p:inputTextarea id="description" rows="5" cols="30"  value="#{profileEdit.profile.description}" />
+	 
+	
+	
+	<p:outputLabel for="featuresHidden"  value="#{msg.profile_features}" rendered="#{profileEdit.profileId!=null}" />
+	
+	<h:panelGrid rendered="#{profileEdit.profileId!=null}">	
+	
+	<h:inputHidden id="featuresHidden" value="#{profileEdit.errors}"/>
+  	<p:message for="featuresHidden" display="text" />
+	
+	 <p:dataTable id="features" var="featureValue" value="#{profileEdit.featureValues}" editable="true" editMode="cell"   styleClass="hide-column-names" scrollable="true" scrollHeight="150">>
+	
+	   
+	   
+	 	<p:column resizable="true">
+	 	   <h:outputText value ="#{featureValue.feature.name}"  />
+	 	</p:column>
+	 	
+	 	
+	 	
+	 	
+	 	<p:column resizable="true">
+           <p:cellEditor id="editor" rendered="#{featureValue.feature.permittedValues.size() == 0 }">
+         
+               <f:facet name="output"><h:outputText value="#{featureValue.valueAsString}" /></f:facet>
+             
+               <f:facet name="input">
+          
+               <p:inputText id="input"  value="#{featureValue.valueAsString}" style="width:100%"  >
+                      <p:ajax event="change"  update="@form" process="@this"  onsuccess="#{featureValue.validate()}"/>
+               </p:inputText>
+           
+           	 
+              </f:facet>
+            
+           </p:cellEditor>
+           
+            <p:cellEditor rendered="#{featureValue.feature.permittedValues.size() > 0 }">
+               <f:facet name="output"><h:outputText value="#{featureValue.valueAsString}" /></f:facet>
+               <f:facet name="input">
+            
+             
+               <h:selectOneMenu value="#{featureValue.valueAsString}"  style="width:100%" >
+                	<f:selectItem itemLabel="#{msg.profile_feature_select}" itemValue="" />
+                    <f:selectItems value="#{featureValue.feature.permittedValues}"  />
+                     <p:ajax event="change"  update="@form" process="@this"  onsuccess="#{featureValue.validate()}"/>
+               </h:selectOneMenu>
+              
+              </f:facet>
+           </p:cellEditor>
+           
+          
+            
+       </p:column>
+	 
+	 <p:column  resizable="true">
+	  <h:outputText value="#{profileController.message(featureValue.errors, facesContext)}"  styleClass="color-red" escape="false" rendered="#{featureValue.errors.size() > 0}"/>
+	  <h:outputText value="#{featureValue.feature.featureType}"   rendered="#{featureValue.errors.size() == 0}"/>
+	
+	 </p:column>
+		
+	 </p:dataTable>
+  	
+  	
+  </h:panelGrid>
+  
+  
+  
+ <p:outputLabel for="services"  value="#{msg.profile_services}" rendered="#{profileEdit.profileId!=null}" />
+  
+  
+  
+  <p:dataTable id="services" var="service" value="#{profileEdit.profile.profileTemplate.services}"  selection="#{profileEdit.profile.services}" rowKey="#{service}" styleClass="hide-column-names" scrollable="true" scrollHeight="150" rendered="#{profileEdit.profileId!=null}"  >
+        
+        <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+        <p:column>
+            <h:outputText value="#{service}" />
+        </p:column>
+       
+    </p:dataTable>
+ 
+  
+  
+   <p:outputLabel for="images"  value="#{msg.profile_images}" rendered="#{profileEdit.profileId!=null}" />
+   
+   <p:dataTable id="images" var="image" value="#{profileEdit.images}"   rowKey="#{name}" styleClass="hide-column-names" scrollable="true" scrollHeight="260" rendered="#{profileEdit.profileId!=null}" >
+        
+     
+        <p:column  >
+         
+            <h:outputText value="#{image.name}" />
+        </p:column>
+        
+        <p:column style="text-align: center; width:10%;">
+      
+        <h:inputText id="index" value="#{image.index}" converterMessage="#{msg.invalid_integer}" size="2">
+        
+         	<p:ajax event="change"  update="@form" process="@this" />
+        </h:inputText>
+       
+      
+		<p:message for="index" display="text" />
+		
+		
+        </p:column>
+        <p:column style="text-align: center; width:25%;" >
+      		
+      		
+        	<p:graphicImage  height="75" url="/images?fileName=#{image.name}" />
+        	
+     
+        </p:column  >
+       			
+     	<p:column style="text-align: center; width:25%;">
+    		 <p:commandButton  update="@form" process="@this"  value="#{msg.profile_image_delete}"  action="#{profileEdit.profile.remove(image)}"/>
+     </p:column>
+    </p:dataTable>
+ 
+</p:panelGrid>   
+		
+	
+	
+	
+  
+		
+      
+ 
+  
+    
+    	<h:panelGroup style="display:block; text-align:center">
+		
+		<p:messages globalOnly="true" display="text"/>
+		<p:button  icon="ui-icon-close" value="#{msg.profile_cancel}"  outcome="profiles" />
+	 	<p:commandButton process=":form" update=":form" icon="ui-icon-check" value="#{msg.profile_save}"  action="#{profileController.save(profileEdit)}" />
+	 	
+	 	<p:commandButton process=":form" update=":form" icon="ui-icon-minus" value="#{msg.profile_delete}"  action="#{profileController.delete(profileEdit.profile)}"  rendered="#{profileEdit.profileId  != null}"/>
+	 	</h:panelGroup>
+	
+	 
+
+</h:form>
+	
+	
+
+
+ 
+ <h:form id="uploadForm" enctype="multipart/form-data"> 
+ <p:panelGrid columns="2" rendered="#{profileEdit.profileId!=null}" style="margin-top: 25px; width: 100%; ">
+ 
+ <f:facet name="header">
+        <p:outputLabel  value="Datei hochladen" />
+    </f:facet>
+ 
+  <p:outputLabel for="upload" value="#{msg.profile_upload}" rendered="#{profileEdit.profileId!=null}" />
+  <h:panelGrid columns="2">
+  
+
+  <h:inputFile id="upload" value="#{profileEdit.file}"  styleClass="upload"  >
+  
+ 
+  		<f:ajax  render="uploadForm form"  listener="#{profileController.upload(profileEdit)}" />
+  </h:inputFile>
+ 
+
+
+  	
+  </h:panelGrid>
+</p:panelGrid>
+</h:form>
+	
+	
+	
+	
+	</ui:define>
+
+</ui:composition>
+</html>
