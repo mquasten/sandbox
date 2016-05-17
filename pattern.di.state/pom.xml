@@ -1,33 +1,33 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>de.mq</groupId>
-  <artifactId>pattern.di.state</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
-  
-  
-
-  <name>pattern.di.state</name>
-  <url>http://maven.apache.org</url>
+	<groupId>de.mq</groupId>
+	<artifactId>pattern.di.state</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 
 
 
+	<name>pattern.di.state</name>
+	<url>http://maven.apache.org</url>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <spring.version>4.2.6.RELEASE</spring.version> 
-      <junit.version>4.9</junit.version>
-      
-      <java.version>1.8</java.version>
+
+
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring.version>4.2.6.RELEASE</spring.version>
+		<junit.version>4.9</junit.version>
+		<mockito.version>1.8.4</mockito.version>
+		<java.version>1.8</java.version>
 		<maven-compiler-plugin.version>3.0</maven-compiler-plugin.version>
 		<jacoco.version>0.6.2.201302030002</jacoco.version>
-  </properties>
+	</properties>
 
-  <dependencies>
-  
-   <dependency>
+	<dependencies>
+
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
 			<version>${spring.version}</version>
@@ -47,38 +47,46 @@
 			<artifactId>spring-context</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${spring.version}</version>
 			<scope>test</scope>
 		</dependency>
-   
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
-    
-   
-    
-      <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-              <version>1.3.5.RELEASE</version>
-        </dependency>
-    
-    
-    
-  </dependencies>
-  
-  
-<build>
-<plugins>
 
-<plugin>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>${mockito.version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+
+
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+			<version>1.3.5.RELEASE</version>
+		</dependency>
+
+
+
+	</dependencies>
+
+
+	<build>
+		<plugins>
+
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${maven-compiler-plugin.version}</version>
@@ -87,13 +95,54 @@
 					<target>${java.version}</target>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-        </plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
 
-</plugins>
+			<plugin>
 
-</build>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.7.4.201502262128</version>
+
+				<configuration>
+					<excludes>
+						<exclude>**/*DatabaseSetup.*</exclude>
+					</excludes>
+
+
+					<destFile>${basedir}/target/coverage-reports/jacoco-unit.exec</destFile>
+					<dataFile>${basedir}/target/coverage-reports/jacoco-unit.exec</dataFile>
+				</configuration>
+				<executions>
+					<execution>
+						<id>jacoco-initialize</id>
+						<goals>
+							<goal>prepare-agent</goal>
+
+
+						</goals>
+
+					</execution>
+					<execution>
+						<id>jacoco-site</id>
+						<phase>package</phase>
+
+						<goals>
+							<goal>report</goal>
+
+						</goals>
+
+					</execution>
+
+				</executions>
+
+
+			</plugin>
+
+		</plugins>
+
+	</build>
 </project>
