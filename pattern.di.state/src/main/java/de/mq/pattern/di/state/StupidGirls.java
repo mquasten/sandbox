@@ -14,18 +14,18 @@ import org.springframework.context.annotation.ImportResource;
 @ImportResource("/beans.xml")
 public class StupidGirls {
 
-	private static final String START_STATE_NAME = "unkownArtist";
-	static final String BEANS_CONFIG_FILE = "/beans.xml";
+	static final String START_STATE_NAME = "unkownArtist";
+
 
 	public static void main(final String[] args) {
-		lifecycle(SpringApplication.run(StupidGirls.class, args));
+		lifecycle(SpringApplication.run(StupidGirls.class, args), new HashMap<String, Integer>());
 
 	}
 
-	private static void lifecycle(final ApplicationContext ctx) {
+	static void lifecycle(final ApplicationContext ctx,  final Map<String, Integer> states) {
 		ArtistState artistState = ctx.getBean(START_STATE_NAME, ArtistState.class);
 
-		final Map<String, Integer> states = new HashMap<String, Integer>();
+		
 		double amount = 0;
 		while (!artistState.isFinal()) {
 			incStateInMap(artistState, states);
