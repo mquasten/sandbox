@@ -10,9 +10,9 @@
             <property name="URL" value="jdbc:postgresql://localhost:5432/riri"/>  
             <property name="driverClass" value="org.postgresql.Driver"/>  
         </jdbc-connection-pool>  
-        <!--  jdbc-resource enabled="true" jndi-name="jdbc/riri" object-type="user" pool-name="post-gre-sql_ririPool"/-->  
+        <jdbc-resource enabled="true" jndi-name="jdbc/riri" object-type="user" pool-name="post-gre-sql_ririPool"/>  
     
-     <jdbc-resource enabled="true" jndi-name="jdbc/riri" object-type="user" pool-name="mysql_ririPool"/>  
+       <!-- jdbc-resource enabled="true" jndi-name="jdbc/riri" object-type="user" pool-name="mysql_ririPool"/-->  
     
    
    

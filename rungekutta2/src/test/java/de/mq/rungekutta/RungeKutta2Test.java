@@ -1,5 +1,10 @@
 package de.mq.rungekutta;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 import java.util.function.ToDoubleFunction;
 
@@ -13,8 +18,10 @@ import junit.framework.Assert;
 
 public class RungeKutta2Test {
 	
-	@Test
+//	final double  t0=0.002157;
 	
+	@Test
+	@Ignore
 	public final void resolve() {
 		final RungeKutta2 rungeKutta4 = new RungeKutta2(new SToSquareTest() , 0.1d, 0.2);
 		
@@ -43,22 +50,64 @@ public class RungeKutta2Test {
 	
 	
 	@Test
-	@Ignore
-	public final void resolveSar() {
-		final RungeKutta2 rungeKutta4 = new RungeKutta2(new SarTest() , 0.1e-3, 0.2);
-		final List<SolutionVector> results = rungeKutta4.resolve(new SolutionVectorImpl(0d, 0d, 0d));
+	
+	public final void resolveSar() throws IOException {
+		final double t0 = 0.002157;
+		final RungeKutta2 rungeKutta4 = new RungeKutta2(new SarTest(t0) , 1e-6, 15e-3);
+		final List<SolutionVector> results = rungeKutta4.resolve(new SolutionVectorImpl(0d, 1.5d, 771.10d));
 		
 		System.out.println(results.size());
-		
+		final DecimalFormat nf = RungeKutta1Test.formatter();
+		try (final BufferedWriter writer = new BufferedWriter(new FileWriter("results.csv"))) {
 		results.forEach(v -> {
-			System.out.println( ("" +v.t()).replace('.', ',') +";" + ("" +v.y()).replace('.', ','));
+			
+			doWrite(writer, v, nf, t0);
+		
+			//System.out.println( ("" +v.t()).replace('.', ',') +";" + ("" +v.y()).replace('.', ','));
 			
 		});
 	}
+	}
+	
+	@Test
+		public final void resolveSar2() throws IOException {
+			final double t0 = 7.7e-3;
+			final RungeKutta2 rungeKutta4 = new RungeKutta2(new SarTest(t0) , 1e-6, 10e-3);
+			final List<SolutionVector> results = rungeKutta4.resolve(new SolutionVectorImpl(0d, 2.35, -57));
+			
+			System.out.println(results.size());
+			final DecimalFormat nf = RungeKutta1Test.formatter();
+			try (final BufferedWriter writer = new BufferedWriter(new FileWriter("results.csv"))) {
+			results.forEach(v -> {
+				
+				doWrite(writer, v, nf, 20e-3+ t0);
+			
+				//System.out.println( ("" +v.t()).replace('.', ',') +";" + ("" +v.y()).replace('.', ','));
+				
+			});
+		}
 
 }
 
 
+	
+	private void doWrite(final BufferedWriter writer, SolutionVector sv, final NumberFormat nf, final double t0 ){
+		
+		try {
+			
+			writer.append(nf.format(sv.t()));
+			writer.append(";");
+			writer.append(nf.format(sv.t()+t0));
+			writer.append(";");
+			writer.append(nf.format(sv.y()));
+			writer.append(";");
+			writer.append(nf.format(sv.s()));
+			writer.newLine();
+		} catch (IOException e) {
+			throw new IllegalStateException(e);
+		}
+	
+	}
 
 
 class SToSquareTest implements ToDoubleFunction<SolutionVector>{
@@ -75,13 +124,19 @@ class SToSquareTest implements ToDoubleFunction<SolutionVector>{
 
 class SarTest implements ToDoubleFunction<SolutionVector>{
 
+	final double t0;
+
 	final double omega = Math.PI*25*2d;
-	final double u1=30d;
+	final double u1=28.5d;
 	final double uled = 1.5;
 	final double r1=1e3d;
 	final double r2=10e3;
 	final double c1= 330e-9;
 	final double c2= 1.5e-6;
+	
+	SarTest(final double t0) {
+		this.t0 = t0;
+	}
 	
 	@Override
 	public double applyAsDouble(SolutionVector solutionVector) {
@@ -99,9 +154,9 @@ class SarTest implements ToDoubleFunction<SolutionVector>{
 	}
 
 	private double u(double t) {
-		return omega*u1*Math.abs(Math.cos(omega*t))/r1/c2 + (uled / r1/r2/c1/c2);
+		return omega*u1*Math.abs(Math.cos(omega*(t + t0)))/r1/c2 + (uled / r1/r2/c1/c2);
 	}
 
-	
+}	
 	
 }
