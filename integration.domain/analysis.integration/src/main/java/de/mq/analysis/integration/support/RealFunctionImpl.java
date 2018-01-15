@@ -1,8 +1,8 @@
-package support;
+package de.mq.analysis.integration.support;
 
 import de.mq.analysis.integration.RealFunction;
 
-public class RealFunctionImpl  implements RealFunction {
+class RealFunctionImpl  implements RealFunction {
 
 	@Override
 	public double f(final double x) {
