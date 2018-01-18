@@ -12,7 +12,7 @@ public class RealFunctionTest {
 	
 	@Test
 	public final void f() {
-		Assert.assertEquals(Math.E, realFunction.f(1d));
+		Assert.assertEquals(1d/Math.E, realFunction.f(1d));
 	}
 	
 	@Test
