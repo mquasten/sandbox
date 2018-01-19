@@ -15,7 +15,6 @@ public class DefiniteIntegrationApplication extends Application {
 	@Override
 	public void start(final Stage stage) {
 		try {
-
 			stage.setTitle("Nummerische Integration");
 
 			final GridPane root = new GridPane();
