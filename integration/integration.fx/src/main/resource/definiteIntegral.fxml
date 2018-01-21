@@ -34,9 +34,9 @@
                <children>
                   <Label text="obere Grenze" GridPane.rowIndex="1" />
                   <Label text="untere Grenze" />
-                  <TextField minWidth="50.0" prefWidth="50.0" GridPane.columnIndex="1" />
+                  <TextField  fx:id="lowerLimit" minWidth="50.0" prefWidth="50.0" GridPane.columnIndex="1" />
                   <Label text="Algorithmus" GridPane.rowIndex="2" />
-                  <TextField minWidth="50.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField  fx:id="upperLimit" minWidth="50.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <ChoiceBox minWidth="200.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                </children>
             </GridPane>
