@@ -8,7 +8,7 @@ public class CalculationAlgorithmTest {
 	@Test
 	public final void definiteIntegralCaculationTropezoid() {
 
-		Assert.assertTrue(CalculationAlgorithm.Tropezoid.definiteIntegralCaculation() instanceof TrapezoidIntegrationImpl);
+		Assert.assertTrue(CalculationAlgorithm.Trapezoid.definiteIntegralCaculation() instanceof TrapezoidIntegrationImpl);
 
 	}
 

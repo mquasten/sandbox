@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import de.mq.analysis.integration.BoundsOfIntegration;
+import de.mq.analysis.integration.DefiniteIntegral;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -41,6 +42,12 @@ class DefiniteIntegralFX  implements Initializable{
 	@FXML
 	private ChoiceBox<CalculationAlgorithm> algorithms;
 	
+	@FXML
+	private TextField result;
+	
+	@FXML
+	private Label resultLabel;
+	
 	private final DefiniteIntegralController definiteIntegralController; 
 
 	DefiniteIntegralFX(DefiniteIntegralController definiteIntegralController) {
@@ -54,17 +61,22 @@ class DefiniteIntegralFX  implements Initializable{
 		
 		integrationButton.setOnAction(actionEvent -> {
 			
-			
-			
+			result.setVisible(false);
+			resultLabel.setVisible(false);
 			
 			if( !validate()) {
 				return;
 			}
 			
 			final BoundsOfIntegration boundsOfIntegration = BoundsOfIntegration.of(Double.valueOf(lowerLimit.getText()), Double.valueOf(upperLimit.getText()));
-			final double result = definiteIntegralController.integrate(boundsOfIntegration);
+			final DefiniteIntegral definiteIntegral= new  DefiniteIntegralImpl(boundsOfIntegration, new RealFunctionImpl(), algorithms.getValue(), 100000);
+			final double definiteIntegralResult = definiteIntegralController.integrate(definiteIntegral);
 			
-			System.out.println(result);
+			
+			result.setText(String.valueOf(definiteIntegralResult));
+			result.setVisible(true);
+			resultLabel.setVisible(true);
+		
 			
 		} );
 		closeButton.setOnAction(actionEvent -> ((Stage) ((Node)actionEvent.getSource()).getScene().getWindow()).close() );
@@ -86,7 +98,10 @@ class DefiniteIntegralFX  implements Initializable{
 			upperLimitMessage.setText("reele Zahl");;
 		}
 		
-		
+		if ( algorithms.getValue() == null) {
+			result=false;
+			algorithmenMessage.setText("Mußfeld");
+		}
 				
 		return result;	
 			

@@ -7,7 +7,7 @@ public interface DefiniteIntegral {
 	
 	BoundsOfIntegration boundsOfIntegration();
 	RealFunction realFunction();
-	CalculationAlgorithm integrationAlgorithm();
+	CalculationAlgorithm calculationAlgorithm();
 	
 	
 

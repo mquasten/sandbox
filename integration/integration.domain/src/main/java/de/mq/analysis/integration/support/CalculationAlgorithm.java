@@ -5,7 +5,7 @@ import org.springframework.beans.BeanUtils;
 import de.mq.analysis.integration.DefiniteIntegralCaculation;
 
 public enum  CalculationAlgorithm {
-	Tropezoid(TrapezoidIntegrationImpl.class),
+	Trapezoid(TrapezoidIntegrationImpl.class),
 	Simpson(null); 
 	
 	 

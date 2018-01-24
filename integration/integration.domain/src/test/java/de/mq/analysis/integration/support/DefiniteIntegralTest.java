@@ -1,0 +1,44 @@
+package de.mq.analysis.integration.support;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.mockito.Mockito;
+
+import de.mq.analysis.integration.BoundsOfIntegration;
+import de.mq.analysis.integration.DefiniteIntegral;
+import de.mq.analysis.integration.RealFunction;
+
+public class DefiniteIntegralTest {
+
+	private static final Long NUMBER_OF_SAMPLES = 100L;
+	private final BoundsOfIntegration boundsOfIntegration = Mockito.mock(BoundsOfIntegration.class);
+	private final RealFunction realFunction = Mockito.mock(RealFunction.class);
+
+	private final DefiniteIntegral definiteIntegral = new DefiniteIntegralImpl(boundsOfIntegration, realFunction, CalculationAlgorithm.Trapezoid, NUMBER_OF_SAMPLES);
+
+	@Test
+	public final void numberOfSamples() {
+		Assert.assertEquals(Long.valueOf(NUMBER_OF_SAMPLES), Long.valueOf(definiteIntegral.numberOfSamples()));
+	}
+
+	@Test
+	public final void boundsOfIntegration() {
+		Assert.assertEquals(boundsOfIntegration, definiteIntegral.boundsOfIntegration());
+	}
+
+	@Test
+	public final void realFunction() {
+		Assert.assertEquals(realFunction, definiteIntegral.realFunction());
+	}
+
+	@Test
+	public final void calculationAlgorithm() {
+		Assert.assertEquals(CalculationAlgorithm.Trapezoid, definiteIntegral.calculationAlgorithm());
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public final void createWrongNumberOfSamples() {
+		new DefiniteIntegralImpl(boundsOfIntegration, realFunction, CalculationAlgorithm.Trapezoid, 0);
+
+	}
+}
