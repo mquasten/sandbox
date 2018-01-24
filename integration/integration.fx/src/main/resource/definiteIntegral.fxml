@@ -14,13 +14,13 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx8.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <VBox prefHeight="200.0" BorderPane.alignment="CENTER">
          <children>
             <Hyperlink text="y=f(x)" />
             <TextArea disable="true" minHeight="100.0" />
-            <GridPane>
+            <GridPane hgap="10.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
@@ -34,12 +34,19 @@
                <children>
                   <Label text="obere Grenze" GridPane.rowIndex="1" />
                   <Label text="untere Grenze" />
-                  <TextField  fx:id="lowerLimit" minWidth="50.0" prefWidth="50.0" GridPane.columnIndex="1" />
+                  <TextField fx:id="lowerLimit" minWidth="50.0" prefWidth="50.0" GridPane.columnIndex="1" />
                   <Label text="Algorithmus" GridPane.rowIndex="2" />
-                  <TextField  fx:id="upperLimit" minWidth="50.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="upperLimit" minWidth="50.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <ChoiceBox minWidth="200.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label fx:id="lowerLimitMessage" style="-fx-text-fill: red;" GridPane.columnIndex="2" />
+                  <Label fx:id="upperLimitMessage" style="-fx-text-fill: red;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Label fx:id="algorithmenMessage" style="-fx-text-fill: red;" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </GridPane>
+            <Label fx:id="errorMessage" style="-fx-text-fill: red;" wrapText="true" />
          </children>
       </VBox>
    </center>

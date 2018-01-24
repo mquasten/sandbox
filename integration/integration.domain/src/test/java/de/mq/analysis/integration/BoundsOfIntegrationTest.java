@@ -1,5 +1,6 @@
 package de.mq.analysis.integration;
 
+
 import org.junit.Assert;
 import org.junit.Test;
 

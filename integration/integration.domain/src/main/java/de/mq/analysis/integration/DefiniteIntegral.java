@@ -1,18 +1,19 @@
 package de.mq.analysis.integration;
 
-@FunctionalInterface
-/**
- * Calculate the result of a definite integral
- * @author Admin
- *
- */
+import de.mq.analysis.integration.support.CalculationAlgorithm;
+
 public interface DefiniteIntegral {
+	long numberOfSamples();
 	
-	/**
-	 * The result of a definite integral
-	 * @param boundsOfIntegration lower and upper limit for the definite integral
-	 * @return the result for the definite integral
-	 */
-	double calculate(final BoundsOfIntegration boundsOfIntegration);
+	BoundsOfIntegration boundsOfIntegration();
+	RealFunction realFunction();
+	CalculationAlgorithm integrationAlgorithm();
+	
+	
+
+	default double stepSize() {
+		return (boundsOfIntegration().upperLimit() - boundsOfIntegration().lowerLimit()) / numberOfSamples();
+	}
+
 
 }

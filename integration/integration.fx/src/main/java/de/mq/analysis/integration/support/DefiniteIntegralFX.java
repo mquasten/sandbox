@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -22,9 +23,18 @@ class DefiniteIntegralFX  implements Initializable{
 	
 	@FXML
 	private TextField lowerLimit;
+	@FXML
+	private Label lowerLimitMessage;
 	
 	@FXML
 	private TextField upperLimit;
+	@FXML
+	private Label upperLimitMessage;
+	@FXML
+	private Label errorMessage; 
+	
+	@FXML
+	private Label algorithmenMessage;
 	
 	private final DefiniteIntegralController definiteIntegralController; 
 
@@ -52,14 +62,20 @@ class DefiniteIntegralFX  implements Initializable{
 	
 	private boolean validate() {
 		boolean result = true;
+		lowerLimitMessage.setText("");
+		upperLimitMessage.setText("");
+		algorithmenMessage.setText("");
 		if(! validateDouble(lowerLimit.getText())) {
 			result=false;
-			
+			lowerLimitMessage.setText("reele Zahl");;
 		}
 		
 		if( ! validateDouble(upperLimit.getText())) {
 			result=false;
+			upperLimitMessage.setText("reele Zahl");;
 		}
+		
+		
 				
 		return result;	
 			
