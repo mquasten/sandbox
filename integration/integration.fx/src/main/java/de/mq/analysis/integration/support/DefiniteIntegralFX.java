@@ -4,10 +4,12 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import de.mq.analysis.integration.BoundsOfIntegration;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -36,6 +38,9 @@ class DefiniteIntegralFX  implements Initializable{
 	@FXML
 	private Label algorithmenMessage;
 	
+	@FXML
+	private ChoiceBox<CalculationAlgorithm> algorithms;
+	
 	private final DefiniteIntegralController definiteIntegralController; 
 
 	DefiniteIntegralFX(DefiniteIntegralController definiteIntegralController) {
@@ -44,7 +49,13 @@ class DefiniteIntegralFX  implements Initializable{
 
 	@Override
 	public void initialize(final URL location, final ResourceBundle resources) {
+		
+		algorithms.setItems(FXCollections.observableArrayList(CalculationAlgorithm.values()));
+		
 		integrationButton.setOnAction(actionEvent -> {
+			
+			
+			
 			
 			if( !validate()) {
 				return;

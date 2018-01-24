@@ -37,7 +37,7 @@
                   <TextField fx:id="lowerLimit" minWidth="50.0" prefWidth="50.0" GridPane.columnIndex="1" />
                   <Label text="Algorithmus" GridPane.rowIndex="2" />
                   <TextField fx:id="upperLimit" minWidth="50.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <ChoiceBox minWidth="200.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <ChoiceBox fx:id="algorithms"  minWidth="200.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Label fx:id="lowerLimitMessage" style="-fx-text-fill: red;" GridPane.columnIndex="2" />
                   <Label fx:id="upperLimitMessage" style="-fx-text-fill: red;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                   <Label fx:id="algorithmenMessage" style="-fx-text-fill: red;" GridPane.columnIndex="2" GridPane.rowIndex="2" />

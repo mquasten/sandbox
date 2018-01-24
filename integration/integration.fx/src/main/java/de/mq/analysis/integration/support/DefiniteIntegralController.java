@@ -8,5 +8,7 @@ class DefiniteIntegralController {
 		return 47.11d;
 		
 	}
+	
+	
 
 }
