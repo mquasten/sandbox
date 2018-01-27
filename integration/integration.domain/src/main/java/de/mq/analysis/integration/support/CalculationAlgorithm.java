@@ -6,7 +6,7 @@ import de.mq.analysis.integration.DefiniteIntegralCaculation;
 
 public enum  CalculationAlgorithm {
 	Trapezoid(TrapezoidIntegrationImpl.class),
-	Simpson(null); 
+	Simpson(SimpsonIntegrationImpl.class); 
 	
 	 
 	
