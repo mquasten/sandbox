@@ -27,7 +27,7 @@ class DefiniteIntegralController {
 		Assert.isTrue(algorithms.containsKey(definiteIntegralAO.getCalculationAlgorithm()), "CalculationAlgorithm not found.");
 		final double result =  algorithms.get(definiteIntegralAO.getCalculationAlgorithm()).calculate(definiteIntegralAO.getDefiniteIntegral());
 		definiteIntegralAO.setResult(result);
-		System.out.println(scriptEngineFactory);
+		
 		
 	}
 	
