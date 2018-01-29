@@ -1,5 +1,7 @@
 package de.mq.analysis.integration;
 
+import de.mq.analysis.integration.support.BoundsOfIntegrationImpl;
+
 /**
  * Bounds for the integration, lower and upper limit
  * @author Admin

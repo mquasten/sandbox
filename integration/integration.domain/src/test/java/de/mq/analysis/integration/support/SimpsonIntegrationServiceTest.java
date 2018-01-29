@@ -7,13 +7,13 @@ import org.mockito.Mockito;
 
 import de.mq.analysis.integration.BoundsOfIntegration;
 import de.mq.analysis.integration.DefiniteIntegral;
-import de.mq.analysis.integration.DefiniteIntegralCaculation;
+import de.mq.analysis.integration.IntegrationService;
 import de.mq.analysis.integration.RealFunction;
 
 
 
 
-public class SimpsonIntegrationTest {
+public class SimpsonIntegrationServiceTest {
 	
 private final RealFunction realFunction = Mockito.mock(RealFunction.class);
 	
@@ -21,7 +21,7 @@ private final RealFunction realFunction = Mockito.mock(RealFunction.class);
 	
 	private final BoundsOfIntegration boundsOfIntegration = Mockito.mock(BoundsOfIntegration.class);
 	
-	final DefiniteIntegralCaculation  definiteIntegralCaculation = new SimpsonIntegrationImpl();
+	final IntegrationService integrationService = new SimpsonIntegrationServiceImpl();
 	
 	@Before
 	public final void setup() {
@@ -44,18 +44,23 @@ private final RealFunction realFunction = Mockito.mock(RealFunction.class);
 	@Test
 	public final void calculate() {
 		
-		Assert.assertEquals(Double.valueOf(4.4924d), cut(definiteIntegralCaculation.calculate(definiteIntegral),4));
+		Assert.assertEquals(Double.valueOf(4.4924d), cut(integrationService.calculate(definiteIntegral),4));
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public final void calculateDoublyEven(){
 		Mockito.when(definiteIntegral.numberOfSamples()).thenReturn(5L);
-		definiteIntegralCaculation.calculate(definiteIntegral);
+		integrationService.calculate(definiteIntegral);
 	}
 	
 	private Double cut(final double x, final int n) {
 		final long y = Math.round( (x * Math.pow(10, n)));
 		return y / Math.pow(10, n);
+	}
+	
+	@Test
+	public final void calculationAlgorithm() {
+		Assert.assertEquals(IntegrationService.CalculationAlgorithm.Simpson, integrationService.calculationAlgorithm());
 	}
 
 }

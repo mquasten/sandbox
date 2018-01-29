@@ -1,10 +1,14 @@
 package de.mq.analysis.integration.support;
 
 import java.net.URL;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.ResourceBundle;
 
-import de.mq.analysis.integration.BoundsOfIntegration;
-import de.mq.analysis.integration.DefiniteIntegral;
+
+import org.springframework.util.StringUtils;
+
+import de.mq.analysis.integration.IntegrationService;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,7 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 
-class DefiniteIntegralFX  implements Initializable{
+class DefiniteIntegralFX   implements Initializable, Observer {
 	
 	@FXML
 	private Button integrationButton; 
@@ -40,7 +44,7 @@ class DefiniteIntegralFX  implements Initializable{
 	private Label algorithmenMessage;
 	
 	@FXML
-	private ChoiceBox<CalculationAlgorithm> algorithms;
+	private ChoiceBox<IntegrationService.CalculationAlgorithm> algorithms;
 	
 	@FXML
 	private TextField result;
@@ -49,6 +53,8 @@ class DefiniteIntegralFX  implements Initializable{
 	private Label resultLabel;
 	
 	private final DefiniteIntegralController definiteIntegralController; 
+	
+	private final DefiniteIntegralAO definiteIntegralAO = new DefiniteIntegralAO();
 
 	DefiniteIntegralFX(DefiniteIntegralController definiteIntegralController) {
 		this.definiteIntegralController = definiteIntegralController;
@@ -57,25 +63,56 @@ class DefiniteIntegralFX  implements Initializable{
 	@Override
 	public void initialize(final URL location, final ResourceBundle resources) {
 		
-		algorithms.setItems(FXCollections.observableArrayList(CalculationAlgorithm.values()));
+		definiteIntegralAO.addObserver(this);
+		algorithms.setItems(FXCollections.observableArrayList(IntegrationService.CalculationAlgorithm.values()));
 		
+		lowerLimit.textProperty().addListener((observable, oldValue, newValue) -> {
+			definiteIntegralAO.setLowerLimit(null);
+			if( ! validateDouble(newValue) ) {
+				lowerLimitMessage.setText("reele Zahl");;
+			} else {
+				definiteIntegralAO.setLowerLimit(Double.valueOf(newValue)); 
+				lowerLimitMessage.setText(null);
+			}
+			
+		});
+		
+		upperLimit.textProperty().addListener((observable, oldValue, newValue) -> {
+			definiteIntegralAO.setUpperLimit(null);
+			if( ! validateDouble(newValue) ) {
+				upperLimitMessage.setText("reele Zahl");;
+			} else {
+				definiteIntegralAO.setUpperLimit(Double.valueOf(newValue)); 
+				upperLimitMessage.setText(null);
+			}
+			
+		});
+		
+		algorithms.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+			definiteIntegralAO.setCalculationAlgorithm(null);
+			if ( newValue == null) {
+				algorithmenMessage.setText("Mußfeld");
+			} else {	
+				algorithmenMessage.setText(null);
+				definiteIntegralAO.setCalculationAlgorithm(newValue);
+			}
+			
+		});
+		
+		lowerLimit.setText(null);
+		upperLimit.setText(null);
+		algorithms.setValue(IntegrationService.CalculationAlgorithm.Simpson);
+		algorithms.setValue(null);
 		integrationButton.setOnAction(actionEvent -> {
 			
 			result.setVisible(false);
 			resultLabel.setVisible(false);
+		
 			
-			if( !validate()) {
-				return;
+			if( definiteIntegralAO.validate() ) {
+					definiteIntegralController.integrate(definiteIntegralAO);
 			}
 			
-			final BoundsOfIntegration boundsOfIntegration = BoundsOfIntegration.of(Double.valueOf(lowerLimit.getText()), Double.valueOf(upperLimit.getText()));
-			final DefiniteIntegral definiteIntegral= new  DefiniteIntegralImpl(boundsOfIntegration, new RealFunctionImpl(), algorithms.getValue(), 100000);
-			final double definiteIntegralResult = definiteIntegralController.integrate(definiteIntegral);
-			
-			
-			result.setText(String.valueOf(definiteIntegralResult));
-			result.setVisible(true);
-			resultLabel.setVisible(true);
 		
 			
 		} );
@@ -83,32 +120,13 @@ class DefiniteIntegralFX  implements Initializable{
 	}
 	
 	
-	private boolean validate() {
-		boolean result = true;
-		lowerLimitMessage.setText("");
-		upperLimitMessage.setText("");
-		algorithmenMessage.setText("");
-		if(! validateDouble(lowerLimit.getText())) {
-			result=false;
-			lowerLimitMessage.setText("reele Zahl");;
-		}
-		
-		if( ! validateDouble(upperLimit.getText())) {
-			result=false;
-			upperLimitMessage.setText("reele Zahl");;
-		}
-		
-		if ( algorithms.getValue() == null) {
-			result=false;
-			algorithmenMessage.setText("Mußfeld");
-		}
-				
-		return result;	
-			
-	}
 	
 	private boolean validateDouble(final String text ) {
 	
+		if( ! StringUtils.hasText(text)) {
+			return false;
+		}
+		
 		try {
 		Double.valueOf(text);
 		return true; 
@@ -118,5 +136,15 @@ class DefiniteIntegralFX  implements Initializable{
 		
 
 	}
+
+	@Override
+	public void update(final Observable o, Object arg) {
+		result.setText(String.valueOf(definiteIntegralAO.getResult()));
+		result.setVisible(true);
+		resultLabel.setVisible(true);
+	}
+	
+	
+
 
 }

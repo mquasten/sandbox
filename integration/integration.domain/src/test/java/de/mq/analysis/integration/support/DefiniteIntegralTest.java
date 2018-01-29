@@ -14,7 +14,7 @@ public class DefiniteIntegralTest {
 	private final BoundsOfIntegration boundsOfIntegration = Mockito.mock(BoundsOfIntegration.class);
 	private final RealFunction realFunction = Mockito.mock(RealFunction.class);
 
-	private final DefiniteIntegral definiteIntegral = new DefiniteIntegralImpl(boundsOfIntegration, realFunction, CalculationAlgorithm.Trapezoid, NUMBER_OF_SAMPLES);
+	private final DefiniteIntegral definiteIntegral = new DefiniteIntegralImpl(boundsOfIntegration, realFunction, NUMBER_OF_SAMPLES);
 
 	@Test
 	public final void numberOfSamples() {
@@ -31,14 +31,10 @@ public class DefiniteIntegralTest {
 		Assert.assertEquals(realFunction, definiteIntegral.realFunction());
 	}
 
-	@Test
-	public final void calculationAlgorithm() {
-		Assert.assertEquals(CalculationAlgorithm.Trapezoid, definiteIntegral.calculationAlgorithm());
-	}
-
+	
 	@Test(expected = IllegalArgumentException.class)
 	public final void createWrongNumberOfSamples() {
-		new DefiniteIntegralImpl(boundsOfIntegration, realFunction, CalculationAlgorithm.Trapezoid, 0);
+		new DefiniteIntegralImpl(boundsOfIntegration, realFunction, 0);
 
 	}
 }

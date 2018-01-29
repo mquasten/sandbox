@@ -12,18 +12,15 @@ class DefiniteIntegralImpl implements DefiniteIntegral{
 	
 	private final BoundsOfIntegration boundsOfIntegration;
 	private final RealFunction realFunction;
-	private final CalculationAlgorithm calculationAlgorithm;
 	private final long numberOfSamples;
 	
-	DefiniteIntegralImpl(final BoundsOfIntegration boundsOfIntegration, final RealFunction realFunction, final CalculationAlgorithm calculationAlgorithm, final long numberOfSamples) {
+	DefiniteIntegralImpl(final BoundsOfIntegration boundsOfIntegration, final RealFunction realFunction, final long numberOfSamples) {
 		Assert.notNull(boundsOfIntegration, "boundsOfIntegration is mandatory.");
 		Assert.notNull(realFunction, "RealFunction is mandatory.");
-		Assert.notNull(calculationAlgorithm, "CalculationAlgorithm is mandatory.");
 		Assert.isTrue(numberOfSamples > 0, "NumberOfSamples should be > 0.");
 		this.numberOfSamples = numberOfSamples;
 		this.boundsOfIntegration = boundsOfIntegration;
 		this.realFunction = realFunction;
-		this.calculationAlgorithm = calculationAlgorithm;
 	}
 	
 
@@ -51,13 +48,6 @@ class DefiniteIntegralImpl implements DefiniteIntegral{
 	public RealFunction realFunction() {
 		return realFunction;
 	}
-	/*
-	 * (non-Javadoc)
-	 * @see de.mq.analysis.integration.DefiniteIntegral#calculationAlgorithm()
-	 */
-	@Override
-	public CalculationAlgorithm calculationAlgorithm() {
-		return calculationAlgorithm;
-	}
+	
 
 }

@@ -1,15 +1,18 @@
-package de.mq.analysis.integration;
+package de.mq.analysis.integration.support;
 
-class BoundsOfIntegrationImpl implements BoundsOfIntegration{
+import de.mq.analysis.integration.BoundsOfIntegration;
+
+public class BoundsOfIntegrationImpl implements BoundsOfIntegration{
 	
 	private final double lowerLimit;
 
 	private final double upperLimit;
 	
-	BoundsOfIntegrationImpl(final double lowerLimit, final double upperLimit) {
+	public BoundsOfIntegrationImpl(final double lowerLimit, final double upperLimit) {
 		this.lowerLimit = lowerLimit;
 		this.upperLimit = upperLimit;
 	}
+	
 	
 	
 	/* (non-Javadoc)

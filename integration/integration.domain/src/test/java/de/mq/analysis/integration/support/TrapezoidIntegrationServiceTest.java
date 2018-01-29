@@ -7,16 +7,18 @@ import org.mockito.Mockito;
 
 import de.mq.analysis.integration.BoundsOfIntegration;
 import de.mq.analysis.integration.DefiniteIntegral;
-import de.mq.analysis.integration.DefiniteIntegralCaculation;
+import de.mq.analysis.integration.IntegrationService;
 import de.mq.analysis.integration.RealFunction;
 
-public class TrapezoidIntegrationTest {
+public class TrapezoidIntegrationServiceTest {
 
 	private final RealFunction realFunction = Mockito.mock(RealFunction.class);
 	
 	private final DefiniteIntegral definiteIntegral = Mockito.mock(DefiniteIntegral.class);
 	
 	private final BoundsOfIntegration boundsOfIntegration = Mockito.mock(BoundsOfIntegration.class);
+	
+	final IntegrationService integrationService = new TrapezoidIntegrationImpl();
 
 	@Before
 	public final void setup() {
@@ -35,8 +37,7 @@ public class TrapezoidIntegrationTest {
 	// Papula Mathematik fuer Ingenieure und Naturwissenschaftler Seite 480
 	@Test
 	public final void calculate() {
-		final DefiniteIntegralCaculation definiteIntegralCaculation = new TrapezoidIntegrationImpl();
-		Assert.assertEquals(cut(0.7468d, 4), cut(definiteIntegralCaculation.calculate(definiteIntegral), 4));
+		Assert.assertEquals(cut(0.7468d, 4), cut(integrationService.calculate(definiteIntegral), 4));
 	}
 
 	
@@ -45,6 +46,9 @@ public class TrapezoidIntegrationTest {
 		return y / Math.pow(10, n);
 	}
 
-	
+	@Test
+	public final void calculationAlgorithm() {
+		Assert.assertEquals(IntegrationService.CalculationAlgorithm.Trapezoid, integrationService.calculationAlgorithm());
+	}
 
 }

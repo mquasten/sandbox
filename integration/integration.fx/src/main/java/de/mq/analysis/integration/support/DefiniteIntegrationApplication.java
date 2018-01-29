@@ -18,7 +18,7 @@ public class DefiniteIntegrationApplication extends Application {
 	
 	@Override
 	public void start(final Stage stage) throws IOException {
-	
+
 	
 		final URL url = getClass().getResource("/definiteIntegral.fxml");
 	

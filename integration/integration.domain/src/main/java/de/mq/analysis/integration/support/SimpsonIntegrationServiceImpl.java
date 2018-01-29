@@ -5,9 +5,9 @@ import java.util.stream.LongStream;
 import org.springframework.util.Assert;
 
 import de.mq.analysis.integration.DefiniteIntegral;
-import de.mq.analysis.integration.DefiniteIntegralCaculation;
+import de.mq.analysis.integration.IntegrationService;
 
-class SimpsonIntegrationImpl implements DefiniteIntegralCaculation {
+class SimpsonIntegrationServiceImpl implements IntegrationService {
 
 	@Override
 	public double calculate(final DefiniteIntegral definiteIntegral) {
@@ -15,7 +15,7 @@ class SimpsonIntegrationImpl implements DefiniteIntegralCaculation {
 		Assert.isTrue(definiteIntegral.numberOfSamples() %2 ==0, "Number of samples should be divisible by  2.");
 		
 		final double integral01 = simpson(definiteIntegral);
-		final double integral02 = simpson(new DefiniteIntegralImpl(definiteIntegral.boundsOfIntegration(), definiteIntegral.realFunction(), CalculationAlgorithm.Simpson, 2* definiteIntegral.numberOfSamples()));
+		final double integral02 = simpson(new DefiniteIntegralImpl(definiteIntegral.boundsOfIntegration(), definiteIntegral.realFunction(), 2* definiteIntegral.numberOfSamples()));
 		return integral02+((integral02-integral01)/15d);
 	}
 
@@ -40,5 +40,13 @@ class SimpsonIntegrationImpl implements DefiniteIntegralCaculation {
 		
 		return i%2==0 ? 2d:4d;
 		
+	}
+
+
+
+
+	@Override
+	public CalculationAlgorithm calculationAlgorithm() {
+		return IntegrationService.CalculationAlgorithm.Simpson;
 	}
 }

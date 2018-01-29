@@ -17,6 +17,8 @@
 		<spring.version>5.0.1.RELEASE</spring.version>
 		<maven-compiler-plugin.version>3.0</maven-compiler-plugin.version>
 		<java.version>1.8</java.version>
+		<mockito.version>2.7.22</mockito.version>
+		<jruby-complete.version>9.1.15.0</jruby-complete.version>
 	</properties>
 
 	<dependencies>
@@ -33,18 +35,24 @@
 			<version>${spring.version}</version>
 		</dependency>
 
+<!-- https://mvnrepository.com/artifact/org.jruby/jruby-complete -->
+<dependency>
+    <groupId>org.jruby</groupId>
+    <artifactId>jruby-complete</artifactId>
+    <version>${jruby-complete.version}</version>
+</dependency>
 
 
 		<!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
-			<version>2.7.22</version>
+			<version>${mockito.version}</version>
 			<scope>test</scope>
 		</dependency>
 	
    
-		
+  
 	</dependencies>
 
 	<build>

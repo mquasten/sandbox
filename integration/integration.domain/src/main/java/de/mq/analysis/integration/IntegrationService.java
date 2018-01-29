@@ -1,12 +1,23 @@
 package de.mq.analysis.integration;
 
-@FunctionalInterface
 /**
  * Calculate the result of a definite integral
  * @author Admin
  *
  */
-public interface DefiniteIntegralCaculation {
+public interface IntegrationService {
+	
+	
+	/**
+	 * Identification CalculationAlgorithm 
+	 * @author Admin
+	 *
+	 */
+	public enum  CalculationAlgorithm {
+		Trapezoid,
+		Simpson ; 
+	}
+	
 	
 	/**
 	 * calculate the result of a definite integral
@@ -14,5 +25,11 @@ public interface DefiniteIntegralCaculation {
 	 * @return the result of the definite integral
 	 */
 	double calculate(final DefiniteIntegral definiteIntegral);
-
+	
+	
+	/**
+	 * Identification of the  calculationAlgorithm for the Service
+	 * @return
+	 */
+	CalculationAlgorithm calculationAlgorithm();
 }
