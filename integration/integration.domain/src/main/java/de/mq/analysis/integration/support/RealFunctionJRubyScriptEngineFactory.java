@@ -4,13 +4,14 @@ import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
-import org.springframework.beans.factory.annotation.Lookup;
-
 import de.mq.analysis.integration.RealFunction;
 
-abstract class AbstractRealFunctionJRubyScriptEngineFactory {
+class RealFunctionJRubyScriptEngineFactory {
 	private final String script = "class RealFunctionImpl\ninclude Java::%s\ndef f(x)\n%s\nend\nend\nRealFunctionImpl.new";
-	
+	private final ScriptEngine scriptEngine;
+	RealFunctionJRubyScriptEngineFactory(final ScriptEngine scriptEngine){
+		this.scriptEngine=scriptEngine;
+	}
 	
 	RealFunction realFunction(final String code) {
 		try {
@@ -21,15 +22,11 @@ abstract class AbstractRealFunctionJRubyScriptEngineFactory {
 	}
 	
 	private RealFunction newRealFunction(final String code) throws ScriptException {
-		final ScriptEngine engine = scriptEngine();
-		
-		System.out.println(engine);
-		final Object receiver = engine.eval(String.format(script, RealFunction.class.getName(), code));
-		return  (RealFunction) ((Invocable) engine).getInterface(receiver, RealFunction.class);
+		final Object receiver = scriptEngine.eval(String.format(script, RealFunction.class.getName(), code));
+		return  (RealFunction) ((Invocable) scriptEngine).getInterface(receiver, RealFunction.class);
 	}
 	
-	@Lookup
-	abstract ScriptEngine scriptEngine() ;
+	
 	
 
 }

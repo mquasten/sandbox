@@ -4,9 +4,9 @@ import java.util.Observable;
 
 import org.springframework.util.Assert;
 
-import de.mq.analysis.integration.DefiniteIntegral;
+import de.mq.analysis.integration.BoundsOfIntegration;
 import de.mq.analysis.integration.IntegrationService;
-import de.mq.analysis.integration.RealFunction;
+import de.mq.analysis.integration.Script;
 
 
 class DefiniteIntegralAO  extends Observable{
@@ -14,7 +14,6 @@ class DefiniteIntegralAO  extends Observable{
 	private  Double lowerLimit = null;
 	private  Double upperLimit = null;
 	
-	private RealFunction realFunction=new RealFunctionImpl();
 
 	private IntegrationService.CalculationAlgorithm calculationAlgorithm;
 	
@@ -22,25 +21,37 @@ class DefiniteIntegralAO  extends Observable{
 	private Double result; 
 
 	
-	private Long numberOfSamples =  100000L; 
+	private Long numberOfSamples =  1000000L; 
 	
+	
+	private Script script  ; 
 	
 
-	DefiniteIntegral getDefiniteIntegral() {
-		Assert.notNull(lowerLimit, "LowerLimit is mandatory.");
-		Assert.notNull(upperLimit, "UpperLimit is mandatory.");
-		Assert.notNull(realFunction, "RealFunction is mandatory.");
-		Assert.notNull(numberOfSamples, "NumberOfSamples is mandatory.");
-		return new DefiniteIntegralImpl(new BoundsOfIntegrationImpl(lowerLimit, upperLimit), realFunction,  numberOfSamples);
-		
+
+
+
+	Script getScript() {
+		Assert.notNull(script, "Script is mandatory");
+		return script;
 	}
-	
+
+
+
+
 	boolean validate() {
-		return lowerLimit!=null && upperLimit!=null && realFunction != null && numberOfSamples != null && calculationAlgorithm != null;
+		return lowerLimit!=null && upperLimit!=null && script != null && numberOfSamples != null && calculationAlgorithm != null;
 	}
 	
-	void setRealFunction(final RealFunction realFunction) {
-		this.realFunction = realFunction;
+	
+	long getNumberOfSamples() {
+		Assert.notNull(numberOfSamples, "NumberOfSamples is mandatory");
+		return numberOfSamples;
+	}
+	
+	BoundsOfIntegration getBoundsOfIntegration(){
+		Assert.notNull(lowerLimit, "LowerLimit is mandatory");
+		Assert.notNull(upperLimit, "UpperLimit is mandatory");
+		return new BoundsOfIntegrationImpl(lowerLimit, upperLimit);
 	}
 	
 	
@@ -64,6 +75,12 @@ class DefiniteIntegralAO  extends Observable{
 		notifyObservers();
 	}
 	
+	void setScript(final Script script){
+		this.script=script;
+		setChanged();
+		notifyObservers();
+	}
+	
 	Double getResult() {
 		return result;
 	}
@@ -75,4 +92,14 @@ class DefiniteIntegralAO  extends Observable{
 	void setUpperLimit(Double upperLimit) {
 		this.upperLimit = upperLimit;
 	}
+	
+	
+	boolean hasResult(){
+		return result!=null;
+	}
+	
+	boolean hasScript() {
+		return script != null;
+	}
+	
 }

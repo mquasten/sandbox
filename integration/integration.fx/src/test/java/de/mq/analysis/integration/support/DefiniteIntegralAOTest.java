@@ -5,9 +5,10 @@ import java.util.Observer;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import de.mq.analysis.integration.DefiniteIntegral;
+import de.mq.analysis.integration.BoundsOfIntegration;
 import de.mq.analysis.integration.IntegrationService;
-import de.mq.analysis.integration.RealFunction;
+
+import de.mq.analysis.integration.Script;
 import junit.framework.Assert;
 
 public class DefiniteIntegralAOTest {
@@ -18,21 +19,21 @@ public class DefiniteIntegralAOTest {
 	private static final Double UPPER_LIMIT = 1d;
 	private static final Double LOWER_LIMIT = -1d;
 	private final DefiniteIntegralAO definiteIntegralAO = new DefiniteIntegralAO();
-	private final RealFunction realFunction = Mockito.mock(RealFunction.class);
+	private final Script script = Mockito.mock(Script.class);
+	
 	
 	@Test
-	public final void getDefiniteIntegral() {
+	public final void boundsOfIntegration() {
 		
 		definiteIntegralAO.setLowerLimit(LOWER_LIMIT);
 		definiteIntegralAO.setUpperLimit(UPPER_LIMIT);
-		definiteIntegralAO.setRealFunction(realFunction);
+		
 		definiteIntegralAO.setNumberOfSamples(NUMBER_OF_SAMPLES);
 		
-		DefiniteIntegral result = definiteIntegralAO.getDefiniteIntegral();
-		Assert.assertEquals(LOWER_LIMIT, result.boundsOfIntegration().lowerLimit());
-		Assert.assertEquals(UPPER_LIMIT, result.boundsOfIntegration().upperLimit());
-		Assert.assertEquals(NUMBER_OF_SAMPLES, result.numberOfSamples());
-		Assert.assertEquals(realFunction, result.realFunction());
+		BoundsOfIntegration result = definiteIntegralAO.getBoundsOfIntegration();
+		Assert.assertEquals(LOWER_LIMIT, result.lowerLimit());
+		Assert.assertEquals(UPPER_LIMIT, result.upperLimit());
+		
 	}
 	
 	@Test
@@ -52,36 +53,67 @@ public class DefiniteIntegralAOTest {
 		Mockito.verify(observer).update(Mockito.any(), Mockito.any());
 	}
 	
+	
 	@Test
 	public final void  validate() {
 		Assert.assertFalse(definiteIntegralAO.validate());
 		
-		setValues(LOWER_LIMIT, UPPER_LIMIT, realFunction, NUMBER_OF_SAMPLES, IntegrationService.CalculationAlgorithm.Simpson);
+		setValues(LOWER_LIMIT, UPPER_LIMIT, script, NUMBER_OF_SAMPLES, IntegrationService.CalculationAlgorithm.Simpson);
 		Assert.assertTrue(definiteIntegralAO.validate());
 		
-		setValues(null, UPPER_LIMIT, realFunction, NUMBER_OF_SAMPLES, IntegrationService.CalculationAlgorithm.Simpson);
+		setValues(null, UPPER_LIMIT, script, NUMBER_OF_SAMPLES, IntegrationService.CalculationAlgorithm.Simpson);
 		Assert.assertFalse(definiteIntegralAO.validate());
 		
-		setValues(LOWER_LIMIT, null, realFunction, NUMBER_OF_SAMPLES, IntegrationService.CalculationAlgorithm.Simpson);
+		setValues(LOWER_LIMIT, null, script, NUMBER_OF_SAMPLES, IntegrationService.CalculationAlgorithm.Simpson);
 		Assert.assertFalse(definiteIntegralAO.validate());
 		
 		setValues(LOWER_LIMIT, UPPER_LIMIT, null, NUMBER_OF_SAMPLES, IntegrationService.CalculationAlgorithm.Simpson);
 		Assert.assertFalse(definiteIntegralAO.validate());
 		
-		setValues(LOWER_LIMIT, UPPER_LIMIT, realFunction, null, IntegrationService.CalculationAlgorithm.Simpson);
+		setValues(LOWER_LIMIT, UPPER_LIMIT, script, null, IntegrationService.CalculationAlgorithm.Simpson);
 		Assert.assertFalse(definiteIntegralAO.validate());
 		
-		setValues(LOWER_LIMIT, UPPER_LIMIT, realFunction, NUMBER_OF_SAMPLES, null);
+		setValues(LOWER_LIMIT, UPPER_LIMIT, script, NUMBER_OF_SAMPLES, null);
 		Assert.assertFalse(definiteIntegralAO.validate());
 		
 	}
 
-	private  void setValues(final Double lowerLimit, final Double upperLimit, final RealFunction realFunction, final Long numberOfSamples, final IntegrationService.CalculationAlgorithm calculationAlgorithm) {
+	private  void setValues(final Double lowerLimit, final Double upperLimit, final Script script, final Long numberOfSamples, final IntegrationService.CalculationAlgorithm calculationAlgorithm) {
 		definiteIntegralAO.setLowerLimit(lowerLimit);
 		definiteIntegralAO.setUpperLimit(upperLimit);
-		definiteIntegralAO.setRealFunction(realFunction);
+		definiteIntegralAO.setScript(script);
 		definiteIntegralAO.setNumberOfSamples(numberOfSamples);
 		definiteIntegralAO.setCalculationAlgorithm(calculationAlgorithm);
+	}
+	
+	@Test
+	public final void script() {
+		final Observer observer = Mockito.mock(Observer.class);
+		definiteIntegralAO.addObserver(observer);
+		
+		definiteIntegralAO.setScript(script);
+		Assert.assertEquals(script, definiteIntegralAO.getScript());
+		Mockito.verify(observer).update(Mockito.any(), Mockito.any());
+	}
+	
+	@Test
+	public final void  numberOfSamples() {
+		definiteIntegralAO.setNumberOfSamples(NUMBER_OF_SAMPLES);
+		Assert.assertEquals(NUMBER_OF_SAMPLES, definiteIntegralAO.getNumberOfSamples());
+	}
+	
+	@Test
+	public final void hasResult() {
+		Assert.assertFalse(definiteIntegralAO.hasResult());
+		definiteIntegralAO.setResult(RESULT);
+		Assert.assertTrue(definiteIntegralAO.hasResult());
+	}
+	
+	@Test
+	public final void hasScript() {
+		Assert.assertFalse(definiteIntegralAO.hasScript());
+		definiteIntegralAO.setScript(script);
+		Assert.assertTrue(definiteIntegralAO.hasScript());
 	}
 
 }

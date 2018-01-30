@@ -5,7 +5,6 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
 
-
 import org.springframework.util.StringUtils;
 
 import de.mq.analysis.integration.IntegrationService;
@@ -16,6 +15,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -52,6 +52,18 @@ class DefiniteIntegralFX   implements Initializable, Observer {
 	@FXML
 	private Label resultLabel;
 	
+	@FXML
+	private TextArea code;
+	
+	@FXML
+	private Label codeMessage;
+	
+	@FXML
+	private ChoiceBox<Long> samples; 
+	
+	@FXML
+	private Label samplesMessage;
+	
 	private final DefiniteIntegralController definiteIntegralController; 
 	
 	private final DefiniteIntegralAO definiteIntegralAO = new DefiniteIntegralAO();
@@ -65,7 +77,7 @@ class DefiniteIntegralFX   implements Initializable, Observer {
 		
 		definiteIntegralAO.addObserver(this);
 		algorithms.setItems(FXCollections.observableArrayList(IntegrationService.CalculationAlgorithm.values()));
-		
+		samples.setItems(FXCollections.observableArrayList(1000L, 10000L, 100000L, 1000000L, 10000000L));
 		lowerLimit.textProperty().addListener((observable, oldValue, newValue) -> {
 			definiteIntegralAO.setLowerLimit(null);
 			if( ! validateDouble(newValue) ) {
@@ -99,10 +111,35 @@ class DefiniteIntegralFX   implements Initializable, Observer {
 			
 		});
 		
+		samples.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+			definiteIntegralAO.setNumberOfSamples(null);
+			if ( newValue == null) {
+				samplesMessage.setText("Mußfeld");
+			} else {	
+				samplesMessage.setText(null);
+				definiteIntegralAO.setNumberOfSamples(newValue);
+			}
+		});
+		
+		code.textProperty().addListener((observable, oldValue, newValue) -> {
+			
+			if( ! StringUtils.hasText(newValue)){
+				codeMessage.setText("Mußfeld");
+			} else {
+				codeMessage.setText(null);
+			}
+			
+			
+		}) ;
+		
 		lowerLimit.setText(null);
 		upperLimit.setText(null);
 		algorithms.setValue(IntegrationService.CalculationAlgorithm.Simpson);
 		algorithms.setValue(null);
+		code.setText(null);
+		samples.setValue(1000L);
+		samples.setValue(null);
+		definiteIntegralController.init(definiteIntegralAO);
 		integrationButton.setOnAction(actionEvent -> {
 			
 			result.setVisible(false);
@@ -139,9 +176,15 @@ class DefiniteIntegralFX   implements Initializable, Observer {
 
 	@Override
 	public void update(final Observable o, Object arg) {
-		result.setText(String.valueOf(definiteIntegralAO.getResult()));
-		result.setVisible(true);
-		resultLabel.setVisible(true);
+		result.setText(definiteIntegralAO.hasResult() ? "" + definiteIntegralAO.getResult(): null);
+		result.setVisible(definiteIntegralAO.hasResult());
+		resultLabel.setVisible(definiteIntegralAO.hasResult());
+		
+		
+		
+		code.setText(definiteIntegralAO.hasScript()? definiteIntegralAO.getScript().code(): null);
+		
+		
 	}
 	
 	
