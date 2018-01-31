@@ -8,7 +8,7 @@ import java.util.UUID;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-
+import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 
 import de.mq.analysis.integration.DefiniteIntegral;
@@ -16,6 +16,7 @@ import de.mq.analysis.integration.IntegrationService;
 import de.mq.analysis.integration.RealFunction;
 import de.mq.analysis.integration.Script;
 
+@Controller
 class DefiniteIntegralController {
 	
 	private final Map<IntegrationService.CalculationAlgorithm, IntegrationService> algorithms = new HashMap<>();

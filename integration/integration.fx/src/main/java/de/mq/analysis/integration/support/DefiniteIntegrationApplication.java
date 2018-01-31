@@ -1,13 +1,11 @@
 package de.mq.analysis.integration.support;
 
 import java.io.IOException;
-import java.net.URL;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -19,15 +17,8 @@ public class DefiniteIntegrationApplication extends Application {
 	@Override
 	public void start(final Stage stage) throws IOException {
 
-	
-		final URL url = getClass().getResource("/definiteIntegral.fxml");
-	
-			final FXMLLoader formLoader = new FXMLLoader(url);
-	
-			formLoader.setController(getDefiniteIntegralFX() );
-			Parent parent = formLoader.load();
 			stage.setTitle("numerische Integration");
-			stage.setScene(new Scene(parent));
+			stage.setScene(new Scene( getDefiniteIntegralParent()));
 			stage.show();
 
 	}
@@ -37,13 +28,15 @@ public class DefiniteIntegrationApplication extends Application {
 		launch(args);
 	}
 
-	private  DefiniteIntegralFX  getDefiniteIntegralFX() {
-		return applicationContext.getBean(DefiniteIntegralFX.class);
+	private  Parent  getDefiniteIntegralParent() {
+		return applicationContext.getBean("definiteIntegralParent", Parent.class);
 	}
 	
 	@Override
 	  public void stop() throws Exception {
 		  applicationContext.close();
 	  }
-
+	
+	
+	
 }

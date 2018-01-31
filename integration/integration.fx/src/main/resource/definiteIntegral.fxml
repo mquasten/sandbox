@@ -27,7 +27,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Hyperlink text="y=f(x)" />
+                  <Hyperlink fx:id="script" text="y=f(x)" />
                   <Label fx:id="codeMessage" prefHeight="17.0" prefWidth="485.0" style="-fx-text-fill: red;" GridPane.columnIndex="1" />
                </children>
             </GridPane>
