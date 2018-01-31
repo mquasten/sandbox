@@ -19,6 +19,9 @@
 		<java.version>1.8</java.version>
 		<mockito.version>2.7.22</mockito.version>
 		<jruby-complete.version>9.1.15.0</jruby-complete.version>
+
+		<mongo-driver.version>3.3.0</mongo-driver.version>
+		<mongo-data-mongo.version>2.0.3.RELEASE</mongo-data-mongo.version>
 	</properties>
 
 	<dependencies>
@@ -34,13 +37,38 @@
 			<artifactId>spring-beans</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 
-<!-- https://mvnrepository.com/artifact/org.jruby/jruby-complete -->
-<dependency>
-    <groupId>org.jruby</groupId>
-    <artifactId>jruby-complete</artifactId>
-    <version>${jruby-complete.version}</version>
-</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/org.jruby/jruby-complete -->
+		<dependency>
+			<groupId>org.jruby</groupId>
+			<artifactId>jruby-complete</artifactId>
+			<version>${jruby-complete.version}</version>
+		</dependency>
+
+		<!-- mongodb java driver -->
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>${mongo-driver.version}</version>
+
+
+		</dependency>
+
+		<!-- Spring data mongodb -->
+		<!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-mongodb -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+			<version>${mongo-data-mongo.version}</version>
+		</dependency>
+
 
 
 		<!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
@@ -50,9 +78,9 @@
 			<version>${mockito.version}</version>
 			<scope>test</scope>
 		</dependency>
-	
-   
-  
+
+
+
 	</dependencies>
 
 	<build>

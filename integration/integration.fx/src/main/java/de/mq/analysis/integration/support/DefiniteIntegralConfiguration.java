@@ -11,6 +11,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
+
+import com.mongodb.MongoClient;
 
 import de.mq.analysis.integration.IntegrationService;
 import javafx.fxml.FXMLLoader;
@@ -59,6 +64,27 @@ class DefiniteIntegralConfiguration {
 		final FXMLLoader formLoader = new FXMLLoader(url);
 		formLoader.setController(definiteIntegralFX);
 		return formLoader.load();
+	}
+
+	@Bean
+	MongoClient mongoClient() {
+		return new MongoClient("localhost");
+	}
+
+	@Bean
+	MongoOperations mongoTemplate() {
+		return new MongoTemplate(new SimpleMongoDbFactory(new MongoClient(), "analysis"));
+
+	}
+	
+	@Bean
+	ScriptRepository scriptRepository(final MongoOperations mongoOperations) {
+	  return  new ScriptRepositoryImpl(mongoOperations);	
+	}
+	
+	@Bean
+	ScriptService scriptService(final ScriptRepository scriptRepository) {
+	  return  new ScriptServiceImpl(scriptRepository);	
 	}
 
 }

@@ -2,6 +2,7 @@ package de.mq.analysis.integration.support;
 
 import java.util.Observer;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -9,12 +10,12 @@ import de.mq.analysis.integration.BoundsOfIntegration;
 import de.mq.analysis.integration.IntegrationService;
 
 import de.mq.analysis.integration.Script;
-import junit.framework.Assert;
+
 
 public class DefiniteIntegralAOTest {
 	
 	
-	private static final double RESULT = 47.11d;
+	private static final Double RESULT = 47.11d;
 	private static final long NUMBER_OF_SAMPLES = 1000L;
 	private static final Double UPPER_LIMIT = 1d;
 	private static final Double LOWER_LIMIT = -1d;
@@ -31,8 +32,8 @@ public class DefiniteIntegralAOTest {
 		definiteIntegralAO.setNumberOfSamples(NUMBER_OF_SAMPLES);
 		
 		BoundsOfIntegration result = definiteIntegralAO.getBoundsOfIntegration();
-		Assert.assertEquals(LOWER_LIMIT, result.lowerLimit());
-		Assert.assertEquals(UPPER_LIMIT, result.upperLimit());
+		Assert.assertEquals(LOWER_LIMIT, Double.valueOf(result.lowerLimit()));
+		Assert.assertEquals(UPPER_LIMIT, Double.valueOf(result.upperLimit()));
 		
 	}
 	
@@ -48,7 +49,7 @@ public class DefiniteIntegralAOTest {
 		definiteIntegralAO.addObserver(observer);
 		definiteIntegralAO.setResult(RESULT);
 		
-		Assert.assertEquals(RESULT, definiteIntegralAO.getResult());
+		Assert.assertEquals(RESULT, Double.valueOf(definiteIntegralAO.getResult()));
 		
 		Mockito.verify(observer).update(Mockito.any(), Mockito.any());
 	}
