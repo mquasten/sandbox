@@ -36,5 +36,10 @@ public class ScriptTest {
 	public final void id() {
 		Assert.assertEquals(ID, script.id());
 	}
+	
+	@Test
+	public final void idNotPersistent() {
+		Assert.assertNull(new ScriptImpl(CODE).id());
+	}
 
 }
