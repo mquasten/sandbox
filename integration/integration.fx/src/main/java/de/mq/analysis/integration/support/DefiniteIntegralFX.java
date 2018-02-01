@@ -6,11 +6,13 @@ import java.util.Observer;
 import java.util.ResourceBundle;
 
 import org.springframework.beans.factory.annotation.Lookup;
+import org.springframework.core.NestedRuntimeException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import de.mq.analysis.integration.IntegrationService;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -24,6 +26,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 @Component
 abstract class DefiniteIntegralFX implements Initializable, Observer {
 
@@ -76,10 +79,9 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 
 	private final DefiniteIntegralAO definiteIntegralAO = new DefiniteIntegralAO();
 
-
 	DefiniteIntegralFX(final DefiniteIntegralController definiteIntegralController) {
 		this.definiteIntegralController = definiteIntegralController;
-		
+
 	}
 
 	@Override
@@ -141,16 +143,7 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 			}
 
 		});
-		script.setOnAction(actionEvent -> {
-			
-			final Stage scriptDialog = new Stage();
-			scriptDialog.setScene(new Scene(scriptDialogParent()));
-			scriptDialog.setTitle("Script auswählen");
-			scriptDialog.initModality(Modality.WINDOW_MODAL);
-			scriptDialog.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
-			scriptDialog.show();
-		
-		});
+		script.setOnAction(actionEvent -> showScriptDialog(actionEvent));
 
 		lowerLimit.setText(null);
 		upperLimit.setText(null);
@@ -171,6 +164,21 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 
 		});
 		closeButton.setOnAction(actionEvent -> ((Stage) ((Node) actionEvent.getSource()).getScene().getWindow()).close());
+	}
+
+	private void showScriptDialog(ActionEvent actionEvent) {
+		
+		try {
+			final Stage scriptDialog = new Stage();
+			scriptDialog.setScene(new Scene(scriptDialogParent()));
+			scriptDialog.setTitle("Script auswählen");
+			scriptDialog.initModality(Modality.WINDOW_MODAL);
+			scriptDialog.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
+			scriptDialog.show();
+		} catch (final NestedRuntimeException ex) {
+			System.out.println("sucks:" + ex.getMostSpecificCause().getMessage());
+
+		}
 	}
 
 	private boolean validateDouble(final String text) {
@@ -196,11 +204,8 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 		code.setText(definiteIntegralAO.hasScript() ? definiteIntegralAO.getScript().code() : null);
 
 	}
-	
-	
-	
-	@Lookup("scriptDialogParent")
-	abstract Parent scriptDialogParent(); 
 
+	@Lookup("scriptDialogParent")
+	abstract Parent scriptDialogParent();
 
 }

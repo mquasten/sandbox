@@ -49,12 +49,12 @@ class DefiniteIntegralConfiguration {
 
 	@Bean()
 	@Scope("prototype")
-	Parent scriptDialogParent(ScriptFX scriptFX) throws IOException {
+	Parent scriptDialogParent(final ScriptFX scriptFX) throws IOException  {
 		final URL url = getClass().getResource("/script.fxml");
 		final FXMLLoader formLoader = new FXMLLoader(url);
 		formLoader.setController(scriptFX);
 		return formLoader.load();
-
+		
 	}
 
 	@Bean

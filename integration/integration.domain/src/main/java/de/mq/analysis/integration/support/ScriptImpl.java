@@ -24,7 +24,7 @@ class ScriptImpl implements Script {
 
 	
 	public UUID id() {
-		return UUID.fromString(id);
+		return id != null ? UUID.fromString(id): null;
 	}
 
 
