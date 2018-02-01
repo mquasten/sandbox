@@ -28,6 +28,7 @@ class DefiniteIntegralAO  extends Observable{
 	
 
 
+	private String errorMessage; 
 
 
 	Script getScript() {
@@ -71,14 +72,26 @@ class DefiniteIntegralAO  extends Observable{
 
 	void setResult(final double result ) {
 		this.result=result;
+		this.errorMessage=null;
 		setChanged();
 		notifyObservers();
 	}
 	
 	void setScript(final Script script){
 		this.script=script;
+		this.errorMessage=null;
 		setChanged();
 		notifyObservers();
+	}
+	
+	void setErrorMessage(final String errorMessage) {
+		this.errorMessage=errorMessage;
+		setChanged();
+		notifyObservers();
+	}
+	
+	String getErrorMessage() {
+		return errorMessage;
 	}
 	
 	Double getResult() {

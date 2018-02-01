@@ -5,6 +5,7 @@ import java.util.Observer;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import de.mq.analysis.integration.BoundsOfIntegration;
 import de.mq.analysis.integration.IntegrationService;
@@ -15,6 +16,7 @@ import de.mq.analysis.integration.Script;
 public class DefiniteIntegralAOTest {
 	
 	
+	private static final String ERROR_MESSAGE = "Operation sucks.";
 	private static final Double RESULT = 47.11d;
 	private static final long NUMBER_OF_SAMPLES = 1000L;
 	private static final Double UPPER_LIMIT = 1d;
@@ -45,13 +47,21 @@ public class DefiniteIntegralAOTest {
 	
 	@Test
 	public final void result() {
+		
+		setErrorMessage();
+		
 		final Observer observer = Mockito.mock(Observer.class);
 		definiteIntegralAO.addObserver(observer);
 		definiteIntegralAO.setResult(RESULT);
 		
 		Assert.assertEquals(RESULT, Double.valueOf(definiteIntegralAO.getResult()));
+		Assert.assertNull(definiteIntegralAO.getErrorMessage());
 		
 		Mockito.verify(observer).update(Mockito.any(), Mockito.any());
+	}
+
+	protected void setErrorMessage() {
+		ReflectionTestUtils.setField(definiteIntegralAO, "errorMessage" , ERROR_MESSAGE);
 	}
 	
 	
@@ -89,11 +99,13 @@ public class DefiniteIntegralAOTest {
 	
 	@Test
 	public final void script() {
+		setErrorMessage();
 		final Observer observer = Mockito.mock(Observer.class);
 		definiteIntegralAO.addObserver(observer);
 		
 		definiteIntegralAO.setScript(script);
 		Assert.assertEquals(script, definiteIntegralAO.getScript());
+		Assert.assertNull(definiteIntegralAO.getErrorMessage());
 		Mockito.verify(observer).update(Mockito.any(), Mockito.any());
 	}
 	
@@ -115,6 +127,19 @@ public class DefiniteIntegralAOTest {
 		Assert.assertFalse(definiteIntegralAO.hasScript());
 		definiteIntegralAO.setScript(script);
 		Assert.assertTrue(definiteIntegralAO.hasScript());
+	}
+	
+	@Test
+	public final void errorMessage() {
+		Assert.assertNull(definiteIntegralAO.getErrorMessage());
+		final Observer observer = Mockito.mock(Observer.class);
+		definiteIntegralAO.addObserver(observer);
+		
+		
+		definiteIntegralAO.setErrorMessage(ERROR_MESSAGE);
+		
+		Assert.assertEquals(ERROR_MESSAGE, definiteIntegralAO.getErrorMessage());
+		Mockito.verify(observer).update(Mockito.any(), Mockito.any());
 	}
 
 }

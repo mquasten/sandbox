@@ -87,6 +87,7 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 	@Override
 	public void initialize(final URL location, final ResourceBundle resources) {
 
+		
 		definiteIntegralAO.addObserver(this);
 		algorithms.setItems(FXCollections.observableArrayList(IntegrationService.CalculationAlgorithm.values()));
 		samples.setItems(FXCollections.observableArrayList(1000L, 10000L, 100000L, 1000000L, 10000000L));
@@ -159,11 +160,18 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 			resultLabel.setVisible(false);
 
 			if (definiteIntegralAO.validate()) {
-				definiteIntegralController.integrate(definiteIntegralAO);
+				resolveIntegral();
 			}
-
 		});
 		closeButton.setOnAction(actionEvent -> ((Stage) ((Node) actionEvent.getSource()).getScene().getWindow()).close());
+	}
+
+	private void resolveIntegral() {
+		try {
+			definiteIntegralController.integrate(definiteIntegralAO);
+		} catch(final Exception ex){
+			definiteIntegralAO.setErrorMessage(ex.getMessage());
+		}
 	}
 
 	private void showScriptDialog(ActionEvent actionEvent) {
@@ -174,9 +182,10 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 			scriptDialog.setTitle("Script auswählen");
 			scriptDialog.initModality(Modality.WINDOW_MODAL);
 			scriptDialog.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
+			definiteIntegralAO.setErrorMessage(null);
 			scriptDialog.show();
 		} catch (final NestedRuntimeException ex) {
-			System.out.println("sucks:" + ex.getMostSpecificCause().getMessage());
+			definiteIntegralAO.setErrorMessage(ex.getMostSpecificCause().getMessage());
 
 		}
 	}
@@ -202,6 +211,7 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 		result.setVisible(definiteIntegralAO.hasResult());
 		resultLabel.setVisible(definiteIntegralAO.hasResult());
 		code.setText(definiteIntegralAO.hasScript() ? definiteIntegralAO.getScript().code() : null);
+		errorMessage.setText(definiteIntegralAO.getErrorMessage());
 
 	}
 
