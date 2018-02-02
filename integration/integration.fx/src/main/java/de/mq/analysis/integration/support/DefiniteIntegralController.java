@@ -4,7 +4,6 @@ import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
@@ -14,7 +13,6 @@ import org.springframework.util.Assert;
 import de.mq.analysis.integration.DefiniteIntegral;
 import de.mq.analysis.integration.IntegrationService;
 import de.mq.analysis.integration.RealFunction;
-import de.mq.analysis.integration.Script;
 
 @Controller
 class DefiniteIntegralController {
@@ -38,18 +36,7 @@ class DefiniteIntegralController {
 	}
 
 	final void init(final DefiniteIntegralAO definiteIntegralAO) {
-		definiteIntegralAO.setScript(new Script() {
-			
-			@Override
-			public UUID id() {
-				return UUID.randomUUID();
-			}
-			
-			@Override
-			public String code() {
-				return "Math.exp(-x**2)";
-			}
-		});
+
 		
 	}
 	

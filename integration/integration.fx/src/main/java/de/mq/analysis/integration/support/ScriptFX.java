@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -32,7 +33,11 @@ class ScriptFX implements Initializable {
 	
 	private final ScriptController scriptController;
 	
-	ScriptFX(final ScriptController scriptController){
+	private final ScriptAO scriptAO = new ScriptAO();
+	
+	ScriptFX(final ScriptController scriptController, final DefiniteIntegralFX definiteIntegralFX){
+		scriptAO.addObserver(definiteIntegralFX.getDefiniteIntegralAO());
+		
 		this.scriptController=scriptController;
 	}
 
@@ -40,8 +45,8 @@ class ScriptFX implements Initializable {
 	public void initialize(final URL location, final ResourceBundle resources) {
 		cancelButton.setOnAction(actionEvent -> cancel(actionEvent));
 		selectButton.setOnAction(actionEvent -> {
-
-			
+			final Script script = scriptTable.getSelectionModel().getSelectedItem();
+			scriptAO.setSelectedScript(script);
 			cancel(actionEvent);
 		});
 
@@ -58,25 +63,30 @@ class ScriptFX implements Initializable {
 			}
 		});
 
-		System.out.println();
 		col.setCellFactory(column -> {
 			return new TableCell<Script, Script>() {
 
+				@Override
 				protected void updateItem(final Script item, final boolean empty) {
 					setText(item != null ? item.code() : null);
 				}
 
 			};
 		});
-
+		
+		scriptTable.getSelectionModel().selectedItemProperty().addListener((observable, oldSelection, newSelection) -> selectButton.setDisable(newSelection == null));
+		selectButton.setDisable(true);
 		scriptTable.getColumns().add(col);
 		scriptTable.setItems(FXCollections.observableArrayList(scriptController.scripts()));
-		
+		scriptTable.setPlaceholder(new Label()); 
 
 	}
 
 	protected void cancel(final ActionEvent actionEvent) {
 		((Stage) ((Node) actionEvent.getSource()).getScene().getWindow()).close();
 	}
+	
+	
+	
 
 }

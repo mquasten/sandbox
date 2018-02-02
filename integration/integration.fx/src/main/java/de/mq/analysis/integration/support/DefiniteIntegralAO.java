@@ -1,6 +1,7 @@
 package de.mq.analysis.integration.support;
 
 import java.util.Observable;
+import java.util.Observer;
 
 import org.springframework.util.Assert;
 
@@ -9,7 +10,7 @@ import de.mq.analysis.integration.IntegrationService;
 import de.mq.analysis.integration.Script;
 
 
-class DefiniteIntegralAO  extends Observable{
+class DefiniteIntegralAO  extends Observable implements Observer{
 
 	private  Double lowerLimit = null;
 	private  Double upperLimit = null;
@@ -70,7 +71,7 @@ class DefiniteIntegralAO  extends Observable{
 	}
 	
 
-	void setResult(final double result ) {
+	void setResult(final Double result ) {
 		this.result=result;
 		this.errorMessage=null;
 		setChanged();
@@ -113,6 +114,15 @@ class DefiniteIntegralAO  extends Observable{
 	
 	boolean hasScript() {
 		return script != null;
+	}
+
+
+
+
+	@Override
+	public void update(final Observable observable, final Object arg) {
+		setScript(((ScriptAO) observable).getSelectedScript());	
+		setResult(null);
 	}
 	
 }

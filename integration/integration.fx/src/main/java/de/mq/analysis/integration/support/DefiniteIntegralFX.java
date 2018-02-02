@@ -217,5 +217,9 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 
 	@Lookup("scriptDialogParent")
 	abstract Parent scriptDialogParent();
+	
+	DefiniteIntegralAO getDefiniteIntegralAO(){
+		return definiteIntegralAO;
+	}
 
 }
