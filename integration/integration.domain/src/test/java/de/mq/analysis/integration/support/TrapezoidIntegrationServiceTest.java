@@ -30,7 +30,7 @@ public class TrapezoidIntegrationServiceTest {
 	
 	   Mockito.when(definiteIntegral.boundsOfIntegration()).thenReturn(boundsOfIntegration);
 	   Mockito.when(definiteIntegral.realFunction()).thenReturn(realFunction);
-	   Mockito.when(definiteIntegral.numberOfSamples()).thenReturn(100L);
+	   Mockito.when(definiteIntegral.numberOfSamples()).thenReturn(5l);
 	   Mockito.when(definiteIntegral.stepSize()).thenCallRealMethod();
 	}
 
