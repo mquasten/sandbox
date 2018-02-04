@@ -21,7 +21,7 @@ private final RealFunction realFunction = Mockito.mock(RealFunction.class);
 	
 	private final BoundsOfIntegration boundsOfIntegration = Mockito.mock(BoundsOfIntegration.class);
 	
-	final IntegrationService integrationService = new SimpsonIntegrationServiceImpl();
+	final AbstractIntegrationService integrationService = new SimpsonIntegrationServiceImpl();
 	
 	@Before
 	public final void setup() {
@@ -34,7 +34,7 @@ private final RealFunction realFunction = Mockito.mock(RealFunction.class);
 		}).when(realFunction).f(Mockito.anyDouble());
 		
 		Mockito.when(definiteIntegral.boundsOfIntegration()).thenReturn(boundsOfIntegration);
-		Mockito.when(definiteIntegral.numberOfSamples()).thenReturn(4L);
+		Mockito.when(definiteIntegral.numberOfSamples()).thenReturn(8L);
 		Mockito.when(definiteIntegral.realFunction()).thenReturn(realFunction);
 		Mockito.doCallRealMethod().when(definiteIntegral).stepSize();
 		
@@ -42,15 +42,15 @@ private final RealFunction realFunction = Mockito.mock(RealFunction.class);
 	
 	
 	@Test
-	public final void calculate() {
+	public final void resolve() {
 		
-		Assert.assertEquals(Double.valueOf(4.4924d), cut(integrationService.calculate(definiteIntegral),4));
+		Assert.assertEquals(Double.valueOf(4.4926d), cut(integrationService.resolveIntegral(definiteIntegral),4));
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
-	public final void calculateDoublyEven(){
+	public final void inputParameterGuard(){
 		Mockito.when(definiteIntegral.numberOfSamples()).thenReturn(5L);
-		integrationService.calculate(definiteIntegral);
+		integrationService.inputParameterGuard(definiteIntegral);
 	}
 	
 	private Double cut(final double x, final int n) {
@@ -61,6 +61,11 @@ private final RealFunction realFunction = Mockito.mock(RealFunction.class);
 	@Test
 	public final void calculationAlgorithm() {
 		Assert.assertEquals(IntegrationService.CalculationAlgorithm.Simpson, integrationService.calculationAlgorithm());
+	}
+	
+	@Test
+	public final void quality() {
+		Assert.assertEquals(4, integrationService.quality());
 	}
 
 }

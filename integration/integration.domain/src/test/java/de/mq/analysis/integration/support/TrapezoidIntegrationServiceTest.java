@@ -18,7 +18,7 @@ public class TrapezoidIntegrationServiceTest {
 	
 	private final BoundsOfIntegration boundsOfIntegration = Mockito.mock(BoundsOfIntegration.class);
 	
-	final IntegrationService integrationService = new TrapezoidIntegrationImpl();
+	private final IntegrationService integrationService = new TrapezoidIntegrationImpl();
 
 	@Before
 	public final void setup() {
