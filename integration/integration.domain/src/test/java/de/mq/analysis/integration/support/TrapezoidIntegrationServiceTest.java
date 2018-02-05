@@ -18,7 +18,7 @@ public class TrapezoidIntegrationServiceTest {
 	
 	private final BoundsOfIntegration boundsOfIntegration = Mockito.mock(BoundsOfIntegration.class);
 	
-	private final IntegrationService integrationService = new TrapezoidIntegrationImpl();
+	private final AbstractIntegrationService integrationService = new TrapezoidIntegrationImpl();
 
 	@Before
 	public final void setup() {
@@ -36,8 +36,8 @@ public class TrapezoidIntegrationServiceTest {
 
 	// Papula Mathematik fuer Ingenieure und Naturwissenschaftler Seite 480
 	@Test
-	public final void calculate() {
-		Assert.assertEquals(cut(0.7468d, 4), cut(integrationService.calculate(definiteIntegral), 4));
+	public final void resolveIntegral() {
+		Assert.assertEquals(cut(0.7444d, 4), cut(integrationService.resolveIntegral(definiteIntegral), 4));
 	}
 
 	
@@ -49,6 +49,11 @@ public class TrapezoidIntegrationServiceTest {
 	@Test
 	public final void calculationAlgorithm() {
 		Assert.assertEquals(IntegrationService.CalculationAlgorithm.Trapezoid, integrationService.calculationAlgorithm());
+	}
+	
+	@Test
+	public final void quality() {
+		Assert.assertEquals(2, integrationService.quality());
 	}
 
 }
