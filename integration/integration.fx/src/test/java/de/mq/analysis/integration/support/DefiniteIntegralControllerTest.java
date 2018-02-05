@@ -25,7 +25,7 @@ public class DefiniteIntegralControllerTest {
 
 	private static final Double LOWER_LIMIT = -1d;
 
-	private static final Double RESULT = 47.11d;
+	private static final Result result = Mockito.mock(Result.class);
 
 	private final IntegrationService integrationService = Mockito.mock(IntegrationService.class);
 	
@@ -51,7 +51,7 @@ public class DefiniteIntegralControllerTest {
 		Mockito.when(definiteIntegralAO.getBoundsOfIntegration()).thenReturn(boundsOfIntegration);
 	  	Mockito.when(definiteIntegralAO.getNumberOfSamples()).thenReturn(NUMBER_OF_SAMPLES);
 		Mockito.when(integrationService.calculationAlgorithm()).thenReturn(IntegrationService.CalculationAlgorithm.Trapezoid);
-	  	Mockito.when(integrationService.calculate(definiteIntegralArgumentCaptor.capture())).thenReturn(RESULT);
+	  	Mockito.when(integrationService.calculate(definiteIntegralArgumentCaptor.capture())).thenReturn(result);
 	    Mockito.when(definiteIntegralAO.getCalculationAlgorithm()).thenReturn(IntegrationService.CalculationAlgorithm.Trapezoid);
 	  	
 	    definiteIntegralController = new DefiniteIntegralController(Arrays.asList(integrationService), scriptEngineFactory);
@@ -66,6 +66,6 @@ public class DefiniteIntegralControllerTest {
 		Assert.assertEquals(LOWER_LIMIT, Double.valueOf(definiteIntegralArgumentCaptor.getValue().boundsOfIntegration().lowerLimit()));
 		Assert.assertEquals(UPPER_LIMIT, Double.valueOf(definiteIntegralArgumentCaptor.getValue().boundsOfIntegration().upperLimit()));
 		Assert.assertEquals(NUMBER_OF_SAMPLES, definiteIntegralArgumentCaptor.getValue().numberOfSamples());
-		Mockito.verify(definiteIntegralAO).setResult(RESULT);
+		Mockito.verify(definiteIntegralAO).setResult(result);
 	}
 }

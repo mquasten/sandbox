@@ -13,6 +13,12 @@ import de.mq.analysis.integration.RealFunction;
 
 public class AbstractIntegrationServiceTest {
 	
+	private static final double I2N = 4.4926d;
+
+
+	private static final double IN = 4.4952;
+
+
 	private final AbstractIntegrationService integrationService = Mockito.mock(AbstractIntegrationService.class, Mockito.CALLS_REAL_METHODS);
 
 	
@@ -30,12 +36,11 @@ public class AbstractIntegrationServiceTest {
 		Mockito.doAnswer(answer -> {
 			final DefiniteIntegral definiteIntegral = answer.getArgument(0);
 			
-			System.out.println(definiteIntegral.numberOfSamples());
 			if( definiteIntegral.numberOfSamples()==4L)     {
-				return 4.4952;
+				return IN;
 			}
 			if( definiteIntegral.numberOfSamples()==8L){
-				return 4.4926d;
+				return I2N;
 			}
 			Assert.fail("Unexpected numberOfSamples:" + definiteIntegral.numberOfSamples());
 			return 0d; 
@@ -45,18 +50,15 @@ public class AbstractIntegrationServiceTest {
 	
 	@Test
 	public final void calculate() {
-		Assert.assertEquals(Double.valueOf(4.4924), cut(integrationService.calculate(definiteIntegral), 4 ));
+		final Result result = integrationService.calculate(definiteIntegral);
+		Assert.assertEquals( Double.valueOf(I2N+ 1d/15d *(I2N- IN)), Double.valueOf(result.value()));
+		Assert.assertEquals(Double.valueOf(1d/15d * (I2N-IN)), Double.valueOf(result.error()));
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public final void calculateWrongQuality() {
 		Mockito.when(integrationService.quality()).thenReturn(0);
 		integrationService.calculate(definiteIntegral);
-	}
-	
-	private Double cut(double x, int n) {
-		final long y = (long) (x * Math.pow(10, n));
-		return y / Math.pow(10, n);
 	}
 	
 	

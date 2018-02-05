@@ -30,7 +30,7 @@ class DefiniteIntegralController {
 		Assert.isTrue(algorithms.containsKey(definiteIntegralAO.getCalculationAlgorithm()), "CalculationAlgorithm not found.");
 		final RealFunction realFunction = scriptEngineFactory.realFunction(definiteIntegralAO.getScript().code());
 		DefiniteIntegral definiteIntegral=  new DefiniteIntegralImpl(definiteIntegralAO.getBoundsOfIntegration(), realFunction, definiteIntegralAO.getNumberOfSamples());
-		final double result =  algorithms.get(definiteIntegralAO.getCalculationAlgorithm()).calculate(definiteIntegral);
+		final Result result =  algorithms.get(definiteIntegralAO.getCalculationAlgorithm()).calculate(definiteIntegral);
 		definiteIntegralAO.setResult(result);
 		
 	}

@@ -44,6 +44,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <Label text="obere Grenze" GridPane.rowIndex="1" />
@@ -60,6 +61,8 @@
                   <Label text="Stützstellen" GridPane.rowIndex="3" />
                   <ChoiceBox fx:id="samples" prefHeight="25.0" prefWidth="301.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <Label fx:id="samplesMessage" style="-fx-text-fill: red;" visible="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                  <Label text="Fehler" fx:id="errorLabel" visible="false" GridPane.rowIndex="5" />
+                  <TextField fx:id="error"  GridPane.columnIndex="1" GridPane.rowIndex="5" />
                </children>
                <VBox.margin>
                   <Insets />

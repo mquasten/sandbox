@@ -1,5 +1,7 @@
 package de.mq.analysis.integration;
 
+import de.mq.analysis.integration.support.Result;
+
 /**
  * Calculate the result of a definite integral
  * @author Admin
@@ -24,7 +26,7 @@ public interface IntegrationService {
 	 * @param definiteIntegral the definite Integral
 	 * @return the result of the definite integral
 	 */
-	double calculate(final DefiniteIntegral definiteIntegral);
+	Result calculate(final DefiniteIntegral definiteIntegral);
 	
 	
 	/**

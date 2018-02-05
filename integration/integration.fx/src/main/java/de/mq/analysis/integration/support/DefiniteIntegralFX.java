@@ -59,6 +59,12 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 
 	@FXML
 	private Label resultLabel;
+	
+	@FXML
+	private TextField error;
+
+	@FXML
+	private Label errorLabel;
 
 	@FXML
 	private TextArea code;
@@ -207,9 +213,12 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 
 	@Override
 	public void update(final Observable o, Object arg) {
-		result.setText(definiteIntegralAO.hasResult() ? "" + definiteIntegralAO.getResult() : null);
+		result.setText(definiteIntegralAO.hasResult() ? "" + definiteIntegralAO.getResult().value() : null);
 		result.setVisible(definiteIntegralAO.hasResult());
+		error.setText(definiteIntegralAO.hasResult() ? "" + definiteIntegralAO.getResult().error() : null);
+		error.setVisible(definiteIntegralAO.hasResult());
 		resultLabel.setVisible(definiteIntegralAO.hasResult());
+		errorLabel.setVisible(definiteIntegralAO.hasResult());
 		code.setText(definiteIntegralAO.hasScript() ? definiteIntegralAO.getScript().code() : null);
 		errorMessage.setText(definiteIntegralAO.getErrorMessage());
 

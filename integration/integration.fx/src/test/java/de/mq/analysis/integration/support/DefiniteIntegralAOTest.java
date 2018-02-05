@@ -17,7 +17,7 @@ public class DefiniteIntegralAOTest {
 	
 	
 	private static final String ERROR_MESSAGE = "Operation sucks.";
-	private static final Double RESULT = 47.11d;
+	private static final Result result = Mockito.mock(Result.class);
 	private static final long NUMBER_OF_SAMPLES = 1000L;
 	private static final Double UPPER_LIMIT = 1d;
 	private static final Double LOWER_LIMIT = -1d;
@@ -52,9 +52,9 @@ public class DefiniteIntegralAOTest {
 		
 		final Observer observer = Mockito.mock(Observer.class);
 		definiteIntegralAO.addObserver(observer);
-		definiteIntegralAO.setResult(RESULT);
+		definiteIntegralAO.setResult(result);
 		
-		Assert.assertEquals(RESULT, Double.valueOf(definiteIntegralAO.getResult()));
+		Assert.assertEquals(result, definiteIntegralAO.getResult());
 		Assert.assertNull(definiteIntegralAO.getErrorMessage());
 		
 		Mockito.verify(observer).update(Mockito.any(), Mockito.any());
@@ -118,7 +118,7 @@ public class DefiniteIntegralAOTest {
 	@Test
 	public final void hasResult() {
 		Assert.assertFalse(definiteIntegralAO.hasResult());
-		definiteIntegralAO.setResult(RESULT);
+		definiteIntegralAO.setResult(result);
 		Assert.assertTrue(definiteIntegralAO.hasResult());
 	}
 	

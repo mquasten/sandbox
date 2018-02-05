@@ -19,7 +19,7 @@ class DefiniteIntegralAO  extends Observable implements Observer{
 	private IntegrationService.CalculationAlgorithm calculationAlgorithm;
 	
 
-	private Double result; 
+	private Result result; 
 
 	
 	private Long numberOfSamples =  1000000L; 
@@ -71,7 +71,7 @@ class DefiniteIntegralAO  extends Observable implements Observer{
 	}
 	
 
-	void setResult(final Double result ) {
+	void setResult(final Result result ) {
 		this.result=result;
 		this.errorMessage=null;
 		setChanged();
@@ -95,7 +95,7 @@ class DefiniteIntegralAO  extends Observable implements Observer{
 		return errorMessage;
 	}
 	
-	Double getResult() {
+	Result getResult() {
 		return result;
 	}
 	
