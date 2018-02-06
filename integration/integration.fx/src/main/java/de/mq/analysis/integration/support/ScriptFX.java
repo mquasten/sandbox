@@ -96,8 +96,7 @@ class ScriptFX implements Initializable, Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println("********************************");
-		
+	
 		script.setText(scriptAO.getCurrentScript() != null ? scriptAO.getCurrentScript().code(): null);
 		
 	}
