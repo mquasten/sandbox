@@ -4,26 +4,57 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
 <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
 	<center>
-		<ScrollPane fitToHeight="true" fitToWidth="true" BorderPane.alignment="CENTER">
-			<content>
-				<TableView fx:id="scriptTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-
-					
-					
-				
-					<padding>
-						<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-					</padding>
-				</TableView>
-			</content>
-		</ScrollPane>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+      		<ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER">
+      			<content>
+      				<TableView fx:id="scriptTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+      
+            					
+            					
+      				
+            					<padding>
+      						<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+      					</padding>
+      				</TableView>
+      			</content>
+      		</ScrollPane>
+            <BorderPane prefHeight="200.0">
+               <center>
+                  <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" BorderPane.alignment="CENTER">
+                     <content>
+                        <TextArea fx:id="script" disable="true" maxWidth="1.7976931348623157E308" prefHeight="200.0" />
+                     </content>
+                  </ScrollPane>
+               </center>
+               <right>
+                  <BorderPane prefHeight="200.0" prefWidth="36.0" BorderPane.alignment="CENTER">
+                     <right>
+                        <VBox spacing="10.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Button disable="true" mnemonicParsing="false" prefWidth="100.0" text="hinzufügen" />
+                              <Button disable="true" mnemonicParsing="false" prefWidth="100.0" text="löschen" />
+                              <Button disable="true" mnemonicParsing="false" prefWidth="100.0" text="speichern" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                     </right>
+                  </BorderPane>
+               </right>
+            </BorderPane>
+         </children>
+      </VBox>
 	</center>
-	<bottom>
+   <bottom>
 		<BorderPane prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER">
 			<left>
 				<HBox BorderPane.alignment="CENTER">
@@ -46,5 +77,5 @@
 				</HBox>
 			</right>
 		</BorderPane>
-	</bottom>
+   </bottom>
 </BorderPane>

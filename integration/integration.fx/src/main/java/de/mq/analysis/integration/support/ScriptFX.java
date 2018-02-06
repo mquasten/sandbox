@@ -1,6 +1,9 @@
 package de.mq.analysis.integration.support;
 
+
 import java.net.URL;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.ResourceBundle;
 
 import org.springframework.stereotype.Controller;
@@ -17,10 +20,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 @Controller
-class ScriptFX implements Initializable {
+class ScriptFX implements Initializable, Observer {
 
 	@FXML
 	private Button cancelButton;
@@ -31,6 +35,9 @@ class ScriptFX implements Initializable {
 	@FXML
 	private TableView<Script> scriptTable;
 	
+	@FXML
+	private TextArea script;
+	
 	private final ScriptController scriptController;
 	
 	private final ScriptAO scriptAO = new ScriptAO();
@@ -39,6 +46,7 @@ class ScriptFX implements Initializable {
 		scriptAO.addObserver(definiteIntegralFX.getDefiniteIntegralAO());
 		
 		this.scriptController=scriptController;
+		scriptAO.addObserver(this);
 	}
 
 	@Override
@@ -82,8 +90,16 @@ class ScriptFX implements Initializable {
 
 	}
 
-	protected void cancel(final ActionEvent actionEvent) {
+	private void cancel(final ActionEvent actionEvent) {
 		((Stage) ((Node) actionEvent.getSource()).getScene().getWindow()).close();
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		System.out.println("********************************");
+		
+		script.setText(scriptAO.getCurrentScript() != null ? scriptAO.getCurrentScript().code(): null);
+		
 	}
 	
 	
