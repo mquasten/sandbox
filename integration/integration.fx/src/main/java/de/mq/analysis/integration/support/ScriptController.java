@@ -1,5 +1,6 @@
 package de.mq.analysis.integration.support;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ class ScriptController {
 	
 	
 	final Collection<Script> scripts() {
-		return scriptService.scripts();
+		return new ArrayList<Script> (scriptService.scripts());
 		
 	}
 	

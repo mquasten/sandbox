@@ -30,7 +30,7 @@
                <center>
                   <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" BorderPane.alignment="CENTER">
                      <content>
-                        <TextArea fx:id="script" disable="true" maxWidth="1.7976931348623157E308" prefHeight="200.0" />
+                        <TextArea fx:id="script"  maxWidth="1.7976931348623157E308" prefHeight="200.0" />
                      </content>
                   </ScrollPane>
                </center>
@@ -39,9 +39,9 @@
                      <right>
                         <VBox spacing="10.0" BorderPane.alignment="CENTER">
                            <children>
-                              <Button disable="true" mnemonicParsing="false" prefWidth="100.0" text="hinzufügen" />
-                              <Button disable="true" mnemonicParsing="false" prefWidth="100.0" text="löschen" />
-                              <Button disable="true" mnemonicParsing="false" prefWidth="100.0" text="speichern" />
+                              <Button fx:id="addScript"  mnemonicParsing="false" prefWidth="100.0" text="hinzufügen" />
+                              <Button fx:id="deleteScript" disable="true" mnemonicParsing="false" prefWidth="100.0" text="löschen" />
+                              <Button  fx:id="saveScript"  disable="true" mnemonicParsing="false" prefWidth="100.0" text="speichern" />
                            </children>
                            <padding>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

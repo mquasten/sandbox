@@ -13,7 +13,7 @@ import de.mq.analysis.integration.Script;
 
 public class ScriptTest {
 	
-	private static final UUID ID = UUID.randomUUID();
+	private static final String ID = UUID.randomUUID().toString();
 	private static final String CODE = "MAT.exp(-x**2)";
 	private final Script script = new ScriptImpl(CODE);
 	

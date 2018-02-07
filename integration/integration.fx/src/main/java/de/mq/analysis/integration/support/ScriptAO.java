@@ -1,7 +1,10 @@
 package de.mq.analysis.integration.support;
 
+import java.util.Arrays;
 import java.util.Observable;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.util.ReflectionUtils;
 
 import de.mq.analysis.integration.Script;
 
@@ -12,7 +15,7 @@ class ScriptAO extends Observable {
 	private Script currentScript; 
 
 
-	public Script getCurrentScript() {
+	Script getCurrentScript() {
 		return currentScript;
 	}
 
@@ -24,6 +27,16 @@ class ScriptAO extends Observable {
 		this.selectedScript = selectedScript;
 		setChanged();
 		notifyObservers();
+	}
+	
+	void setCurrentScript(final String code) {
+		
+		final Script script = new ScriptImpl(code);
+	   Arrays.asList(ScriptImpl.class.getDeclaredFields()).stream().filter(field -> field.isAnnotationPresent(Id.class)).forEach(field-> {
+		   field.setAccessible(true);
+		   ReflectionUtils.setField(field, script, getCurrentScript().id());
+	   });;
+		
 	}
 	
 	void setCurrentScript(final Script currentScript) {
