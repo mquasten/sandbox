@@ -93,9 +93,7 @@ class ScriptFX implements Initializable, Observer {
 
 				@Override
 				protected void updateItem(final Script item, final boolean empty) {
-
 					setText(item != null ? item.code() : null);
-
 				}
 
 			};
@@ -115,11 +113,9 @@ class ScriptFX implements Initializable, Observer {
 		});
 
 		deleteScript.setOnAction(actionEvent -> {
-
 			scriptController.delete(scriptAO);
 			scriptTable.setEditable(true);
 			setScripts();
-
 		});
 
 		selectButton.setDisable(true);
@@ -143,7 +139,7 @@ class ScriptFX implements Initializable, Observer {
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {
+	public void update(final Observable o, final Object arg) {
 
 		script.setText(scriptAO.getCurrentScript() != null ? scriptAO.getCurrentScript().code() : null);
 		deleteScript.setDisable(scriptAO.getCurrentScript() == null || scriptAO.getCurrentScript().id() == null);
