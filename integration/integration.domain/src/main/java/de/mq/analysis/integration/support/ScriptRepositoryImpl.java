@@ -31,4 +31,13 @@ class ScriptRepositoryImpl implements ScriptRepository {
 		mongoOperations.save(script);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see de.mq.analysis.integration.support.ScriptRepository#delete(de.mq.analysis.integration.Script)
+	 */
+	@Override
+	public void delete(final Script script) {
+		mongoOperations.remove(script);
+	}
+
 }

@@ -10,4 +10,6 @@ interface ScriptRepository {
 
 	void save(Script script);
 
+	void delete(Script script);
+
 }

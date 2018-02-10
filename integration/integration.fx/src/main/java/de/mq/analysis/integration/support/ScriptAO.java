@@ -30,13 +30,13 @@ class ScriptAO extends Observable {
 	}
 	
 	void setCurrentScript(final String code) {
-		
-		final Script script = new ScriptImpl(code);
+	   final Script script = new ScriptImpl(code);
 	   Arrays.asList(ScriptImpl.class.getDeclaredFields()).stream().filter(field -> field.isAnnotationPresent(Id.class)).forEach(field-> {
 		   field.setAccessible(true);
-		   ReflectionUtils.setField(field, script, getCurrentScript().id());
-	   });;
-		
+		   ReflectionUtils.setField(field, script, currentScript!=null ? currentScript.id(): null);
+	   });
+	   
+		setCurrentScript(script);
 	}
 	
 	void setCurrentScript(final Script currentScript) {

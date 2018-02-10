@@ -1,6 +1,5 @@
 package de.mq.analysis.integration.support;
 
-
 import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
@@ -11,7 +10,6 @@ import org.springframework.util.StringUtils;
 
 import de.mq.analysis.integration.Script;
 import javafx.beans.value.ObservableValueBase;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -35,27 +33,27 @@ class ScriptFX implements Initializable, Observer {
 
 	@FXML
 	private TableView<Script> scriptTable;
-	
+
 	@FXML
 	private TextArea script;
-	
+
 	@FXML
-	private Button deleteScript; 
-	
+	private Button deleteScript;
+
 	@FXML
-	private Button addScript; 
-	
+	private Button addScript;
+
 	@FXML
-	private Button saveScript; 
-	
+	private Button saveScript;
+
 	private final ScriptController scriptController;
-	
+
 	private final ScriptAO scriptAO = new ScriptAO();
-	
-	ScriptFX(final ScriptController scriptController, final DefiniteIntegralFX definiteIntegralFX){
+
+	ScriptFX(final ScriptController scriptController, final DefiniteIntegralFX definiteIntegralFX) {
 		scriptAO.addObserver(definiteIntegralFX.getDefiniteIntegralAO());
-		
-		this.scriptController=scriptController;
+
+		this.scriptController = scriptController;
 		scriptAO.addObserver(this);
 	}
 
@@ -67,27 +65,14 @@ class ScriptFX implements Initializable, Observer {
 			scriptAO.setSelectedScript(script);
 			cancel(actionEvent);
 		});
-		
-		addScript.setOnAction(actionEvent -> { 
-			scriptTable.getSelectionModel().clearSelection(); 
+
+		addScript.setOnAction(actionEvent -> {
+			scriptTable.getSelectionModel().clearSelection();
 			scriptAO.setCurrentScript(new ScriptImpl(null));
-			
-		
-		}) ; 
-		
-		script.textProperty().addListener((observable, oldValue, newValue) -> {
-			
-		/*	if (!validateDouble(newValue)) {
-				upperLimitMessage.setText("reele Zahl");
-			} else { */
-				//definiteIntegralAO.setUpperLimit(Double.valueOf(newValue));
-				//upperLimitMessage.setText(null);
-			
-			scriptAO.setCurrentScript(new ScriptImpl(newValue));
-			
-			
+
 		});
-	
+
+		script.textProperty().addListener((observable, oldValue, newValue) -> scriptAO.setCurrentScript(newValue));
 
 		final TableColumn<Script, Script> col = new TableColumn<>();
 
@@ -98,7 +83,7 @@ class ScriptFX implements Initializable, Observer {
 
 			@Override
 			public Script getValue() {
-				
+
 				return data.getValue();
 			}
 		});
@@ -108,36 +93,49 @@ class ScriptFX implements Initializable, Observer {
 
 				@Override
 				protected void updateItem(final Script item, final boolean empty) {
-					if( ! empty)
-					setText(item!=null ? item.code() : null);
-				
-	                
+
+					setText(item != null ? item.code() : null);
+
 				}
 
 			};
 		});
-		
-		
-		
+
 		scriptTable.getSelectionModel().selectedItemProperty().addListener((observable, oldSelection, newSelection) -> {
-			selectButton.setDisable(newSelection==null);		
+			selectButton.setDisable(newSelection == null);
 			scriptAO.setCurrentScript(newSelection);
-		
+
 		});
-		
-		
+
+		saveScript.setOnAction(actionEvent -> {
+			final Script changedScript = scriptController.save(scriptAO);
+			setScripts();
+			scriptTable.getSelectionModel().select(changedScript);
+
+		});
+
+		deleteScript.setOnAction(actionEvent -> {
+
+			scriptController.delete(scriptAO);
+			scriptTable.setEditable(true);
+			setScripts();
+
+		});
+
 		selectButton.setDisable(true);
 		scriptTable.getColumns().add(col);
-		scriptTable.setItems(FXCollections.observableArrayList(scriptController.scripts()));
-		scriptTable.setPlaceholder(new Label()); 
-	
-		//scriptTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-		//scriptTable.getSelectionModel().setCellSelectionEnabled(false);	
+
+		setScripts();
+
+		scriptTable.setPlaceholder(new Label());
+
 		scriptTable.getSelectionModel().select(scriptAO.getSelectedScript());
 
-		System.out.println(scriptTable.getItems().size());
-		
-		
+	}
+
+	protected void setScripts() {
+		scriptTable.getItems().clear();
+		scriptTable.getItems().addAll(scriptController.scripts());
 	}
 
 	private void cancel(final ActionEvent actionEvent) {
@@ -146,14 +144,11 @@ class ScriptFX implements Initializable, Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-	
-		script.setText(scriptAO.getCurrentScript() != null ? scriptAO.getCurrentScript().code(): null);
-		deleteScript.setDisable(scriptAO.getCurrentScript()==null|| scriptAO.getCurrentScript().id() == null);
-		saveScript.setDisable(scriptAO.getCurrentScript()==null || ! StringUtils.hasText(scriptAO.getCurrentScript().code()));
-		
+
+		script.setText(scriptAO.getCurrentScript() != null ? scriptAO.getCurrentScript().code() : null);
+		deleteScript.setDisable(scriptAO.getCurrentScript() == null || scriptAO.getCurrentScript().id() == null);
+		saveScript.setDisable(scriptAO.getCurrentScript() == null || !StringUtils.hasText(scriptAO.getCurrentScript().code()));
+
 	}
-	
-	
-	
 
 }

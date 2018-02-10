@@ -24,6 +24,16 @@ class ScriptController {
 		
 	}
 	
+	final Script save(final ScriptAO scriptAO) {
+		final Script currentScript = scriptAO.getCurrentScript();
+		scriptService.save(currentScript);
+		return currentScript;
+	}
+	
+	final void delete(final ScriptAO scriptAO){
+		scriptService.delete(scriptAO.getCurrentScript());
+	}
+	
 	
 
 }

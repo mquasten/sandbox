@@ -20,4 +20,23 @@ class ScriptServiceImpl implements ScriptService {
 		return scriptRepository.find();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see de.mq.analysis.integration.support.ScriptService#save(de.mq.analysis.integration.Script)
+	 */
+	@Override
+	public void save(final Script script) {
+		scriptRepository.save(script);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see de.mq.analysis.integration.support.ScriptService#delete(de.mq.analysis.integration.Script)
+	 */
+	@Override
+	public void delete(Script script) {
+		scriptRepository.delete(script);
+		
+	}
+
 }
