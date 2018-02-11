@@ -1,8 +1,9 @@
 package de.mq.analysis.integration.support;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import de.mq.analysis.integration.BoundsOfIntegration;
@@ -20,7 +21,7 @@ public class TrapezoidIntegrationServiceTest {
 	
 	private final AbstractIntegrationService integrationService = new TrapezoidIntegrationImpl();
 
-	@Before
+	@BeforeEach
 	public final void setup() {
 		
 		Mockito.when(boundsOfIntegration.lowerLimit()).thenReturn(0d);
@@ -37,7 +38,7 @@ public class TrapezoidIntegrationServiceTest {
 	// Papula Mathematik fuer Ingenieure und Naturwissenschaftler Seite 480
 	@Test
 	public final void resolveIntegral() {
-		Assert.assertEquals(cut(0.7444d, 4), cut(integrationService.resolveIntegral(definiteIntegral), 4));
+		assertEquals(cut(0.7444d, 4), cut(integrationService.resolveIntegral(definiteIntegral), 4));
 	}
 
 	
@@ -48,12 +49,12 @@ public class TrapezoidIntegrationServiceTest {
 
 	@Test
 	public final void calculationAlgorithm() {
-		Assert.assertEquals(IntegrationService.CalculationAlgorithm.Trapezoid, integrationService.calculationAlgorithm());
+		assertEquals(IntegrationService.CalculationAlgorithm.Trapezoid, integrationService.calculationAlgorithm());
 	}
 	
 	@Test
 	public final void quality() {
-		Assert.assertEquals(2, integrationService.quality());
+		assertEquals(2, integrationService.quality());
 	}
 
 }

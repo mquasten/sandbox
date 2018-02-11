@@ -1,11 +1,13 @@
 package de.mq.analysis.integration.support;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
 
 
 
@@ -18,7 +20,7 @@ public class RealFunctionJRubyScriptEngineFactoryTest {
 	
 	@Test
 	public final void calculate() throws ScriptException {
-		Assert.assertEquals(Double.valueOf(1/ Math.E), Double.valueOf(scriptEngineFactory.realFunction("Math.exp(- x**2)").f(1)));
+		assertEquals(Double.valueOf(1/ Math.E), Double.valueOf(scriptEngineFactory.realFunction("Math.exp(- x**2)").f(1)));
 	}
 
 }

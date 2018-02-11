@@ -1,8 +1,11 @@
 package de.mq.analysis.integration.support;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import de.mq.analysis.integration.BoundsOfIntegration;
@@ -23,7 +26,7 @@ private final RealFunction realFunction = Mockito.mock(RealFunction.class);
 	
 	final AbstractIntegrationService integrationService = new SimpsonIntegrationServiceImpl();
 	
-	@Before
+	@BeforeEach
 	public final void setup() {
 		
 		Mockito.when(boundsOfIntegration.lowerLimit()).thenReturn(1d);
@@ -44,13 +47,15 @@ private final RealFunction realFunction = Mockito.mock(RealFunction.class);
 	@Test
 	public final void resolve() {
 		
-		Assert.assertEquals(Double.valueOf(4.4926d), cut(integrationService.resolveIntegral(definiteIntegral),4));
+		assertEquals(Double.valueOf(4.4926d), cut(integrationService.resolveIntegral(definiteIntegral),4));
 	}
 	
-	@Test(expected=IllegalArgumentException.class)
+	@Test()
 	public final void inputParameterGuard(){
 		Mockito.when(definiteIntegral.numberOfSamples()).thenReturn(5L);
+		assertThrows(IllegalArgumentException.class, () -> {
 		integrationService.inputParameterGuard(definiteIntegral);
+		});
 	}
 	
 	private Double cut(final double x, final int n) {
@@ -60,12 +65,12 @@ private final RealFunction realFunction = Mockito.mock(RealFunction.class);
 	
 	@Test
 	public final void calculationAlgorithm() {
-		Assert.assertEquals(IntegrationService.CalculationAlgorithm.Simpson, integrationService.calculationAlgorithm());
+		assertEquals(IntegrationService.CalculationAlgorithm.Simpson, integrationService.calculationAlgorithm());
 	}
 	
 	@Test
 	public final void quality() {
-		Assert.assertEquals(4, integrationService.quality());
+		assertEquals(4, integrationService.quality());
 	}
 
 }

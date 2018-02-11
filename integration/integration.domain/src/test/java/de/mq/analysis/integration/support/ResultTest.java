@@ -1,8 +1,8 @@
 package de.mq.analysis.integration.support;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.Test;
 
 public class ResultTest {
 	
@@ -15,12 +15,14 @@ public class ResultTest {
 	
 	@Test
 	public final void value() {
-		Assert.assertEquals(VALUE, Double.valueOf(result.value()));
+		assertEquals(VALUE, Double.valueOf(result.value()));
 	}
 	
 	@Test
 	public final void error() {
-		Assert.assertEquals(ERROR, Double.valueOf(result.error()));
+		assertEquals(ERROR, Double.valueOf(result.error()));
+		
+		System.out.println("*****************");
 	}
 
 }

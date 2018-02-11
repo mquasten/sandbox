@@ -4,6 +4,8 @@ public interface DefiniteIntegral {
 	long numberOfSamples();
 	
 	BoundsOfIntegration boundsOfIntegration();
+	
+	
 	RealFunction realFunction();
 	
 	

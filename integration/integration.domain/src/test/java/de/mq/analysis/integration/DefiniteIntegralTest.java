@@ -1,10 +1,9 @@
 package de.mq.analysis.integration;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class DefiniteIntegralTest {
@@ -14,7 +13,7 @@ public class DefiniteIntegralTest {
 	private final BoundsOfIntegration boundsOfIntegration = Mockito.mock(BoundsOfIntegration.class);
 	
 	
-	@Before
+	@BeforeEach
 	public final void setup() {
 	Mockito.when(boundsOfIntegration.lowerLimit()).thenReturn(1d);
 	Mockito.when(boundsOfIntegration.upperLimit()).thenReturn(2d);
@@ -26,7 +25,7 @@ public class DefiniteIntegralTest {
 	
 	@Test
 	public final void stepSize() {
-		Assert.assertEquals(Double.valueOf(1e-2), Double.valueOf(definiteIntegral.stepSize()));
+		assertEquals(Double.valueOf(1e-2), Double.valueOf(definiteIntegral.stepSize()));
 	}
 
 }

@@ -1,11 +1,12 @@
 package de.mq.analysis.integration.support;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.data.mongodb.core.MongoOperations;
 
@@ -18,7 +19,7 @@ public class ScriptRepositoryTest {
 	private final ScriptRepository scriptRepository = new ScriptRepositoryImpl(mongoOperations);
 	private final Script script = Mockito.mock(Script.class);
 	
-	@Before
+	@BeforeEach
 	public final void setup(){
 		Mockito.when(scriptRepository.find()).thenReturn(Arrays.asList(script));
 	}
@@ -26,8 +27,8 @@ public class ScriptRepositoryTest {
 	@Test
 	public final void find() {
 		final Collection<Script> scripts = scriptRepository.find();
-		Assert.assertEquals(1, scripts.size());
-		Assert.assertEquals(script, scripts.iterator().next());
+		assertEquals(1, scripts.size());
+		assertEquals(script, scripts.iterator().next());
 	}
 	
 	@Test
