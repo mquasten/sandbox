@@ -12,30 +12,34 @@ import org.springframework.data.mongodb.core.MongoOperations;
 
 import de.mq.analysis.integration.Script;
 
+class ScriptRepositoryTest {
 
-public class ScriptRepositoryTest {
-	
 	private MongoOperations mongoOperations = Mockito.mock(MongoOperations.class);
 	private final ScriptRepository scriptRepository = new ScriptRepositoryImpl(mongoOperations);
 	private final Script script = Mockito.mock(Script.class);
-	
+
 	@BeforeEach
-	public final void setup(){
+	final void setup() {
 		Mockito.when(scriptRepository.find()).thenReturn(Arrays.asList(script));
 	}
-	
+
 	@Test
-	public final void find() {
+	final void find() {
 		final Collection<Script> scripts = scriptRepository.find();
 		assertEquals(1, scripts.size());
 		assertEquals(script, scripts.iterator().next());
 	}
-	
+
 	@Test
-	public final void save() {
+	final void save() {
 		scriptRepository.save(script);
 		Mockito.verify(mongoOperations).save(script);
-		
+	}
+
+	@Test
+	final void delete() {
+		scriptRepository.delete(script);
+		Mockito.verify(mongoOperations).remove(script);
 	}
 
 }

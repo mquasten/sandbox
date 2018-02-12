@@ -31,7 +31,7 @@ class ScriptTest implements ArgumentsProvider {
 		script = scriptWithId();
 	}
 
-	private static Script scriptWithId() {
+	private Script scriptWithId() {
 		final Script script = new ScriptImpl(CODE);
 		Arrays.asList(script.getClass().getDeclaredFields()).stream().filter(field -> field.isAnnotationPresent(Id.class)).forEach(field -> {
 			field.setAccessible(true);
@@ -61,11 +61,11 @@ class ScriptTest implements ArgumentsProvider {
 
 	}
 
-
 	@SuppressWarnings("unlikely-arg-type")
 	@ParameterizedTest
 	@ArgumentsSource(ScriptTest.class)
 	final void equals(final Script script) {
+
 		final Script otherWithId = scriptWithId();
 
 		if (script.id() != null) {
@@ -82,8 +82,8 @@ class ScriptTest implements ArgumentsProvider {
 
 	@Override
 	public Stream<? extends Arguments> provideArguments(final ExtensionContext context) throws Exception {
-		
-		return Stream.of(Arguments.of(scriptWithId(), new ScriptImpl(CODE)));
+
+		return Stream.of(Arguments.of(scriptWithId()), Arguments.of(new ScriptImpl(CODE)));
 	}
 
 }
