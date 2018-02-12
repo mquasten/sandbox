@@ -5,56 +5,48 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import de.mq.analysis.integration.Script;
 
-@Document(collection="script")
+@Document(collection = "script")
 class ScriptImpl implements Script {
-	
+
 	@Id
-	private  String id; 
+	private String id;
 
-
-	private final String code; 
-
-
+	private final String code;
 
 	ScriptImpl(final String code) {
 		this.code = code;
 	}
 
-	
 	public String id() {
-		return  id;
+		return id;
 	}
-
 
 	public String code() {
 		return code;
 	}
 
-
 	@Override
 	public int hashCode() {
-		if( id == null){
+		if (id == null) {
 			return super.hashCode();
 		}
 		return id.hashCode();
 	}
 
-
 	@Override
 	public boolean equals(Object obj) {
-		final Script other = (Script) obj; 
-		if (! (obj instanceof Script)) {
+
+		if (!(obj instanceof Script)) {
 			return super.equals(obj);
 		}
-		if( id == null){
+		final Script other = (Script) obj;
+		if (id == null) {
 			return super.equals(obj);
 		}
-		if( other.id() == null){
+		if (other.id() == null) {
 			return super.equals(obj);
 		}
 		return id.equals(other.id());
 	}
-
-	
 
 }
