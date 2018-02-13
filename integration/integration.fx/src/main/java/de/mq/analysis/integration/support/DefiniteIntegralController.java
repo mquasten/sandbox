@@ -35,11 +35,7 @@ class DefiniteIntegralController {
 		
 	}
 
-	final void init(final DefiniteIntegralAO definiteIntegralAO) {
 
-		
-	}
-	
 	
 	
 	

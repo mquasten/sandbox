@@ -1,12 +1,14 @@
 package de.mq.analysis.integration.support;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Arrays;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+
 
 import de.mq.analysis.integration.BoundsOfIntegration;
 import de.mq.analysis.integration.DefiniteIntegral;
@@ -15,7 +17,7 @@ import de.mq.analysis.integration.RealFunction;
 import de.mq.analysis.integration.Script;
 
 
-public class DefiniteIntegralControllerTest {
+class DefiniteIntegralControllerTest {
 	
 	private static final String CODE = "exp(-x**2";
 
@@ -41,8 +43,8 @@ public class DefiniteIntegralControllerTest {
 	
 	private ArgumentCaptor<DefiniteIntegral> definiteIntegralArgumentCaptor = ArgumentCaptor.forClass(DefiniteIntegral.class);
 	
-	@Before
-	public final void setup() {
+	@BeforeEach
+	final void setup() {
 		Mockito.when(script.code()).thenReturn(CODE);
 		Mockito.when(boundsOfIntegration.lowerLimit()).thenReturn(LOWER_LIMIT);
 		Mockito.when(boundsOfIntegration.upperLimit()).thenReturn(UPPER_LIMIT);
@@ -59,13 +61,13 @@ public class DefiniteIntegralControllerTest {
 	}
 	
 	@Test
-	public final void  integrate() {
+	final void  integrate() {
 		definiteIntegralController.integrate(definiteIntegralAO);
 		
-		Assert.assertEquals(realFunction, definiteIntegralArgumentCaptor.getValue().realFunction());
-		Assert.assertEquals(LOWER_LIMIT, Double.valueOf(definiteIntegralArgumentCaptor.getValue().boundsOfIntegration().lowerLimit()));
-		Assert.assertEquals(UPPER_LIMIT, Double.valueOf(definiteIntegralArgumentCaptor.getValue().boundsOfIntegration().upperLimit()));
-		Assert.assertEquals(NUMBER_OF_SAMPLES, definiteIntegralArgumentCaptor.getValue().numberOfSamples());
+		assertEquals(realFunction, definiteIntegralArgumentCaptor.getValue().realFunction());
+		assertEquals(LOWER_LIMIT, Double.valueOf(definiteIntegralArgumentCaptor.getValue().boundsOfIntegration().lowerLimit()));
+		assertEquals(UPPER_LIMIT, Double.valueOf(definiteIntegralArgumentCaptor.getValue().boundsOfIntegration().upperLimit()));
+		assertEquals(NUMBER_OF_SAMPLES, definiteIntegralArgumentCaptor.getValue().numberOfSamples());
 		Mockito.verify(definiteIntegralAO).setResult(result);
 	}
 }

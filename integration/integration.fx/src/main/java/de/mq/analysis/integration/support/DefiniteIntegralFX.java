@@ -159,7 +159,7 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 		code.setText(null);
 		samples.setValue(1000L);
 		samples.setValue(null);
-		definiteIntegralController.init(definiteIntegralAO);
+		
 		integrationButton.setOnAction(actionEvent -> {
 
 			result.setVisible(false);
