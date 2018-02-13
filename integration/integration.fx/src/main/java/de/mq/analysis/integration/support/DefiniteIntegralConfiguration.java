@@ -50,18 +50,25 @@ class DefiniteIntegralConfiguration {
 	@Bean()
 	@Scope("prototype")
 	Parent scriptDialogParent(final ScriptFX scriptFX) throws IOException  {
-		final URL url = getClass().getResource("/script.fxml");
-		final FXMLLoader formLoader = new FXMLLoader(url);
+		//final URL url = getClass().getResource("/script.fxml");
+		final FXMLLoader formLoader = newFXMLLoader("/script.fxml");
 		formLoader.setController(scriptFX);
+		
+		
 		return formLoader.load();
 		
+	}
+
+	FXMLLoader newFXMLLoader(final String  resource) {
+		final URL url = getClass().getResource(resource);
+		return new FXMLLoader(url);
 	}
 
 	@Bean
 	@Scope("prototype")
 	Parent definiteIntegralParent(final DefiniteIntegralFX definiteIntegralFX) throws IOException {
-		final URL url = getClass().getResource("/definiteIntegral.fxml");
-		final FXMLLoader formLoader = new FXMLLoader(url);
+		
+		final FXMLLoader formLoader = newFXMLLoader("/definiteIntegral.fxml");
 		formLoader.setController(definiteIntegralFX);
 		return formLoader.load();
 	}
