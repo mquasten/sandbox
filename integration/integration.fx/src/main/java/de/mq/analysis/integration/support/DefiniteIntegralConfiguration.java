@@ -54,7 +54,6 @@ class DefiniteIntegralConfiguration {
 		final FXMLLoader formLoader = newFXMLLoader("/script.fxml");
 		formLoader.setController(scriptFX);
 		
-		
 		return formLoader.load();
 		
 	}
@@ -73,14 +72,12 @@ class DefiniteIntegralConfiguration {
 		return formLoader.load();
 	}
 
-	@Bean
-	MongoClient mongoClient() {
-		return new MongoClient("localhost");
-	}
-
+	
 	@Bean
 	MongoOperations mongoTemplate() {
+		try(final MongoClient mongoClient = new MongoClient()) {
 		return new MongoTemplate(new SimpleMongoDbFactory(new MongoClient(), "analysis"));
+		}
 
 	}
 	
