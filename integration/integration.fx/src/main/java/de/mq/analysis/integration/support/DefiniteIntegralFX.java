@@ -27,6 +27,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+
 @Component
 abstract class DefiniteIntegralFX implements Initializable, Observer {
 
@@ -100,7 +101,7 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 		lowerLimit.textProperty().addListener((observable, oldValue, newValue) -> {
 			definiteIntegralAO.setLowerLimit(null);
 			if (!validateDouble(newValue)) {
-				lowerLimitMessage.setText("reele Zahl");
+				lowerLimitMessage.setText("reelle Zahl");
 				;
 			} else {
 				definiteIntegralAO.setLowerLimit(Double.valueOf(newValue));
@@ -112,7 +113,7 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 		upperLimit.textProperty().addListener((observable, oldValue, newValue) -> {
 			definiteIntegralAO.setUpperLimit(null);
 			if (!validateDouble(newValue)) {
-				upperLimitMessage.setText("reele Zahl");
+				upperLimitMessage.setText("reelle Zahl");
 			} else {
 				definiteIntegralAO.setUpperLimit(Double.valueOf(newValue));
 				upperLimitMessage.setText(null);
@@ -159,7 +160,8 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 		code.setText(null);
 		samples.setValue(1000L);
 		samples.setValue(null);
-		
+		definiteIntegralAO.setResult(null);
+	
 		integrationButton.setOnAction(actionEvent -> {
 
 			result.setVisible(false);
@@ -169,7 +171,11 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 				resolveIntegral();
 			}
 		});
-		closeButton.setOnAction(actionEvent -> ((Stage) ((Node) actionEvent.getSource()).getScene().getWindow()).close());
+		closeButton.setOnAction(actionEvent -> closeWindow(actionEvent));
+	}
+
+	void closeWindow(final ActionEvent actionEvent) {
+		((Stage) ((Node) actionEvent.getSource()).getScene().getWindow()).close();
 	}
 
 	private void resolveIntegral() {
@@ -180,10 +186,10 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 		}
 	}
 
-	private void showScriptDialog(ActionEvent actionEvent) {
+	void showScriptDialog(ActionEvent actionEvent) {
 		
 		try {
-			final Stage scriptDialog = new Stage();
+			final Stage scriptDialog =  new Stage();
 			scriptDialog.setScene(new Scene(scriptDialogParent()));
 			scriptDialog.setTitle("Script auswählen");
 			scriptDialog.initModality(Modality.WINDOW_MODAL);
@@ -195,6 +201,8 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 
 		}
 	}
+
+	
 
 	private boolean validateDouble(final String text) {
 

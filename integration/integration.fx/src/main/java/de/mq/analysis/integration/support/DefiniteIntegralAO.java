@@ -3,6 +3,7 @@ package de.mq.analysis.integration.support;
 import java.util.Observable;
 import java.util.Observer;
 
+
 import org.springframework.util.Assert;
 
 import de.mq.analysis.integration.BoundsOfIntegration;
@@ -113,7 +114,7 @@ class DefiniteIntegralAO  extends Observable implements Observer{
 	}
 	
 	boolean hasScript() {
-		return script != null;
+		return   script != null ;
 	}
 
 
