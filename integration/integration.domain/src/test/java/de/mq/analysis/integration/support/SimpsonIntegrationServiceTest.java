@@ -1,17 +1,9 @@
 package de.mq.analysis.integration.support;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.Assert.assertEquals;
 
-import java.util.stream.Stream;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.ArgumentsProvider;
-import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mockito;
 
 import de.mq.analysis.integration.BoundsOfIntegration;
@@ -19,7 +11,7 @@ import de.mq.analysis.integration.DefiniteIntegral;
 import de.mq.analysis.integration.IntegrationService;
 import de.mq.analysis.integration.RealFunction;
 
-public class SimpsonIntegrationServiceTest implements ArgumentsProvider {
+public class SimpsonIntegrationServiceTest {
 
 	private final RealFunction realFunction = Mockito.mock(RealFunction.class);
 
@@ -29,7 +21,7 @@ public class SimpsonIntegrationServiceTest implements ArgumentsProvider {
 
 	final AbstractIntegrationService integrationService = new SimpsonIntegrationServiceImpl();
 
-	@BeforeEach
+	@Before
 	public final void setup() {
 
 		Mockito.when(boundsOfIntegration.lowerLimit()).thenReturn(1d);
@@ -52,20 +44,22 @@ public class SimpsonIntegrationServiceTest implements ArgumentsProvider {
 		assertEquals(Double.valueOf(4.4926d), cut(integrationService.resolveIntegral(definiteIntegral), 4));
 	}
 
-	@ParameterizedTest
-	@ArgumentsSource(SimpsonIntegrationServiceTest.class)
-	public void inputParameterGuard(final DefiniteIntegral definiteIntegral) {
+	@Test
+	public void inputParameterGuard() {
 
-		if (definiteIntegral.numberOfSamples() % 2 != 0) {
+		Mockito.when(definiteIntegral.numberOfSamples()).thenReturn(4L);
+		integrationService.inputParameterGuard(definiteIntegral);
 
-			assertThrows(IllegalArgumentException.class, () -> {
-				integrationService.inputParameterGuard(definiteIntegral);
-			});
-		} else {
-			integrationService.inputParameterGuard(definiteIntegral);
-		}
+		Mockito.verify(definiteIntegral).numberOfSamples();
 
-		Mockito.verify(definiteIntegral, Mockito.times(2)).numberOfSamples();
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void inputParameterGuardThrows() {
+
+		Mockito.when(definiteIntegral.numberOfSamples()).thenReturn(5L);
+
+		integrationService.inputParameterGuard(definiteIntegral);
 
 	}
 
@@ -82,14 +76,6 @@ public class SimpsonIntegrationServiceTest implements ArgumentsProvider {
 	@Test
 	public final void quality() {
 		assertEquals(4, integrationService.quality());
-	}
-
-	@Override
-	public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws Exception {
-		final DefiniteIntegral definiteIntegralOdd = Mockito.mock(DefiniteIntegral.class);
-		Mockito.when(definiteIntegral.numberOfSamples()).thenReturn(4L);
-		Mockito.when(definiteIntegralOdd.numberOfSamples()).thenReturn(5L);
-		return Stream.of(Arguments.of(definiteIntegral), Arguments.of(definiteIntegralOdd));
 	}
 
 }

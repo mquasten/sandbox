@@ -37,6 +37,7 @@ class ScriptRepositoryImpl implements ScriptRepository {
 	 */
 	@Override
 	public void delete(final Script script) {
+	
 		mongoOperations.remove(script);
 	}
 

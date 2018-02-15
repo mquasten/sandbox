@@ -1,21 +1,19 @@
 package de.mq.analysis.integration.support;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Observer;
 import java.util.UUID;
 
-import org.junit.jupiter.api.BeforeEach;
-
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mockito;
 
 import de.mq.analysis.integration.Script;
 
 
-class ScriptAOTest {
+public class ScriptAOTest {
 	
 	private static final String ID = UUID.randomUUID().toString();
 
@@ -30,15 +28,15 @@ class ScriptAOTest {
 	
 	
 	
-	@BeforeEach
-	final void setup() {
+	@Before
+	public final void setup() {
 		scriptAO.addObserver(observer);
 	}
 	
 	
 	
 	@Test
-	final void selectedScript() {
+	public final void selectedScript() {
 		assertNull(scriptAO.getSelectedScript());
 		
 		scriptAO.setSelectedScript(script);
@@ -49,7 +47,7 @@ class ScriptAOTest {
 	}
 	
 	@Test
-	void currentScript() {
+	public void currentScript() {
 		assertNull(scriptAO.getCurrentScript());
 		
 		scriptAO.setCurrentScript(script);
@@ -61,7 +59,7 @@ class ScriptAOTest {
 	
 	
 	@Test
-	void setCurrentScriptCode() {
+	public void setCurrentScriptCode() {
 		scriptAO.setCurrentScript(script);
 		assertEquals(script, scriptAO.getCurrentScript());
 		Mockito.reset(observer);
@@ -77,7 +75,7 @@ class ScriptAOTest {
 	}
 	
 	@Test
-	void setCurrentScriptCodeWithoutId() {
+	public void setCurrentScriptCodeWithoutId() {
 	
 		assertNull( scriptAO.getCurrentScript());
 		scriptAO.setCurrentScript(CODE);

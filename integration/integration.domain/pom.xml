@@ -29,6 +29,8 @@
 		<junit.jupiter.params.version>5.0.3</junit.jupiter.params.version>
 		<junit.platform.version>1.0.0</junit.platform.version>
 		<junit-platform-launcher.version>1.0.1</junit-platform-launcher.version>
+		
+		
 	</properties>
 
 	<dependencies>
@@ -37,29 +39,10 @@
 
 
 		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-api</artifactId>
-			<version>${junit.jupiter.version}</version>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
-			<version>${junit.jupiter.version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.junit.platform</groupId>
-			<artifactId>junit-platform-launcher</artifactId>
-			<version>${junit-platform-launcher.version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-params</artifactId>
-			<version>5.0.3</version>
 		</dependency>
 
 
@@ -87,13 +70,13 @@
 		</dependency>
 
 		<!-- mongodb java driver -->
-		<dependency>
+		<!--  dependency>
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongo-java-driver</artifactId>
 			<version>${mongo-driver.version}</version>
 
 
-		</dependency>
+		</dependency-->
 
 		<!-- Spring data mongodb -->
 		<!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-mongodb -->
@@ -179,19 +162,7 @@
 
 			</plugin>
 
-			<!-- needed to run junit5 tests with maven -->
-			<!-- latest version (2.20.1) does not work well with JUnit5 -->
-			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.19.1</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.junit.platform</groupId>
-						<artifactId>junit-platform-surefire-provider</artifactId>
-						<version>1.0.3</version>
-					</dependency>
-				</dependencies>
-			</plugin>
+			
 
 
 		</plugins>

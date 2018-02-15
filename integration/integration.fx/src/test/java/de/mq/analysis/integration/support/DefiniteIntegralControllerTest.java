@@ -1,11 +1,10 @@
 package de.mq.analysis.integration.support;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
@@ -17,7 +16,7 @@ import de.mq.analysis.integration.RealFunction;
 import de.mq.analysis.integration.Script;
 
 
-class DefiniteIntegralControllerTest {
+public class DefiniteIntegralControllerTest {
 	
 	private static final String CODE = "exp(-x**2";
 
@@ -43,8 +42,8 @@ class DefiniteIntegralControllerTest {
 	
 	private ArgumentCaptor<DefiniteIntegral> definiteIntegralArgumentCaptor = ArgumentCaptor.forClass(DefiniteIntegral.class);
 	
-	@BeforeEach
-	final void setup() {
+	@Before
+	public final void setup() {
 		Mockito.when(script.code()).thenReturn(CODE);
 		Mockito.when(boundsOfIntegration.lowerLimit()).thenReturn(LOWER_LIMIT);
 		Mockito.when(boundsOfIntegration.upperLimit()).thenReturn(UPPER_LIMIT);
@@ -61,7 +60,7 @@ class DefiniteIntegralControllerTest {
 	}
 	
 	@Test
-	final void  integrate() {
+	public final void  integrate() {
 		definiteIntegralController.integrate(definiteIntegralAO);
 		
 		assertEquals(realFunction, definiteIntegralArgumentCaptor.getValue().realFunction());

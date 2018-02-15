@@ -1,10 +1,8 @@
 package de.mq.analysis.integration.support;
 
+import static org.junit.Assert.assertEquals;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.mockito.Mockito;
 
 import de.mq.analysis.integration.BoundsOfIntegration;
@@ -34,13 +32,10 @@ public class DefiniteIntegralTest {
 		assertEquals(realFunction, definiteIntegral.realFunction());
 	}
 
-	
-	@Test()
+	@Test(expected = IllegalArgumentException.class)
 	public final void createWrongNumberOfSamples() {
-		
-		assertThrows(IllegalArgumentException.class, () -> {
-			new DefiniteIntegralImpl(boundsOfIntegration, realFunction, 0);
-		});
+
+		new DefiniteIntegralImpl(boundsOfIntegration, realFunction, 0);
 
 	}
 }

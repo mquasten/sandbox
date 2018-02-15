@@ -1,40 +1,40 @@
 package de.mq.analysis.integration.support;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mockito;
 
 import de.mq.analysis.integration.Script;
 
-class ScriptServiceTest {
+public class ScriptServiceTest {
 
 	private final Script script = Mockito.mock(Script.class);
 	private final ScriptRepository scriptRepository = Mockito.mock(ScriptRepository.class);
 	final ScriptService scriptService = new ScriptServiceImpl(scriptRepository);
 
-	@BeforeEach
-	final void setup() {
+	@Before
+	public final void setup() {
 		Mockito.when(scriptRepository.find()).thenReturn(Arrays.asList(script));
 	}
 
 	@Test
-	final void scripts() {
+	public final void scripts() {
 		assertEquals(Arrays.asList(script), scriptService.scripts());
 	}
 
 	@Test
-	final void save() {
+	public final void save() {
 		scriptService.save(script);
 
 		Mockito.verify(scriptRepository).save(script);
 	}
 
 	@Test
-	final void delete() {
+	public final void delete() {
 		scriptService.delete(script);
 
 		Mockito.verify(scriptRepository).delete(script);

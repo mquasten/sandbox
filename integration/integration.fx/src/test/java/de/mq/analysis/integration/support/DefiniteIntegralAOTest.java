@@ -1,13 +1,13 @@
 package de.mq.analysis.integration.support;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Observer;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -17,7 +17,7 @@ import de.mq.analysis.integration.IntegrationService;
 import de.mq.analysis.integration.Script;
 
 
-class DefiniteIntegralAOTest {
+public class DefiniteIntegralAOTest {
 	
 	
 	private static final String ERROR_MESSAGE = "Operation sucks.";
@@ -30,7 +30,7 @@ class DefiniteIntegralAOTest {
 	
 	
 	@Test
-	final void boundsOfIntegration() {
+	public final void boundsOfIntegration() {
 		
 		definiteIntegralAO.setLowerLimit(LOWER_LIMIT);
 		definiteIntegralAO.setUpperLimit(UPPER_LIMIT);
@@ -44,13 +44,13 @@ class DefiniteIntegralAOTest {
 	}
 	
 	@Test
-	final void calculationAlgorithm() {
+	public final void calculationAlgorithm() {
 		definiteIntegralAO.setCalculationAlgorithm(IntegrationService.CalculationAlgorithm.Simpson);
 		assertEquals(IntegrationService.CalculationAlgorithm.Simpson, definiteIntegralAO.getCalculationAlgorithm());
 	}
 	
 	@Test
-	final void result() {
+	public final void result() {
 		
 		setErrorMessage();
 		
@@ -70,7 +70,7 @@ class DefiniteIntegralAOTest {
 	
 	
 	@Test
-	final void  validate() {
+	public final void  validate() {
 		assertFalse(definiteIntegralAO.validate());
 		
 		setValues(LOWER_LIMIT, UPPER_LIMIT, script, NUMBER_OF_SAMPLES, IntegrationService.CalculationAlgorithm.Simpson);
@@ -102,7 +102,7 @@ class DefiniteIntegralAOTest {
 	}
 	
 	@Test
-	final void script() {
+	public final void script() {
 		setErrorMessage();
 		final Observer observer = Mockito.mock(Observer.class);
 		definiteIntegralAO.addObserver(observer);
@@ -114,27 +114,27 @@ class DefiniteIntegralAOTest {
 	}
 	
 	@Test
-	final void  numberOfSamples() {
+	public final void  numberOfSamples() {
 		definiteIntegralAO.setNumberOfSamples(NUMBER_OF_SAMPLES);
 		assertEquals(NUMBER_OF_SAMPLES, definiteIntegralAO.getNumberOfSamples());
 	}
 	
 	@Test
-	final void hasResult() {
+	public final void hasResult() {
 		assertFalse(definiteIntegralAO.hasResult());
 		definiteIntegralAO.setResult(result);
 		assertTrue(definiteIntegralAO.hasResult());
 	}
 	
 	@Test
-	final void hasScript() {
+	public final void hasScript() {
 		assertFalse(definiteIntegralAO.hasScript());
 		definiteIntegralAO.setScript(script);
 		assertTrue(definiteIntegralAO.hasScript());
 	}
 	
 	@Test
-	final void errorMessage() {
+	public final void errorMessage() {
 		assertNull(definiteIntegralAO.getErrorMessage());
 		final Observer observer = Mockito.mock(Observer.class);
 		definiteIntegralAO.addObserver(observer);
@@ -148,7 +148,7 @@ class DefiniteIntegralAOTest {
 	
 	
 	@Test
-	final void update( ) {
+	public final void update( ) {
 		final Observer observer = Mockito.mock(Observer.class);
 		final ScriptAO scriptAO = Mockito.mock(ScriptAO.class);
 		Mockito.when(scriptAO.getSelectedScript()).thenReturn(script);

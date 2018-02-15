@@ -1,33 +1,28 @@
 package de.mq.analysis.integration.support;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.UUID;
-import java.util.stream.Stream;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.ArgumentsProvider;
-import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.Before;
+import org.junit.Test;
 import org.springframework.data.annotation.Id;
 import org.springframework.util.ReflectionUtils;
 
 import de.mq.analysis.integration.Script;
 
-class ScriptTest implements ArgumentsProvider {
+public class ScriptTest {
 
 	private static final String ID = UUID.randomUUID().toString();
 	private static final String CODE = "MAT.exp(-x**2)";
 	private Script script;
 
-	@BeforeEach
-	void setup() {
+	@Before
+	public void setup() {
 		script = scriptWithId();
 	}
 
@@ -41,31 +36,35 @@ class ScriptTest implements ArgumentsProvider {
 	}
 
 	@Test
-	final void code() {
+	public final void code() {
 		assertEquals(CODE, script.code());
 	}
 
 	@Test
-	final void id() {
+	public final void id() {
 		assertEquals(ID, script.id());
 	}
 
-	@ParameterizedTest()
-	@ArgumentsSource(ScriptTest.class)
-	final void hash(final Script script) {
+	@Test
+	public final void hash() {
+		scripts().forEach(script -> hash(script));
+
+	}
+
+	private void hash(Script script) {
 		if (script.id() != null) {
 			assertEquals(ID.hashCode(), script.hashCode());
 		} else {
 			assertEquals(System.identityHashCode(script), script.hashCode());
 		}
-
 	}
 
-	@SuppressWarnings("unlikely-arg-type")
-	@ParameterizedTest
-	@ArgumentsSource(ScriptTest.class)
-	final void equals(final Script script) {
+	@Test
+	public final void equals() {
+		scripts().forEach(script -> equals(script));
+	}
 
+	private void equals(Script script) {
 		final Script otherWithId = scriptWithId();
 
 		if (script.id() != null) {
@@ -80,10 +79,9 @@ class ScriptTest implements ArgumentsProvider {
 		assertFalse(script.equals(CODE));
 	}
 
-	@Override
-	public Stream<? extends Arguments> provideArguments(final ExtensionContext context) throws Exception {
+	public Collection<Script> scripts() {
 
-		return Stream.of(Arguments.of(scriptWithId()), Arguments.of(new ScriptImpl(CODE)));
+		return Arrays.asList(scriptWithId(), new ScriptImpl(CODE));
 	}
 
 }

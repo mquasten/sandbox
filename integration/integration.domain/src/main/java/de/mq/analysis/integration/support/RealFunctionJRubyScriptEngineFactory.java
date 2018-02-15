@@ -7,7 +7,7 @@ import javax.script.ScriptException;
 import de.mq.analysis.integration.RealFunction;
 
 class RealFunctionJRubyScriptEngineFactory {
-	private final String script = "class RealFunctionImpl\ninclude Java::%s\ndef f(x)\n%s\nend\nend\nRealFunctionImpl.new";
+	static final String SCRIPT = "class RealFunctionImpl\ninclude Java::%s\ndef f(x)\n%s\nend\nend\nRealFunctionImpl.new";
 	private final ScriptEngine scriptEngine;
 	RealFunctionJRubyScriptEngineFactory(final ScriptEngine scriptEngine){
 		this.scriptEngine=scriptEngine;
@@ -22,7 +22,7 @@ class RealFunctionJRubyScriptEngineFactory {
 	}
 	
 	private RealFunction newRealFunction(final String code) throws ScriptException {
-		final Object receiver = scriptEngine.eval(String.format(script, RealFunction.class.getName(), code));
+		final Object receiver = scriptEngine.eval(String.format(SCRIPT, RealFunction.class.getName(), code));
 		return  (RealFunction) ((Invocable) scriptEngine).getInterface(receiver, RealFunction.class);
 	}
 	
