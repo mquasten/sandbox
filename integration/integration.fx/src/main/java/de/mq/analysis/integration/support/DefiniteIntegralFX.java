@@ -189,7 +189,7 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 	void showScriptDialog(ActionEvent actionEvent) {
 		
 		try {
-			final Stage scriptDialog =  new Stage();
+			final Stage scriptDialog =  newStage();
 			scriptDialog.setScene(new Scene(scriptDialogParent()));
 			scriptDialog.setTitle("Script auswählen");
 			scriptDialog.initModality(Modality.WINDOW_MODAL);
@@ -200,6 +200,10 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 			definiteIntegralAO.setErrorMessage(ex.getMostSpecificCause().getMessage());
 
 		}
+	}
+
+	protected Stage newStage() {
+		return new Stage();
 	}
 
 	

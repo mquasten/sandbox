@@ -93,7 +93,7 @@ class DefiniteIntegralAOTest {
 		
 	}
 
-	void setValues(final Double lowerLimit, final Double upperLimit, final Script script, final Long numberOfSamples, final IntegrationService.CalculationAlgorithm calculationAlgorithm) {
+	private void setValues(final Double lowerLimit, final Double upperLimit, final Script script, final Long numberOfSamples, final IntegrationService.CalculationAlgorithm calculationAlgorithm) {
 		definiteIntegralAO.setLowerLimit(lowerLimit);
 		definiteIntegralAO.setUpperLimit(upperLimit);
 		definiteIntegralAO.setScript(script);

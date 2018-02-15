@@ -18,7 +18,7 @@
 		<slf4j.version>1.6.1</slf4j.version>
 		<log4j.version>1.2.16</log4j.version>
 		<spring.version>5.0.1.RELEASE</spring.version>
-		<mockito.version>2.10.0</mockito.version>
+		<mockito.version>2.7.22</mockito.version>
 
 		<maven-compiler-plugin.version>3.0</maven-compiler-plugin.version>
 		<java.version>1.8</java.version>
@@ -31,6 +31,8 @@
 		<junit.jupiter.params.version>5.0.3</junit.jupiter.params.version>
 		<junit.platform.version>1.0.0</junit.platform.version>
 		<junit-platform-launcher.version>1.0.1</junit-platform-launcher.version>
+		
+		
 	</properties>
 
 	<dependencies>
@@ -93,8 +95,7 @@
 		</dependency>
 
 
-
-		<dependency>
+<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
 			<version>${junit.jupiter.version}</version>
@@ -107,7 +108,15 @@
 			<scope>test</scope>
 		</dependency>
 
+		
+
 		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-params</artifactId>
+			<version>5.0.3</version>
+		</dependency>
+		
+<dependency>
 			<groupId>org.junit.platform</groupId>
 			<artifactId>junit-platform-launcher</artifactId>
 			<version>${junit-platform-launcher.version}</version>
@@ -119,7 +128,6 @@
 			<artifactId>junit-jupiter-params</artifactId>
 			<version>5.0.3</version>
 		</dependency>
-
 
 
 
@@ -141,30 +149,7 @@
 			<version>${mockito.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
-		<!-- https://mvnrepository.com/artifact/net.bytebuddy/byte-buddy -->
-<dependency>
-    <groupId>net.bytebuddy</groupId>
-    <artifactId>byte-buddy</artifactId>
-    <version>1.7.10</version>
-</dependency>
-		
-		<!-- https://mvnrepository.com/artifact/net.bytebuddy/byte-buddy-agent -->
-<dependency>
-    <groupId>net.bytebuddy</groupId>
-    <artifactId>byte-buddy-agent</artifactId>
-    <version>1.7.10</version>
-    <scope>test</scope>
-</dependency>
-
-<!-- https://mvnrepository.com/artifact/org.objenesis/objenesis -->
-<dependency>
-    <groupId>org.objenesis</groupId>
-    <artifactId>objenesis</artifactId>
-    <version>2.6</version>
-    <scope>test</scope>
-</dependency>
-
+	
 
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
 		<dependency>
@@ -196,7 +181,7 @@
 
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<!-- version>0.7.4.201502262128</version -->
+				
 
 				<version>${jacoco.version}</version>
 
@@ -242,6 +227,8 @@
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.19.1</version>
+		
+				
 				<dependencies>
 					<dependency>
 						<groupId>org.junit.platform</groupId>
