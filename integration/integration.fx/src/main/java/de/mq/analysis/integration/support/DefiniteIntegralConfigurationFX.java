@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Scope;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 @Configuration
-public class DefiniteIntegralConfigurationFX {
+class DefiniteIntegralConfigurationFX {
 	
 	@Bean()
 	@Scope("prototype")
@@ -33,6 +33,8 @@ public class DefiniteIntegralConfigurationFX {
 	Parent definiteIntegralParent(final DefiniteIntegralFX definiteIntegralFX) throws IOException {
 		
 		final FXMLLoader formLoader = newFXMLLoader("/definiteIntegral.fxml");
+		
+		
 		formLoader.setController(definiteIntegralFX);
 		return formLoader.load();
 	}

@@ -13,7 +13,7 @@
 	<center>
       <VBox BorderPane.alignment="CENTER">
          <children>
-      		<ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER">
+      		<ScrollPane   fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER">
       			<content>
       				<TableView fx:id="scriptTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
       
@@ -26,9 +26,9 @@
       				</TableView>
       			</content>
       		</ScrollPane>
-            <BorderPane prefHeight="200.0">
+            <BorderPane  prefHeight="200.0">
                <center>
-                  <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" BorderPane.alignment="CENTER">
+                  <ScrollPane  hbarPolicy="NEVER" prefHeight="200.0" BorderPane.alignment="CENTER">
                      <content>
                         <TextArea fx:id="script"  maxWidth="1.7976931348623157E308" prefHeight="200.0" />
                      </content>

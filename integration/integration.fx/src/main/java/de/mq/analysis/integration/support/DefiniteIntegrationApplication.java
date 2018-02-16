@@ -16,7 +16,7 @@ public class DefiniteIntegrationApplication extends Application {
 	
 	@Override
 	public void start(final Stage stage) throws IOException {
-
+System.out.println("****");
 			stage.setTitle("numerische Integration");
 			stage.setScene(new Scene( getDefiniteIntegralParent()));
 			stage.show();
