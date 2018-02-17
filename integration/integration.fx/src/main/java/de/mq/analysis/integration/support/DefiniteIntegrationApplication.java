@@ -12,41 +12,40 @@ import javafx.stage.Stage;
 
 public class DefiniteIntegrationApplication extends Application {
 
-	static final String TITLE = "numerische Integration";
+	private static Class<DefiniteIntegralConfiguration> springConfigurationClass = DefiniteIntegralConfiguration.class;
 
+	static final String TITLE = "numerische Integration";
 
 	static final String DEFINITE_INTEGRAL_PARENT_BEAN = "definiteIntegralParent";
 
+	private static ConfigurableApplicationContext applicationContext;
 
-	private static ConfigurableApplicationContext applicationContext; 
-	
-	
-	private  static Class<?extends Application> applicationClass = DefiniteIntegrationApplication.class;
-	
+	private static Class<? extends Application> applicationClass = DefiniteIntegrationApplication.class;
+
 	@Override
 	public void start(final Stage stage) throws IOException {
-			stage.setTitle(TITLE);
-			stage.setScene(new Scene( getDefiniteIntegralParent()));
-			stage.show();
+		stage.setTitle(TITLE);
+		stage.setScene(newScene(getDefiniteIntegralParent()));
+		stage.show();
 
+	}
+
+	Scene newScene(Parent parent) {
+		return new Scene(parent);
 	}
 
 	public static void main(final String[] args) {
-		applicationContext=	new AnnotationConfigApplicationContext(DefiniteIntegralConfiguration.class);
-		
-		System.out.println(applicationClass);
+		applicationContext = new AnnotationConfigApplicationContext(springConfigurationClass);
 		launch(applicationClass, args);
 	}
 
-	private  Parent  getDefiniteIntegralParent() {
+	private Parent getDefiniteIntegralParent() {
 		return applicationContext.getBean(DEFINITE_INTEGRAL_PARENT_BEAN, Parent.class);
 	}
-	
+
 	@Override
-	  public void stop() throws Exception {
-		  applicationContext.close();
-	  }
-	
-	
-	
+	public void stop() throws Exception {
+		applicationContext.close();
+	}
+
 }

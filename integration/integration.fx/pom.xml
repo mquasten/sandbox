@@ -61,6 +61,25 @@
 		</dependency>
 
 
+		<!--  die hohe Kunst von Sun un Oracle machen es noetig !!! -->
+		<!--  lavabo inter innocentes manus meas ... -->
+		<!--  est malum, opus diabolicus -->
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>2.0.0-beta.5</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito2</artifactId>
+			<version>2.0.0-beta.5</version>
+			<scope>test</scope>
+		</dependency>
+
+
+
+
 
 
 		<dependency>
@@ -70,8 +89,12 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency> <groupId>org.testfx</groupId> <artifactId>testfx-core</artifactId> 
-			<version>4.0.11-alpha</version> <scope>test</scope> </dependency >
+		<dependency>
+			<groupId>org.testfx</groupId>
+			<artifactId>testfx-core</artifactId>
+			<version>4.0.11-alpha</version>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
