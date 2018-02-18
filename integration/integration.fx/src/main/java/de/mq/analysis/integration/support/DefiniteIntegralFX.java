@@ -28,6 +28,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 
+
 @Component
 abstract class DefiniteIntegralFX implements Initializable, Observer {
 
@@ -96,13 +97,13 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 
 		
 		definiteIntegralAO.addObserver(this);
+		code.setEditable(false);
 		algorithms.setItems(FXCollections.observableArrayList(IntegrationService.CalculationAlgorithm.values()));
 		samples.setItems(FXCollections.observableArrayList(1000L, 10000L, 100000L, 1000000L, 10000000L));
 		lowerLimit.textProperty().addListener((observable, oldValue, newValue) -> {
 			definiteIntegralAO.setLowerLimit(null);
 			if (!validateDouble(newValue)) {
 				lowerLimitMessage.setText("reelle Zahl");
-				;
 			} else {
 				definiteIntegralAO.setLowerLimit(Double.valueOf(newValue));
 				lowerLimitMessage.setText(null);
@@ -174,7 +175,7 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 		closeButton.setOnAction(actionEvent -> closeWindow(actionEvent));
 	}
 
-	void closeWindow(final ActionEvent actionEvent) {
+	private void closeWindow(final ActionEvent actionEvent) {
 		((Stage) ((Node) actionEvent.getSource()).getScene().getWindow()).close();
 	}
 
@@ -186,7 +187,7 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 		}
 	}
 
-	void showScriptDialog(ActionEvent actionEvent) {
+	private void showScriptDialog(ActionEvent actionEvent) {
 		
 		try {
 			final Stage scriptDialog =  newStage();
@@ -202,7 +203,7 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 		}
 	}
 
-	protected Stage newStage() {
+	 Stage newStage() {
 		return new Stage();
 	}
 
