@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.BeanUtils;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -19,15 +20,21 @@ import de.mq.analysis.integration.IntegrationService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBase;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputControl;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class DefiniteIntegralFXTest extends ApplicationTest {
+
+	private static final String I18N_SCRIPT_DIALOG_TITLE = "Script auswählen";
+
+	private static final String SCRIPT_LINK_ID = "script";
 
 	private static final long NUMBER_OF_SAMPLES_VALUE = 10000L;
 
@@ -64,16 +71,19 @@ public class DefiniteIntegralFXTest extends ApplicationTest {
 	private static final String UPPER_LIMIT_INPUT_ID = "upperLimit";
 
 	private final DefiniteIntegralController definiteIntegralController = Mockito.mock(DefiniteIntegralController.class);
-	
+
 
 	private final Map<String, Control> controls = new HashMap<>();
 	private final DefiniteIntegralAO definiteIntegralAO = BeanUtils.instantiateClass(DefiniteIntegralAO.class);
+	
+	private final DefiniteIntegralFX definiteIntegralFX = Mockito.mock(DefiniteIntegralFX.class, Mockito.CALLS_REAL_METHODS);
 
 	@Override
-	public void start(final Stage stage) throws Exception {
-
-		final DefiniteIntegralFX definiteIntegralFX = Mockito.mock(DefiniteIntegralFX.class, Mockito.CALLS_REAL_METHODS);
-
+	public void start(final Stage primaryStage) throws Exception {
+	
+		
+		
+		
 		Arrays.asList(DefiniteIntegralFX.class.getDeclaredFields()).stream().filter(field -> field.isAnnotationPresent(FXML.class)).forEach(field -> {
 			final Control dependency = (Control) BeanUtils.instantiateClass(field.getType());
 			dependency.setId(field.getName());
@@ -90,7 +100,12 @@ public class DefiniteIntegralFXTest extends ApplicationTest {
 		Arrays.asList(DefiniteIntegralFX.class.getDeclaredFields()).stream().filter(field -> dependencies.containsKey(field.getType())).forEach(field -> ReflectionTestUtils.setField(definiteIntegralFX, field.getName(), dependencies.get(field.getType())));
 
 		
+		
+		
 		definiteIntegralFX.initialize(null, null);
+		
+		
+
 	
 	}
 
@@ -114,9 +129,9 @@ public class DefiniteIntegralFXTest extends ApplicationTest {
 		return (TextInputControl) controls.get(id);
 	}
 	
-	private Button button(final String id) {
+	private ButtonBase buttonBase(final String id) {
 		assertTrue(controls.containsKey(id));
-		return (Button) controls.get(id);
+		return (ButtonBase) controls.get(id);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -228,7 +243,7 @@ public class DefiniteIntegralFXTest extends ApplicationTest {
 	
 	@Test
 	public final void closeButtonAction() {
-		final Button closeButton = button("closeButton");
+		final ButtonBase closeButton = buttonBase("closeButton");
 		
 		final Stage window = Mockito.mock(Stage.class);
 		
@@ -248,6 +263,32 @@ public class DefiniteIntegralFXTest extends ApplicationTest {
 		Mockito.when(scene.getWindow()).thenReturn(stage);
 		Mockito.when(event.getSource()).thenReturn(node);
 		return event;
+	}
+	
+	@Test
+	public final void showScriptDialogAction() {
+		final Stage window = Mockito.mock(Stage.class);
+		final ActionEvent event = actionEventForStageClose(window);
+		final ArgumentCaptor<Parent> parentCaptor = ArgumentCaptor.forClass(Parent.class);
+		
+		final Parent parent = Mockito.mock(Parent.class);
+		
+		final Scene scene = Mockito.mock(Scene.class);
+		final Stage stage = Mockito.mock(Stage.class);
+		Mockito.doReturn(stage).when(definiteIntegralFX).newStage();
+		Mockito.doReturn(scene).when(definiteIntegralFX).newScene(parentCaptor.capture());
+		Mockito.doReturn(parent).when(definiteIntegralFX).scriptDialogParent();
+		
+		
+		 buttonBase(SCRIPT_LINK_ID).getOnAction().handle(event);
+		 
+		 Mockito.verify(stage).setScene(scene);
+		 assertEquals(parent, parentCaptor.getValue());
+		 
+		Mockito.verify(stage).setTitle(I18N_SCRIPT_DIALOG_TITLE);
+		Mockito.verify(stage).initModality(Modality.WINDOW_MODAL);
+		Mockito.verify(stage).initOwner(window);
+		Mockito.verify(stage).show();
 	}
 
 }
