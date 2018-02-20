@@ -162,7 +162,7 @@ class ScriptFX implements Initializable, Observer {
 	public void update(final Observable o, final Object arg) {
 		script.setText(scriptAO.getCurrentScript() != null ? scriptAO.getCurrentScript().code() : null);
 		deleteScript.setDisable(scriptAO.getCurrentScript() == null || scriptAO.getCurrentScript().id() == null);
-		saveScript.setDisable(scriptAO.getCurrentScript() == null || !StringUtils.hasText(scriptAO.getCurrentScript().code()));
+		saveScript.setDisable(scriptAO.getCurrentScript() == null || !StringUtils.hasText(scriptAO.getCurrentScript().code())); 
 	}
 
 }
