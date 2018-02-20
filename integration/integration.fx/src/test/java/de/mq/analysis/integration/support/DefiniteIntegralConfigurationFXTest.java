@@ -67,7 +67,7 @@ public class DefiniteIntegralConfigurationFXTest extends ApplicationTest  {
 		assertNotNull(from(parent).nth(0));
 		final List<String> ids = idsFrom(ScriptFX.class);
 
-		assertEquals(7, ids.size());
+		assertEquals(8, ids.size());
 	
 		ids.stream().forEach(id -> assertNotNull(from(from(parent).nth(0)).lookup("#" +id)));
 		

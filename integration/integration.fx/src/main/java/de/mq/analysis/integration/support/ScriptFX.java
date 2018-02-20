@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -45,6 +46,9 @@ class ScriptFX implements Initializable, Observer {
 
 	@FXML
 	private Button saveScript;
+	
+	@FXML
+	private Label errorMessage;
 
 	private final ScriptController scriptController;
 
@@ -105,18 +109,23 @@ class ScriptFX implements Initializable, Observer {
 
 		});
 
-		saveScript.setOnAction(actionEvent -> {
-			final Script changedScript = scriptController.save(scriptAO);
-			setScripts();
-			scriptTable.getSelectionModel().select(changedScript);
+		saveScript.setOnAction(actionEvent -> 
+			processActionWithErrorMessage(scriptAO -> {
+				final Script changedScript = scriptController.save(scriptAO);
+				
+				setScripts();
+				scriptTable.getSelectionModel().select(changedScript);
+			})
+			
+		);
 
-		});
-
-		deleteScript.setOnAction(actionEvent -> {
-			scriptController.delete(scriptAO);
-			scriptTable.setEditable(true);
-			setScripts();
-		});
+		deleteScript.setOnAction(actionEvent -> 
+			processActionWithErrorMessage(scriptAO -> {
+				scriptController.delete(scriptAO);
+				scriptTable.setEditable(true);
+				setScripts();
+			})
+		);
 
 		selectButton.setDisable(true);
 		scriptTable.getColumns().add(col);
@@ -129,7 +138,18 @@ class ScriptFX implements Initializable, Observer {
 
 	}
 
-	protected void setScripts() {
+	
+	
+	private void  processActionWithErrorMessage(final Consumer<ScriptAO> action) {
+		try {
+			action.accept(scriptAO);	
+		} catch(final Exception ex) {
+			errorMessage.setText(ex.getMessage());
+		}
+		
+	}
+	
+	private void setScripts() {
 		scriptTable.getItems().clear();
 		scriptTable.getItems().addAll(scriptController.scripts());
 	}
@@ -140,11 +160,9 @@ class ScriptFX implements Initializable, Observer {
 
 	@Override
 	public void update(final Observable o, final Object arg) {
-
 		script.setText(scriptAO.getCurrentScript() != null ? scriptAO.getCurrentScript().code() : null);
 		deleteScript.setDisable(scriptAO.getCurrentScript() == null || scriptAO.getCurrentScript().id() == null);
 		saveScript.setDisable(scriptAO.getCurrentScript() == null || !StringUtils.hasText(scriptAO.getCurrentScript().code()));
-
 	}
 
 }

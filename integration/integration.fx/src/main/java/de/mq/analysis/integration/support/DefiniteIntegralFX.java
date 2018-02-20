@@ -93,7 +93,7 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 	}
 
 	@Override
-	public void initialize(final URL location, final ResourceBundle resources) {
+	public final void initialize(final URL location, final ResourceBundle resources) {
 
 		
 		definiteIntegralAO.addObserver(this);
@@ -167,7 +167,7 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 
 			result.setVisible(false);
 			resultLabel.setVisible(false);
-
+			
 			if (definiteIntegralAO.validate()) {
 				resolveIntegral();
 			}
@@ -205,11 +205,11 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 		}
 	}
 
-	  Stage newStage() {
+	final Stage newStage() {
 		return new Stage();
 	}
 	  
-	Scene newScene(Parent parent ) {
+	final Scene newScene(Parent parent ) {
 		return new Scene(parent);
 	}
 

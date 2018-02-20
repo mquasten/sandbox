@@ -26,7 +26,7 @@ class DefiniteIntegralController {
 	    this.scriptEngineFactory=scriptEngineFactory;
 	}
 	
-	final  void integrate(final DefiniteIntegralAO definiteIntegralAO) {
+	final void integrate(final DefiniteIntegralAO definiteIntegralAO) {
 		Assert.isTrue(algorithms.containsKey(definiteIntegralAO.getCalculationAlgorithm()), "CalculationAlgorithm not found.");
 		final RealFunction realFunction = scriptEngineFactory.realFunction(definiteIntegralAO.getScript().code());
 		DefiniteIntegral definiteIntegral=  new DefiniteIntegralImpl(definiteIntegralAO.getBoundsOfIntegration(), realFunction, definiteIntegralAO.getNumberOfSamples());
