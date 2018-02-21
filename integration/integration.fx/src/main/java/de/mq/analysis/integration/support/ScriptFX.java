@@ -102,7 +102,7 @@ class ScriptFX implements Initializable, Observer {
 
 			};
 		});
-
+		
 		scriptTable.getSelectionModel().selectedItemProperty().addListener((observable, oldSelection, newSelection) -> {
 			selectButton.setDisable(newSelection == null);
 			scriptAO.setCurrentScript(newSelection);
@@ -122,7 +122,7 @@ class ScriptFX implements Initializable, Observer {
 		deleteScript.setOnAction(actionEvent -> 
 			processActionWithErrorMessage(scriptAO -> {
 				scriptController.delete(scriptAO);
-				scriptTable.setEditable(true);
+				//scriptTable.setEditable(true);
 				setScripts();
 			})
 		);
@@ -135,7 +135,8 @@ class ScriptFX implements Initializable, Observer {
 		scriptTable.setPlaceholder(new Label());
 
 		scriptTable.getSelectionModel().select(scriptAO.getSelectedScript());
-
+		
+		
 	}
 
 	
@@ -164,5 +165,7 @@ class ScriptFX implements Initializable, Observer {
 		deleteScript.setDisable(scriptAO.getCurrentScript() == null || scriptAO.getCurrentScript().id() == null);
 		saveScript.setDisable(scriptAO.getCurrentScript() == null || !StringUtils.hasText(scriptAO.getCurrentScript().code())); 
 	}
+	
+	
 
 }
