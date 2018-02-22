@@ -34,8 +34,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputControl;
 import javafx.stage.Stage;
 
-public class ScriptFXTest extends ApplicationTest {
+
+public class ScriptFXTest extends ApplicationTest   {
 	
+	private static final String I18N_FUNCTION_INVALID = "Funktion ist ungültig.";
 	private static final String ERROR_MESSAGE_LABEL_ID = "errorMessage";
 	private static final String ERROR_MESSAGE_VALUE = "ErrorMessage";
 	private static final String CANCEL_BUTTON_ID = "cancelButton";
@@ -59,7 +61,11 @@ public class ScriptFXTest extends ApplicationTest {
 	private final Script script = Mockito.mock(Script.class);
 	
 	private final Map<String, Control> controls = new HashMap<>();
-	
+
+
+
+
+
 	@Override
 	public void start(final Stage primaryStage) throws Exception {
 	
@@ -86,8 +92,11 @@ public class ScriptFXTest extends ApplicationTest {
 		scriptAO.setSelectedScript(script);
 		scriptFX.initialize(null, null);
 		
+		
 	}
 	
+	
+
 	
 	@Test
 	public final void callDefiniteIntegralObserver() {
@@ -228,6 +237,8 @@ public class ScriptFXTest extends ApplicationTest {
 		
 		Mockito.doReturn(Arrays.asList(script, newScript)).when(scriptController).scripts();
 		Mockito.doReturn(newScript).when(scriptController).save(scriptAO);
+		Mockito.doReturn(true).when(scriptController).check(scriptAO);
+		
 		
 		buttonBase(SAVE_SCRIPT_BUTTON_ID).getOnAction().handle(event);
 		
@@ -277,6 +288,7 @@ public class ScriptFXTest extends ApplicationTest {
 	public void saveScriptActionWithException() {
 		final Stage window = Mockito.mock(Stage.class);
 		final ActionEvent event = actionEventForStageClose(window);
+		Mockito.doReturn(true).when(scriptController).check(scriptAO);
 		Mockito.doThrow(new IllegalStateException(ERROR_MESSAGE_VALUE)).when(scriptController).save(scriptAO);
 		assertTrue(StringUtils.isEmpty(label(ERROR_MESSAGE_LABEL_ID).getText()));
 		
@@ -286,8 +298,21 @@ public class ScriptFXTest extends ApplicationTest {
 	}
 	
 	@Test
+	public void saveScriptActionCodeIsInvalid() {
+		final Stage window = Mockito.mock(Stage.class);
+		final ActionEvent event = actionEventForStageClose(window);
+	
+		Mockito.doReturn(false).when(scriptController).check(scriptAO);
+		assertTrue(StringUtils.isEmpty(label(ERROR_MESSAGE_LABEL_ID).getText()));
+		
+		buttonBase(SAVE_SCRIPT_BUTTON_ID).getOnAction().handle(event);
+		
+		assertEquals(I18N_FUNCTION_INVALID , label(ERROR_MESSAGE_LABEL_ID).getText());
+	}
+	
+	@Test
 	public void cellValueFactory() {
-
+		
 		@SuppressWarnings("rawtypes")
 		final TableColumn tableColumn = new TableColumn<Script,Script>();
 		tableColumn.setUserData(script);
@@ -304,6 +329,20 @@ public class ScriptFXTest extends ApplicationTest {
 		assertNull(CODE, result.getText());
 		
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

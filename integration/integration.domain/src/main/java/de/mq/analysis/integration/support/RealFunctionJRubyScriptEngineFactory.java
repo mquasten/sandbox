@@ -17,7 +17,7 @@ class RealFunctionJRubyScriptEngineFactory {
 		try {
 			return newRealFunction(code);
 		} catch (ScriptException ex) {
-			throw new IllegalArgumentException("Unable to ctreated scripted function", ex);
+			throw new IllegalArgumentException("Unable to create scripted function", ex);
 		}
 	}
 	

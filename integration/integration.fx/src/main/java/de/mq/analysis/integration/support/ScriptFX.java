@@ -109,14 +109,21 @@ class ScriptFX implements Initializable, Observer {
 
 		});
 
-		saveScript.setOnAction(actionEvent -> 
+		saveScript.setOnAction(actionEvent -> {
+		
+		if( ! scriptController.check(scriptAO)) {
+			errorMessage.setText("Funktion ist ungültig.");
+			return;
+		}
+		
 			processActionWithErrorMessage(scriptAO -> {
+				
 				final Script changedScript = scriptController.save(scriptAO);
 				
 				setScripts();
 				scriptTable.getSelectionModel().select(changedScript);
-			})
-			
+			});
+		}
 		);
 
 		deleteScript.setOnAction(actionEvent -> 
@@ -161,6 +168,7 @@ class ScriptFX implements Initializable, Observer {
 
 	@Override
 	public void update(final Observable o, final Object arg) {
+		errorMessage.setText(null);
 		script.setText(scriptAO.getCurrentScript() != null ? scriptAO.getCurrentScript().code() : null);
 		deleteScript.setDisable(scriptAO.getCurrentScript() == null || scriptAO.getCurrentScript().id() == null);
 		saveScript.setDisable(scriptAO.getCurrentScript() == null || !StringUtils.hasText(scriptAO.getCurrentScript().code())); 
