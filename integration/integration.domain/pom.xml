@@ -29,8 +29,8 @@
 		<junit.jupiter.params.version>5.0.3</junit.jupiter.params.version>
 		<junit.platform.version>1.0.0</junit.platform.version>
 		<junit-platform-launcher.version>1.0.1</junit-platform-launcher.version>
-		
-		
+
+
 	</properties>
 
 	<dependencies>
@@ -69,14 +69,34 @@
 			<version>${jruby-complete.version}</version>
 		</dependency>
 
+
+		<!-- https://mvnrepository.com/artifact/org.hsqldb/hsqldb -->
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>2.4.0</version>
+
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/commons-dbcp/commons-dbcp -->
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-jdbc</artifactId>
+    <version>${spring.version}</version>
+</dependency>
+		
+
+
 		<!-- mongodb java driver -->
-		<!--  dependency>
-			<groupId>org.mongodb</groupId>
-			<artifactId>mongo-java-driver</artifactId>
-			<version>${mongo-driver.version}</version>
-
-
-		</dependency-->
+		<!-- dependency> <groupId>org.mongodb</groupId> <artifactId>mongo-java-driver</artifactId> 
+			<version>${mongo-driver.version}</version> </dependency -->
 
 		<!-- Spring data mongodb -->
 		<!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-mongodb -->
@@ -162,7 +182,7 @@
 
 			</plugin>
 
-			
+
 
 
 		</plugins>

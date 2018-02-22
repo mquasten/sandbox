@@ -34,7 +34,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputControl;
 import javafx.stage.Stage;
 
-
 public class ScriptFXTest extends ApplicationTest   {
 	
 	private static final String I18N_FUNCTION_INVALID = "Funktion ist ungültig.";
@@ -308,7 +307,7 @@ public class ScriptFXTest extends ApplicationTest   {
 		buttonBase(SAVE_SCRIPT_BUTTON_ID).getOnAction().handle(event);
 		
 		assertEquals(I18N_FUNCTION_INVALID , label(ERROR_MESSAGE_LABEL_ID).getText());
-	}
+	} 
 	
 	@Test
 	public void cellValueFactory() {
@@ -329,6 +328,8 @@ public class ScriptFXTest extends ApplicationTest   {
 		assertNull(CODE, result.getText());
 		
 	}
+	
+	
 
 
 
