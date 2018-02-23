@@ -139,5 +139,26 @@ public class ScriptJDBCRepositoryTest {
 		}).collect(Collectors.toList())));
 	}
 	
+	
+	@Test
+	public final void  createSchema() {
+		Mockito.doReturn(Arrays.asList()).when(jdbcOperations).queryForList(ScriptJDBCRepositoryImpl.CHECK_SCHEMA_SQL, String.class);
+		
+		new ScriptJDBCRepositoryImpl(jdbcOperations).createSchema();
+		
+		Mockito.verify(jdbcOperations).update(ScriptJDBCRepositoryImpl.CREATE_TABLE_SCRIPT);
+		Mockito.verify(jdbcOperations).update(ScriptJDBCRepositoryImpl.CREATE_SEQUENCE_IDGEN);
+	}
+	
+	@Test
+	public final void  createSchemaAlreadyExists() {
+		Mockito.doReturn(Arrays.asList("SCRIPT" , "IDGEN")).when(jdbcOperations).queryForList(ScriptJDBCRepositoryImpl.CHECK_SCHEMA_SQL, String.class);
+		
+		new ScriptJDBCRepositoryImpl(jdbcOperations).createSchema();
+		
+		Mockito.verify(jdbcOperations, Mockito.never()).update(Mockito.anyString());
+		
+	}
+	
 
 }

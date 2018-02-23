@@ -23,15 +23,19 @@ import de.mq.analysis.integration.Script;
 
 public class ScriptJDBCRepositoryImpl implements ScriptRepository {
 
-	static final String SELECT_SCRIPTS_SQL = "SELECT %s, %s from SCRIPT";
+	private static final String IDGEN_SEQUENCE_NAME = "IDGEN";
+	private static final String SCRIPT_TABLE_NAME = "SCRIPT";
+	static final String CREATE_SEQUENCE_IDGEN = "CREATE SEQUENCE "+IDGEN_SEQUENCE_NAME+" AS BIGINT START WITH 1";
+	static final String CREATE_TABLE_SCRIPT = "CREATE TABLE "+ SCRIPT_TABLE_NAME + " ( ID VARCHAR(50) NOT NULL, CODE VARCHAR(255) NOT NULL, PRIMARY KEY (ID))";
+	static final String SELECT_SCRIPTS_SQL = "SELECT %s, %s from "+ SCRIPT_TABLE_NAME ;
 	static final String CODE_COLUMN = "CODE";
 	static final String ID_COLUMN = "ID";
 	private final JdbcOperations jdbcOperations;
 
-	static final String NEXT_VALUE_FROM_SEQUENCE_SQL = "CALL NEXT VALUE FOR IDGEN";
-	static final String INSERT_SQL = "INSERT INTO SCRIPT (%s, %s) VALUES (?,?)";
-	static final String UPDATE_SQL = "UPDATE SCRIPT SET %s = ? WHERE %s = ?";
-	static final String DELETE_SQL = "DELETE FROM SCRIPT WHERE %s = ?";
+	static final String NEXT_VALUE_FROM_SEQUENCE_SQL = "CALL NEXT VALUE FOR "+IDGEN_SEQUENCE_NAME;
+	static final String INSERT_SQL = "INSERT INTO "+ SCRIPT_TABLE_NAME + " (%s, %s) VALUES (?,?)";
+	static final String UPDATE_SQL = "UPDATE "+ SCRIPT_TABLE_NAME + " SET %s = ? WHERE %s = ?";
+	static final String DELETE_SQL = "DELETE FROM "+ SCRIPT_TABLE_NAME + " WHERE %s = ?";
 
 	static final String CHECK_SCHEMA_SQL = "SELECT  TABLE_NAME NAME FROM  INFORMATION_SCHEMA.TABLES WHERE  TABLE_SCHEMA= 'PUBLIC' " + " UNION " + "SELECT SEQUENCE_NAME NAME FROM  INFORMATION_SCHEMA.SEQUENCES  WHERE  SEQUENCE_SCHEMA= 'PUBLIC' ";
 
@@ -39,14 +43,15 @@ public class ScriptJDBCRepositoryImpl implements ScriptRepository {
 
 	ScriptJDBCRepositoryImpl(final JdbcOperations jdbcOperations) {
 		this.jdbcOperations = jdbcOperations;
-		createStements.put("SCRIPT", "CREATE TABLE SCRIPT( ID VARCHAR(50) NOT NULL, CODE VARCHAR(255) NOT NULL, PRIMARY KEY (ID))");
-		createStements.put("IDGEN", "CREATE SEQUENCE IDGEN AS BIGINT START WITH 1");
+		createStements.put(SCRIPT_TABLE_NAME, CREATE_TABLE_SCRIPT);
+		createStements.put(IDGEN_SEQUENCE_NAME, CREATE_SEQUENCE_IDGEN);
 		;
 	}
 
 	@PostConstruct
-	void createsChema() {
+	void createSchema() {
 		final List<String> schemaObjects = jdbcOperations.queryForList(CHECK_SCHEMA_SQL, String.class);
+	
 		createStements.entrySet().stream().filter(entry -> !schemaObjects.contains(entry.getKey())).map(Entry::getValue).forEach(sql -> jdbcOperations.update(sql));
 	}
 
