@@ -60,7 +60,7 @@ public class DefiniteIntegralConfigurationTest {
 	@Test
 	public void  scriptRepository() {
 		final MongoOperations mongoOperations = Mockito.mock(MongoOperations.class);
-		final ScriptRepository scriptRepository = definiteIntegralConfiguration.scriptRepository(mongoOperations);
+		final ScriptRepository scriptRepository = definiteIntegralConfiguration.scriptRepositoryMongo(mongoOperations);
 		final Object dependency=  DataAccessUtils.requiredSingleResult(Arrays.asList(ScriptRepositoryImpl.class.getDeclaredFields()).stream().filter(field -> field.getType().equals(MongoOperations.class)).map(field -> ReflectionTestUtils.getField(scriptRepository, field.getName())).collect(Collectors.toList()));
 		
 	    assertEquals(mongoOperations, dependency);

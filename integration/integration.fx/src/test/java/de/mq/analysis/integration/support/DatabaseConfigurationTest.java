@@ -13,14 +13,19 @@ import javax.sql.DataSource;
 
 import org.junit.Ignore;
 import org.junit.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcOperations;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+
 
 import de.mq.analysis.integration.Script;
 
 
-//@RunWith(SpringRunner.class)
-//@ContextConfiguration(classes= {DatabaseConfiguration.class})
+
+@ContextConfiguration(classes= {DatabaseConfiguration.class})
+@ActiveProfiles("jdbc")
 public class DatabaseConfigurationTest {
 
 	@Autowired
@@ -61,6 +66,16 @@ public class DatabaseConfigurationTest {
 		System.out.println(scripts.stream().findAny().get().code());
 		
 		System.out.println(scripts.stream().findAny().get().id());
+	}
+	@Test
+	@Ignore
+	public final void callNextValue() {
+		
+		//call NEXT VALUE FOR IDGEN
+		System.out.println(jdbcOperations.queryForObject("call NEXT VALUE FOR IDGEN", Long.class));
+		
+		System.out.println(jdbcOperations.queryForObject("call NEXT VALUE FOR IDGEN", Long.class));
+		
 	}
 	
 }

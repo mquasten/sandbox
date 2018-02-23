@@ -7,6 +7,7 @@ import javax.script.ScriptException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
@@ -44,14 +45,15 @@ class DefiniteIntegralConfiguration {
 	}
 
 	
-	
 	@Bean
+	@Profile("mongo")
 	MongoOperations mongoTemplate() {
 		return new MongoTemplate(new SimpleMongoDbFactory(new MongoClient(), DATABASENAME));
 	}
 	
-	@Bean
-	ScriptRepository scriptRepository(final MongoOperations mongoOperations) {
+	@Bean()
+	@Profile("mongo")
+	ScriptRepository scriptRepositoryMongo(final MongoOperations mongoOperations) {
 	  return  new ScriptRepositoryImpl(mongoOperations);	
 	}
 	
