@@ -7,20 +7,12 @@ import javax.script.ScriptException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
-
-import com.mongodb.MongoClient;
 
 import de.mq.analysis.integration.IntegrationService;
 
 @ComponentScan(basePackages = { "de.mq.analysis.integration.support" })
 @Configuration
 class DefiniteIntegralConfiguration {
-
-	static final String DATABASENAME = "analysis";
 
 	@Bean
 	IntegrationService trapezoidIntegration() {
@@ -45,17 +37,6 @@ class DefiniteIntegralConfiguration {
 	}
 
 	
-	@Bean
-	@Profile("mongo")
-	MongoOperations mongoTemplate() {
-		return new MongoTemplate(new SimpleMongoDbFactory(new MongoClient(), DATABASENAME));
-	}
-	
-	@Bean()
-	@Profile("mongo")
-	ScriptRepository scriptRepositoryMongo(final MongoOperations mongoOperations) {
-	  return  new ScriptRepositoryImpl(mongoOperations);	
-	}
 	
 	@Bean
 	ScriptService scriptService(final ScriptRepository scriptRepository) {

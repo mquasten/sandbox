@@ -14,8 +14,6 @@ import javax.script.ScriptException;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.dao.support.DataAccessUtils;
-import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import de.mq.analysis.integration.RealFunction;
@@ -52,19 +50,7 @@ public class DefiniteIntegralConfigurationTest {
 		assertEquals(realFunction, definiteIntegralConfiguration.realFunctionJRubyScriptEngineFactory(scriptEngine).realFunction(CODE));
 	}
 	
-	@Test
-	public void  mongoTemplate() {
-		assertEquals(DefiniteIntegralConfiguration.DATABASENAME, ((MongoTemplate) definiteIntegralConfiguration.mongoTemplate()).getDb().getName());
-	}
 	
-	@Test
-	public void  scriptRepository() {
-		final MongoOperations mongoOperations = Mockito.mock(MongoOperations.class);
-		final ScriptRepository scriptRepository = definiteIntegralConfiguration.scriptRepositoryMongo(mongoOperations);
-		final Object dependency=  DataAccessUtils.requiredSingleResult(Arrays.asList(ScriptRepositoryImpl.class.getDeclaredFields()).stream().filter(field -> field.getType().equals(MongoOperations.class)).map(field -> ReflectionTestUtils.getField(scriptRepository, field.getName())).collect(Collectors.toList()));
-		
-	    assertEquals(mongoOperations, dependency);
-	}
 	
 	@Test
 	public void  scriptService() {
