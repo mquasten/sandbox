@@ -29,7 +29,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonBase;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputControl;
 import javafx.stage.Modality;
@@ -85,21 +84,24 @@ public class DefiniteIntegralFXTest extends ApplicationTest {
 
 	private final DefiniteIntegralController definiteIntegralController = Mockito.mock(DefiniteIntegralController.class);
 
-	private final Map<String, Control> controls = new HashMap<>();
+	private final Map<String, Node> controls = new HashMap<>();
 	private final DefiniteIntegralAO definiteIntegralAO = BeanUtils.instantiateClass(DefiniteIntegralAO.class);
 
 	private final DefiniteIntegralFX definiteIntegralFX = Mockito.mock(DefiniteIntegralFX.class, Mockito.CALLS_REAL_METHODS);
+	
+	private final Message message = Mockito.mock(Message.class);
 
-	private final Parent root = new Parent() {};
-	
+	private final Parent root = new Parent() {
+	};
+
 	private Stage stage;
-	
-	
+
 	@Override
 	public void start(final Stage primaryStage) throws Exception {
-
 		Arrays.asList(DefiniteIntegralFX.class.getDeclaredFields()).stream().filter(field -> field.isAnnotationPresent(FXML.class)).forEach(field -> {
-			final Control dependency = (Control) BeanUtils.instantiateClass(field.getType());
+
+			final Node dependency = (Node) BeanUtils.instantiateClass(field.getType());
+
 			dependency.setId(field.getName());
 			ReflectionTestUtils.setField(definiteIntegralFX, field.getName(), dependency);
 			controls.put(field.getName(), dependency);
@@ -110,17 +112,16 @@ public class DefiniteIntegralFXTest extends ApplicationTest {
 		dependencies.put(DefiniteIntegralFX.class, definiteIntegralFX);
 		dependencies.put(DefiniteIntegralController.class, definiteIntegralController);
 		dependencies.put(DefiniteIntegralAO.class, definiteIntegralAO);
+		dependencies.put(Message.class, message);
 
 		Arrays.asList(DefiniteIntegralFX.class.getDeclaredFields()).stream().filter(field -> dependencies.containsKey(field.getType())).forEach(field -> ReflectionTestUtils.setField(definiteIntegralFX, field.getName(), dependencies.get(field.getType())));
 
 		definiteIntegralFX.initialize(null, null);
 
-		
 		stage = definiteIntegralFX.newStage();
-		
-		
+
 		stage.setScene(definiteIntegralFX.newScene(root));
-		
+
 	}
 
 	@Test
@@ -313,33 +314,33 @@ public class DefiniteIntegralFXTest extends ApplicationTest {
 		assertEquals(ERROR_MESSAGE_VALUE, definiteIntegralAO.getErrorMessage());
 
 	}
-	
+
 	@Test
-	public final void  validateDouble() {
+	public final void validateDouble() {
 		final Label message = label(LOWER_LIMIT_MESSAGE_ID);
 		final TextInputControl lowerLimit = textInput(LOWER_LIMIT_INPUT_ID);
 		assertEquals(I18N_REAL_NUMBER_MESSAGE, message.getText());
-		
+
 		lowerLimit.setText(" ");
-		
+
 		assertEquals(I18N_REAL_NUMBER_MESSAGE, message.getText());
-		
+
 		lowerLimit.setText(ERROR_MESSAGE_VALUE);
-		
+
 		assertEquals(I18N_REAL_NUMBER_MESSAGE, message.getText());
-		
+
 		lowerLimit.setText("" + REAL_NUMBER_VALUE);
-		
+
 		assertNull(message.getText());
-		
+
 	}
-	
+
 	@Test
 	public final void integrationButtonAction() {
 		final ActionEvent event = Mockito.mock(ActionEvent.class);
-		//X**2: primitive 1/3 x**3 |0,1 = 1/3
-		final  Double resultValue = 1d/3d;
-		final  Double resultError = 1e-6;
+		// X**2: primitive 1/3 x**3 |0,1 = 1/3
+		final Double resultValue = 1d / 3d;
+		final Double resultError = 1e-6;
 		final Result result = Mockito.mock(Result.class);
 		Mockito.doReturn(resultError).when(result).error();
 		Mockito.doReturn(resultValue).when(result).value();
@@ -349,75 +350,76 @@ public class DefiniteIntegralFXTest extends ApplicationTest {
 			return null;
 		}).when(definiteIntegralController).integrate(Mockito.any());
 		prepareForIntegration();
-		
+
 		buttonBase(INTEGRATION_BUTTON_ID).getOnAction().handle(event);
-		
-		assertEquals(""+ resultValue, textInput(RESULT_INPUT_ID).getText());
-		assertEquals(""+ resultError, textInput(ERROR_INPUT_ID).getText());
+
+		assertEquals("" + resultValue, textInput(RESULT_INPUT_ID).getText());
+		assertEquals("" + resultError, textInput(ERROR_INPUT_ID).getText());
 		assertNull(label(ERROR_MESSAGE_ID).getText());
-		
+
 		assertTrue(textInput(RESULT_INPUT_ID).isVisible());
 		assertTrue(textInput(ERROR_INPUT_ID).isVisible());
-		
+
 	}
-	
+
 	@Test
 	public final void integrationButtonActionException() {
 		final ActionEvent event = Mockito.mock(ActionEvent.class);
 		Mockito.doThrow(new IllegalArgumentException(ERROR_MESSAGE_VALUE)).when(definiteIntegralController).integrate(Mockito.any());
 		prepareForIntegration();
-		
+
 		buttonBase(INTEGRATION_BUTTON_ID).getOnAction().handle(event);
-		
+
 		assertEquals(ERROR_MESSAGE_VALUE, label(ERROR_MESSAGE_ID).getText());
 		assertFalse(textInput(RESULT_INPUT_ID).isVisible());
 		assertFalse(textInput(ERROR_INPUT_ID).isVisible());
-		
+
 	}
-	
+
 	@Test
 	public final void integrationButtonActionValidationFailed() {
 		final ActionEvent event = Mockito.mock(ActionEvent.class);
 		Mockito.doThrow(new IllegalArgumentException(ERROR_MESSAGE_VALUE)).when(definiteIntegralController).integrate(Mockito.any());
-		
-		
+
 		buttonBase(INTEGRATION_BUTTON_ID).getOnAction().handle(event);
-		
+
 		assertNull(label(ERROR_MESSAGE_ID).getText());
 		assertFalse(textInput(RESULT_INPUT_ID).isVisible());
 		assertFalse(textInput(ERROR_INPUT_ID).isVisible());
 		Mockito.verify(definiteIntegralController, Mockito.never()).integrate(Mockito.any());
-		
+
 	}
-	
-	
-	
 
 	private void prepareForIntegration() {
 		final Script script = Mockito.mock(Script.class);
 		definiteIntegralAO.setScript(script);
 		textInput(LOWER_LIMIT_INPUT_ID).setText("0");
 		textInput(UPPER_LIMIT_INPUT_ID).setText("1");
-		choiceBox(ALGORITHMS_INPUT_ID, IntegrationService.CalculationAlgorithm.class).setValue(IntegrationService.CalculationAlgorithm.Trapezoid); 
+		choiceBox(ALGORITHMS_INPUT_ID, IntegrationService.CalculationAlgorithm.class).setValue(IntegrationService.CalculationAlgorithm.Trapezoid);
 		choiceBox(NUMBER_OFSAMPLES_INPUT_ID, Long.class).setValue(NUMBER_OF_SAMPLES_VALUE);
 	}
-	
+
 	@Test
 	public final void getDefiniteIntegralAO() {
 		assertEquals(definiteIntegralAO, definiteIntegralFX.getDefiniteIntegralAO());
 	}
-	
+
 	@Test
 	public final void create() throws Exception {
-		final Constructor<?>   constructor = definiteIntegralFX.getClass().getDeclaredConstructor(DefiniteIntegralController.class);
-		final Object definiteIntegralFX = BeanUtils.instantiateClass(constructor, definiteIntegralController);
-		
-		assertEquals(definiteIntegralController, DataAccessUtils.requiredSingleResult(Arrays.asList(DefiniteIntegralFX.class.getDeclaredFields()).stream().filter(field -> field.getType().equals(DefiniteIntegralController.class)).map(field -> ReflectionTestUtils.getField(definiteIntegralFX, field.getName())).collect(Collectors.toList())));
+		final Constructor<?> constructor = definiteIntegralFX.getClass().getDeclaredConstructor(DefiniteIntegralController.class, Message.class);
+		final Object definiteIntegralFX = BeanUtils.instantiateClass(constructor, definiteIntegralController, message);
+
+		assertEquals(definiteIntegralController, DataAccessUtils
+				.requiredSingleResult(Arrays.asList(DefiniteIntegralFX.class.getDeclaredFields()).stream().filter(field -> field.getType().equals(DefiniteIntegralController.class)).map(field -> ReflectionTestUtils.getField(definiteIntegralFX, field.getName())).collect(Collectors.toList())));
+	
+		assertEquals(message, DataAccessUtils
+				.requiredSingleResult(Arrays.asList(DefiniteIntegralFX.class.getDeclaredFields()).stream().filter(field -> field.getType().equals(Message.class)).map(field -> ReflectionTestUtils.getField(definiteIntegralFX, field.getName())).collect(Collectors.toList())));
+	
 	}
+
 	@Test
 	public final void scene() {
 		assertEquals(root, stage.getScene().rootProperty().get());
 	}
-	
 
 }

@@ -19,6 +19,8 @@ import javafx.stage.Stage;
 public class DefiniteIntegrationApplicationFXTest extends ApplicationTest {
 
 	private final Stage stage = Mockito.mock(Stage.class);
+	
+	private final Message message = Mockito.mock(Message.class);
 
 	private final Parent parent = new Parent() {
 	};
@@ -28,6 +30,7 @@ public class DefiniteIntegrationApplicationFXTest extends ApplicationTest {
 		final DefiniteIntegrationApplication application = Mockito.mock(DefiniteIntegrationApplication.class, Mockito.CALLS_REAL_METHODS);
 		final ConfigurableApplicationContext applicationContext = Mockito.mock(ConfigurableApplicationContext.class);
 		Mockito.when(applicationContext.getBean(DefiniteIntegrationApplication.DEFINITE_INTEGRAL_PARENT_BEAN, Parent.class)).thenReturn(parent);
+		Mockito.when(applicationContext.getBean(Message.class)).thenReturn(message);
 		ReflectionTestUtils.setField(DefiniteIntegrationApplication.class, "applicationContext", applicationContext);
 
 		application.start(stage);
@@ -47,6 +50,7 @@ public class DefiniteIntegrationApplicationFXTest extends ApplicationTest {
 		Mockito.verify(stage).setTitle(DefiniteIntegrationApplication.TITLE);
 		Mockito.verify(stage).show();
 		Mockito.verify(stage).setScene(argumentCaptor.capture());
+		Mockito.verify(message).notifyObservers(Message.Screne.DefiniteIntegral);
 		assertEquals(parent, argumentCaptor.getValue().rootProperty().getValue());
 
 	}

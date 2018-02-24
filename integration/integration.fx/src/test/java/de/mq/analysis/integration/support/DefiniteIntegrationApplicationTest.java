@@ -31,6 +31,7 @@ public class DefiniteIntegrationApplicationTest {
 	
 	final static  Parent PARENT = Mockito.mock(Parent.class); 	
 	
+	final static Message MESSAGE = Mockito.mock(Message.class);
 	
 	
 	@Before
@@ -68,6 +69,7 @@ public class DefiniteIntegrationApplicationTest {
 		Mockito.verify(stage).setTitle(DefiniteIntegrationApplication.TITLE);
 		Mockito.verify(stage).setScene(scene);
 		Mockito.verify(stage).show();
+		Mockito.verify(MESSAGE).notifyObservers(Message.Screne.DefiniteIntegral);;
 	}
 	
 	@Test
@@ -91,6 +93,11 @@ class TestConfiguration {
 	@Bean
 	Parent definiteIntegralParent() {
 		return DefiniteIntegrationApplicationTest.PARENT;
+	}
+	
+	@Bean
+	Message message() {
+		return DefiniteIntegrationApplicationTest.MESSAGE;
 	}
 	
 	

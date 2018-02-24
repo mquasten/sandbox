@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import de.mq.analysis.integration.support.Message.Screne;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -26,6 +27,7 @@ public class DefiniteIntegrationApplication extends Application {
 	public void start(final Stage stage) throws IOException {
 		stage.setTitle(TITLE);
 		stage.setScene(newScene(getDefiniteIntegralParent()));
+		message().notifyObservers(Screne.DefiniteIntegral);
 		stage.show();
 
 	}
@@ -41,6 +43,10 @@ public class DefiniteIntegrationApplication extends Application {
 
 	private Parent getDefiniteIntegralParent() {
 		return applicationContext.getBean(DEFINITE_INTEGRAL_PARENT_BEAN, Parent.class);
+	}
+	
+	private Message message() {
+		return applicationContext.getBean(Message.class);
 	}
 
 	@Override

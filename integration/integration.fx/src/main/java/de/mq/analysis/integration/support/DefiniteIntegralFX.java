@@ -26,6 +26,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.scene.layout.Pane;
 
 
 
@@ -82,13 +83,17 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 
 	@FXML
 	private Hyperlink script;
+	
+	
 
 	private final DefiniteIntegralController definiteIntegralController;
 
 	private final DefiniteIntegralAO definiteIntegralAO = new DefiniteIntegralAO();
+	private final Message message;
 
-	DefiniteIntegralFX(final DefiniteIntegralController definiteIntegralController) {
+	DefiniteIntegralFX(final DefiniteIntegralController definiteIntegralController, final Message message) {
 		this.definiteIntegralController = definiteIntegralController;
+		this.message=message;
 
 	}
 
@@ -173,6 +178,25 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 			}
 		});
 		closeButton.setOnAction(actionEvent -> closeWindow(actionEvent));
+	
+		message.register(Message.Screne.DefiniteIntegral, message -> {
+			final Stage stage = (Stage) closeButton.getScene().getWindow();
+			
+			System.out.println(stage);
+			System.out.println(closeButton.getScene().getRoot());
+		});
+	}
+	
+	private void scanInputControls(final Pane parent) {
+	    for (Node component : parent.getChildren()) {
+	        if (component instanceof Pane) {
+	            //if the component is a container, scan its children
+	            scanInputControls((Pane) component);
+	        } else {
+	            //if the component is an instance of IInputControl, add to list
+	            System.out.println(component);
+	        }
+	    }
 	}
 
 	private void closeWindow(final ActionEvent actionEvent) {
