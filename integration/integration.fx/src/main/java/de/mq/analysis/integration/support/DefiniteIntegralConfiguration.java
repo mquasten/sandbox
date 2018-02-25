@@ -4,9 +4,11 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ResourceBundleMessageSource;
 
 import de.mq.analysis.integration.IntegrationService;
 
@@ -42,5 +44,15 @@ class DefiniteIntegralConfiguration {
 	ScriptService scriptService(final ScriptRepository scriptRepository) {
 	  return  new ScriptServiceImpl(scriptRepository);	
 	}
+	
+	 @Bean
+	 MessageSource messageSource() {
+		
+	    	final ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+	        messageSource.setBasenames("i18n/definiteintegral");
+	        messageSource.setDefaultEncoding("UTF-8");
+	        System.out.println(messageSource);
+	        return messageSource;
+	    }
 
 }

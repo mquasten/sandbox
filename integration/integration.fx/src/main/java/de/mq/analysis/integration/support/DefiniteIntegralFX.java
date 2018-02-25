@@ -1,6 +1,7 @@
 package de.mq.analysis.integration.support;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
@@ -26,12 +27,19 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.layout.Pane;
 
 
 
 @Component
 abstract class DefiniteIntegralFX implements Initializable, Observer {
+
+	static final String I18N_DEFINITEINTEGRAL_PREFIX = "definiteintegral_";
+
+	static final String I18N_DEFINITEINTEGRAL_TITLE = I18N_DEFINITEINTEGRAL_PREFIX+"title";
+
+	static final String I18N__MANDATORY = I18N_DEFINITEINTEGRAL_PREFIX+"mandatory";
+
+	static final String I18N_REAL_NUMBER_EXPECTED = I18N_DEFINITEINTEGRAL_PREFIX+"realnumber";
 
 	@FXML
 	private Button integrationButton;
@@ -85,6 +93,17 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 	private Hyperlink script;
 	
 	
+	@FXML
+	private Label lowerLimitLabel;
+	@FXML
+	private Label upperLimitLabel;
+	
+	@FXML
+	private Label algorithmLabel;
+	
+	@FXML
+	private Label samplesLabel;
+	
 
 	private final DefiniteIntegralController definiteIntegralController;
 
@@ -108,7 +127,7 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 		lowerLimit.textProperty().addListener((observable, oldValue, newValue) -> {
 			definiteIntegralAO.setLowerLimit(null);
 			if (!validateDouble(newValue)) {
-				lowerLimitMessage.setText("reelle Zahl");
+				lowerLimitMessage.setText(realNumberExpectedMessage());
 			} else {
 				definiteIntegralAO.setLowerLimit(Double.valueOf(newValue));
 				lowerLimitMessage.setText(null);
@@ -119,7 +138,7 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 		upperLimit.textProperty().addListener((observable, oldValue, newValue) -> {
 			definiteIntegralAO.setUpperLimit(null);
 			if (!validateDouble(newValue)) {
-				upperLimitMessage.setText("reelle Zahl");
+				upperLimitMessage.setText(realNumberExpectedMessage());
 			} else {
 				definiteIntegralAO.setUpperLimit(Double.valueOf(newValue));
 				upperLimitMessage.setText(null);
@@ -130,7 +149,7 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 		algorithms.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 			definiteIntegralAO.setCalculationAlgorithm(null);
 			if (newValue == null) {
-				algorithmenMessage.setText("Mußfeld");
+				algorithmenMessage.setText(mandatoryMessage());
 			} else {
 				algorithmenMessage.setText(null);
 				definiteIntegralAO.setCalculationAlgorithm(newValue);
@@ -141,7 +160,7 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 		samples.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 			definiteIntegralAO.setNumberOfSamples(null);
 			if (newValue == null) {
-				samplesMessage.setText("Mußfeld");
+				samplesMessage.setText(mandatoryMessage());
 			} else {
 				samplesMessage.setText(null);
 				definiteIntegralAO.setNumberOfSamples(newValue);
@@ -151,7 +170,7 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 		code.textProperty().addListener((observable, oldValue, newValue) -> {
 
 			if (!StringUtils.hasText(newValue)) {
-				codeMessage.setText("Mußfeld");
+				codeMessage.setText(mandatoryMessage());
 			} else {
 				codeMessage.setText(null);
 			}
@@ -179,25 +198,26 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 		});
 		closeButton.setOnAction(actionEvent -> closeWindow(actionEvent));
 	
+		
 		message.register(Message.Screne.DefiniteIntegral, message -> {
-			final Stage stage = (Stage) closeButton.getScene().getWindow();
+			final Stage stage = (Stage) lowerLimit.getScene().getWindow();
 			
-			System.out.println(stage);
-			System.out.println(closeButton.getScene().getRoot());
+			stage.setTitle(message.message(I18N_DEFINITEINTEGRAL_TITLE));
+			
+			Arrays.asList(lowerLimitLabel, upperLimitLabel,algorithmLabel,samplesLabel,script,resultLabel, errorLabel, closeButton, integrationButton).forEach(label -> label.setText(message.message(I18N_DEFINITEINTEGRAL_PREFIX + label.getId().toLowerCase())));
+			
 		});
 	}
-	
-	private void scanInputControls(final Pane parent) {
-	    for (Node component : parent.getChildren()) {
-	        if (component instanceof Pane) {
-	            //if the component is a container, scan its children
-	            scanInputControls((Pane) component);
-	        } else {
-	            //if the component is an instance of IInputControl, add to list
-	            System.out.println(component);
-	        }
-	    }
+
+	protected String mandatoryMessage() {
+		return message.message(I18N__MANDATORY);
 	}
+
+	protected String realNumberExpectedMessage() {
+		return message.message(I18N_REAL_NUMBER_EXPECTED);
+	}
+	
+	
 
 	private void closeWindow(final ActionEvent actionEvent) {
 		((Stage) ((Node) actionEvent.getSource()).getScene().getWindow()).close();

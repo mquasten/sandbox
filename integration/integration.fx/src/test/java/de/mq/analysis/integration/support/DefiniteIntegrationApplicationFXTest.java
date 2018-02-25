@@ -47,7 +47,6 @@ public class DefiniteIntegrationApplicationFXTest extends ApplicationTest {
 	public final void start() throws IOException {
 
 		final ArgumentCaptor<Scene> argumentCaptor = ArgumentCaptor.forClass(Scene.class);
-		Mockito.verify(stage).setTitle(DefiniteIntegrationApplication.TITLE);
 		Mockito.verify(stage).show();
 		Mockito.verify(stage).setScene(argumentCaptor.capture());
 		Mockito.verify(message).notifyObservers(Message.Screne.DefiniteIntegral);

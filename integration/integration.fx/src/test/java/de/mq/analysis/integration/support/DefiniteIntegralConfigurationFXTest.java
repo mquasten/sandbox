@@ -53,7 +53,7 @@ public class DefiniteIntegralConfigurationFXTest extends ApplicationTest  {
 		final Parent parent = parents.get(DefiniteIntegralConfigurationFX.class);
 		assertNotNull(from(parent).nth(0));
 		final List<String> ids = idsFrom(DefiniteIntegralFX.class);
-		assertEquals(18, ids.size());
+		assertEquals(22, ids.size());
 		
 		ids.stream().forEach(id -> assertNotNull(from(from(parent).nth(0)).lookup("#"+id).query()));
 	}

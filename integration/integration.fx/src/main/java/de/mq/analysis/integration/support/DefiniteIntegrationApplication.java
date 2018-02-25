@@ -25,7 +25,7 @@ public class DefiniteIntegrationApplication extends Application {
 
 	@Override
 	public void start(final Stage stage) throws IOException {
-		stage.setTitle(TITLE);
+		//stage.setTitle(TITLE);
 		stage.setScene(newScene(getDefiniteIntegralParent()));
 		message().notifyObservers(Screne.DefiniteIntegral);
 		stage.show();

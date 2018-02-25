@@ -47,21 +47,21 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="obere Grenze" GridPane.rowIndex="1" />
-                  <Label text="untere Grenze" />
+                  <Label fx:id="upperLimitLabel" text="upper limit" GridPane.rowIndex="1" />
+                  <Label fx:id="lowerLimitLabel"  text="lower limit" />
                   <TextField fx:id="lowerLimit" minWidth="50.0" prefWidth="50.0" GridPane.columnIndex="1" />
-                  <Label text="Algorithmus" GridPane.rowIndex="2" />
+                  <Label fx:id="algorithmLabel" text="algorithm" GridPane.rowIndex="2" />
                   <TextField fx:id="upperLimit" minWidth="50.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <ChoiceBox fx:id="algorithms" minWidth="200.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Label fx:id="lowerLimitMessage" style="-fx-text-fill: red;" GridPane.columnIndex="2" />
                   <Label fx:id="upperLimitMessage" style="-fx-text-fill: red;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                   <Label fx:id="algorithmenMessage" style="-fx-text-fill: red;" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                  <Label fx:id="resultLabel" text="Ergebnis" visible="false" GridPane.rowIndex="4" />
+                  <Label fx:id="resultLabel" text="result" visible="false" GridPane.rowIndex="4" />
                   <TextField fx:id="result" editable="false" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <Label text="Stützstellen" GridPane.rowIndex="3" />
+                  <Label fx:id="samplesLabel" text="samplesLabel" GridPane.rowIndex="3" />
                   <ChoiceBox fx:id="samples" prefHeight="25.0" prefWidth="301.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <Label fx:id="samplesMessage" style="-fx-text-fill: red;" visible="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                  <Label text="Fehler" fx:id="errorLabel" visible="false" GridPane.rowIndex="5" />
+                  <Label text="error" fx:id="errorLabel" visible="false" GridPane.rowIndex="5" />
                   <TextField fx:id="error"  GridPane.columnIndex="1" GridPane.rowIndex="5" />
                </children>
                <VBox.margin>
@@ -80,7 +80,7 @@
          <left>
             <HBox BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="closeButton" cancelButton="true" mnemonicParsing="false" text="abbrechen" />
+                  <Button fx:id="closeButton" cancelButton="true" mnemonicParsing="false" text="cancel" />
                </children>
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -90,8 +90,7 @@
          <right>
             <HBox spacing="10.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button disable="true" mnemonicParsing="false" text="hinzufügen" />
-                  <Button fx:id="integrationButton" defaultButton="true" mnemonicParsing="false" prefHeight="0.0" text="integrieren" />
+                  <Button fx:id="integrationButton" defaultButton="true" mnemonicParsing="false" prefHeight="0.0" text="integrate" />
                </children>
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

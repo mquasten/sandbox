@@ -66,7 +66,6 @@ public class DefiniteIntegrationApplicationTest {
 		
 		application.start(stage);
 		
-		Mockito.verify(stage).setTitle(DefiniteIntegrationApplication.TITLE);
 		Mockito.verify(stage).setScene(scene);
 		Mockito.verify(stage).show();
 		Mockito.verify(MESSAGE).notifyObservers(Message.Screne.DefiniteIntegral);;

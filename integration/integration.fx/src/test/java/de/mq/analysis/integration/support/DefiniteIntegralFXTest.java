@@ -9,6 +9,7 @@ import java.lang.reflect.Constructor;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.junit.Test;
@@ -30,11 +31,19 @@ import javafx.scene.Scene;
 import javafx.scene.control.ButtonBase;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+
 public class DefiniteIntegralFXTest extends ApplicationTest {
+
+	private static final String I18N_DEFINITE_INTEGRAL_TITLE_VALUE = "Numerische Integration";
+
+	private static final String I18N_LOWER_LIMIT_LABEL_VALUE = "untere Grenze";
+
+	private static final String I18N_LOWER_LIMIT_LABEL_ID = "lowerLimitLabel";
 
 	private static final String ERROR_MESSAGE_ID = "errorMessage";
 
@@ -91,13 +100,17 @@ public class DefiniteIntegralFXTest extends ApplicationTest {
 	
 	private final Message message = Mockito.mock(Message.class);
 
-	private final Parent root = new Parent() {
-	};
+	private final Parent root = new Parent() {};
 
 	private Stage stage;
+	
 
 	@Override
 	public void start(final Stage primaryStage) throws Exception {
+		
+		Mockito.doReturn(I18N_REAL_NUMBER_MESSAGE).when(message).message(DefiniteIntegralFX.I18N_REAL_NUMBER_EXPECTED);
+		Mockito.doReturn(I18N_MANDATORY_MESSAGE).when(message).message(DefiniteIntegralFX.I18N__MANDATORY);
+		
 		Arrays.asList(DefiniteIntegralFX.class.getDeclaredFields()).stream().filter(field -> field.isAnnotationPresent(FXML.class)).forEach(field -> {
 
 			final Node dependency = (Node) BeanUtils.instantiateClass(field.getType());
@@ -121,6 +134,8 @@ public class DefiniteIntegralFXTest extends ApplicationTest {
 		stage = definiteIntegralFX.newStage();
 
 		stage.setScene(definiteIntegralFX.newScene(root));
+		
+		
 
 	}
 
@@ -420,6 +435,34 @@ public class DefiniteIntegralFXTest extends ApplicationTest {
 	@Test
 	public final void scene() {
 		assertEquals(root, stage.getScene().rootProperty().get());
+	}
+	
+	@Test
+	public final void i18N() {
+		final Stage stage = Mockito.mock(Stage.class);
+		
+		final ArgumentCaptor<Message.Screne> sceneCaptor = ArgumentCaptor.forClass(Message.Screne.class);
+		@SuppressWarnings("unchecked")
+		final ArgumentCaptor<Consumer<Message>> consumerCaptor = ArgumentCaptor.forClass(Consumer.class);
+		Mockito.verify(message).register(sceneCaptor.capture() , consumerCaptor.capture()); 		
+		final TextField lowerLimit = Mockito.mock(TextField.class);
+		final Scene scene = Mockito.mock(Scene.class);
+		Mockito.when(lowerLimit.getScene()).thenReturn(scene);
+		Mockito.doReturn(stage).when(scene).getWindow();
+		Mockito.doReturn(scene).when(lowerLimit).getScene();
+		controls.put("lowerLimit", lowerLimit);
+		ReflectionTestUtils.setField(definiteIntegralFX, LOWER_LIMIT_INPUT_ID, lowerLimit);
+		assertEquals(Message.Screne.DefiniteIntegral, sceneCaptor.getValue());
+		
+		Mockito.doReturn(I18N_LOWER_LIMIT_LABEL_VALUE ).when(message).message(DefiniteIntegralFX.I18N_DEFINITEINTEGRAL_PREFIX+(I18N_LOWER_LIMIT_LABEL_ID.toLowerCase()));
+		Mockito.doReturn(I18N_DEFINITE_INTEGRAL_TITLE_VALUE).when(message).message(DefiniteIntegralFX.I18N_DEFINITEINTEGRAL_TITLE);
+		
+		
+		consumerCaptor.getValue().accept(message);
+		
+		Mockito.verify(stage).setTitle(I18N_DEFINITE_INTEGRAL_TITLE_VALUE);
+		
+		assertEquals(I18N_LOWER_LIMIT_LABEL_VALUE, label(I18N_LOWER_LIMIT_LABEL_ID).getText());
 	}
 
 }
