@@ -13,6 +13,8 @@ import javax.script.ScriptException;
 
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.mockito.internal.util.collections.Sets;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -59,6 +61,16 @@ public class DefiniteIntegralConfigurationTest {
 		final Object dependency=  DataAccessUtils.requiredSingleResult(Arrays.asList(ScriptServiceImpl.class.getDeclaredFields()).stream().filter(field -> field.getType().equals(ScriptRepository.class)).map(field -> ReflectionTestUtils.getField(scriptService, field.getName())).collect(Collectors.toList()));
 		
 	    assertEquals(scriptRepository, dependency);
+	}
+	
+	@Test
+	public void  messageSource() {
+		final ResourceBundleMessageSource messageSource = (ResourceBundleMessageSource) definiteIntegralConfiguration.messageSource();
+		
+		assertEquals(DefiniteIntegralConfiguration.MESSAGE_SOURCE_ENCODING, ReflectionTestUtils.invokeGetterMethod(messageSource, "getDefaultEncoding"));
+		
+		assertEquals(Sets.newSet(DefiniteIntegralConfiguration.MESSAGE_SOURCE_BASENAME), messageSource.getBasenameSet());
+		
 	}
 	
 	

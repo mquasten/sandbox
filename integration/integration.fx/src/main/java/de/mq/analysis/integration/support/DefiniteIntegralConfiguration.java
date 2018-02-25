@@ -16,6 +16,9 @@ import de.mq.analysis.integration.IntegrationService;
 @Configuration
 class DefiniteIntegralConfiguration {
 
+	static final String MESSAGE_SOURCE_ENCODING = "UTF-8";
+	static final String[] MESSAGE_SOURCE_BASENAME =  {"i18n/definiteintegral", "i18n/script"};
+
 	@Bean
 	IntegrationService trapezoidIntegration() {
 		return new TrapezoidIntegrationImpl();
@@ -47,11 +50,9 @@ class DefiniteIntegralConfiguration {
 	
 	 @Bean
 	 MessageSource messageSource() {
-		
 	    	final ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-	        messageSource.setBasenames("i18n/definiteintegral");
-	        messageSource.setDefaultEncoding("UTF-8");
-	        System.out.println(messageSource);
+	        messageSource.setBasenames(MESSAGE_SOURCE_BASENAME);
+	        messageSource.setDefaultEncoding(MESSAGE_SOURCE_ENCODING);
 	        return messageSource;
 	    }
 

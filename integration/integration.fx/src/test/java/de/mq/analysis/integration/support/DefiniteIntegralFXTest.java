@@ -42,8 +42,23 @@ public class DefiniteIntegralFXTest extends ApplicationTest {
 	private static final String I18N_DEFINITE_INTEGRAL_TITLE_VALUE = "Numerische Integration";
 
 	private static final String I18N_LOWER_LIMIT_LABEL_VALUE = "untere Grenze";
+	private static final String I18N_UPPER_LIMIT_LABEL_VALUE = "obere Grenze";
+	private static final String I18N_ALGORITHM_LABEL_VALUE = "Alogrithmus";
+	private static final String I18N_SAMPLES_LABEL_VALUE = "Stützstellen";
+	
+	private static final String I18N_RESULT_LABEL_VALUE = "Ergebnis";
+	private static final String I18N_ERROR_LABEL_VALUE = "Ergebnis";
 
 	private static final String I18N_LOWER_LIMIT_LABEL_ID = "lowerLimitLabel";
+	private static final String I18N_UPPER_LIMIT_LABEL_ID = "upperLimitLabel";
+	private static final String I18N_ALGORITHM_LABEL_ID = "algorithmLabel";
+	private static final String I18N_SAMPLES_LABEL_ID = "samplesLabel";
+	
+	private static final String I18N_SCRIPT_LINK_VALUE="f(x)";
+	private static final String I18N_INTEGRATION_BUTTON_VALUE="integrieren";
+	private static final String  CLOSE_BUTTON_ID="closeButton";
+	private static final String  I18N_CLOSE_BUTTON_VALUE="abbrechen";
+	
 
 	private static final String ERROR_MESSAGE_ID = "errorMessage";
 
@@ -64,6 +79,7 @@ public class DefiniteIntegralFXTest extends ApplicationTest {
 	private static final String RESULT_INPUT_ID = "result";
 
 	private static final String RESULT_LABEL_ID = "resultLabel";
+	private static final String ERROR_LABEL_ID = "resultLabel";
 
 	private static final String NUMBER_OFSAMPLES_INPUT_ID = "samples";
 
@@ -90,6 +106,8 @@ public class DefiniteIntegralFXTest extends ApplicationTest {
 	private static final String UPPER_LIMIT_INPUT_ID = "upperLimit";
 
 	private static final String ERROR_INPUT_ID = "error";
+
+	
 
 	private final DefiniteIntegralController definiteIntegralController = Mockito.mock(DefiniteIntegralController.class);
 
@@ -269,7 +287,7 @@ public class DefiniteIntegralFXTest extends ApplicationTest {
 
 	@Test
 	public final void closeButtonAction() {
-		final ButtonBase closeButton = buttonBase("closeButton");
+		final ButtonBase closeButton = buttonBase(CLOSE_BUTTON_ID);
 
 		final Stage window = Mockito.mock(Stage.class);
 
@@ -457,12 +475,28 @@ public class DefiniteIntegralFXTest extends ApplicationTest {
 		Mockito.doReturn(I18N_LOWER_LIMIT_LABEL_VALUE ).when(message).message(DefiniteIntegralFX.I18N_DEFINITEINTEGRAL_PREFIX+(I18N_LOWER_LIMIT_LABEL_ID.toLowerCase()));
 		Mockito.doReturn(I18N_DEFINITE_INTEGRAL_TITLE_VALUE).when(message).message(DefiniteIntegralFX.I18N_DEFINITEINTEGRAL_TITLE);
 		
+		Mockito.doReturn(I18N_UPPER_LIMIT_LABEL_VALUE ).when(message).message(DefiniteIntegralFX.I18N_DEFINITEINTEGRAL_PREFIX+(I18N_UPPER_LIMIT_LABEL_ID.toLowerCase()));
+		Mockito.doReturn(I18N_ALGORITHM_LABEL_VALUE).when(message).message(DefiniteIntegralFX.I18N_DEFINITEINTEGRAL_PREFIX+(I18N_ALGORITHM_LABEL_ID.toLowerCase()));
+		Mockito.doReturn(I18N_SAMPLES_LABEL_VALUE).when(message).message(DefiniteIntegralFX.I18N_DEFINITEINTEGRAL_PREFIX+(I18N_SAMPLES_LABEL_ID.toLowerCase()));
+		Mockito.doReturn(I18N_RESULT_LABEL_VALUE).when(message).message(DefiniteIntegralFX.I18N_DEFINITEINTEGRAL_PREFIX+(RESULT_LABEL_ID.toLowerCase()));
+		Mockito.doReturn(I18N_ERROR_LABEL_VALUE).when(message).message(DefiniteIntegralFX.I18N_DEFINITEINTEGRAL_PREFIX+(ERROR_LABEL_ID.toLowerCase()));
+		Mockito.doReturn(I18N_SCRIPT_LINK_VALUE).when(message).message(DefiniteIntegralFX.I18N_DEFINITEINTEGRAL_PREFIX+(SCRIPT_LINK_ID.toLowerCase()));
+		Mockito.doReturn(I18N_INTEGRATION_BUTTON_VALUE).when(message).message(DefiniteIntegralFX.I18N_DEFINITEINTEGRAL_PREFIX+(INTEGRATION_BUTTON_ID.toLowerCase()));
 		
-		consumerCaptor.getValue().accept(message);
+		Mockito.doReturn(I18N_CLOSE_BUTTON_VALUE).when(message).message(DefiniteIntegralFX.I18N_DEFINITEINTEGRAL_PREFIX+(CLOSE_BUTTON_ID.toLowerCase()));consumerCaptor.getValue().accept(message);
 		
 		Mockito.verify(stage).setTitle(I18N_DEFINITE_INTEGRAL_TITLE_VALUE);
 		
 		assertEquals(I18N_LOWER_LIMIT_LABEL_VALUE, label(I18N_LOWER_LIMIT_LABEL_ID).getText());
+		assertEquals(I18N_UPPER_LIMIT_LABEL_VALUE, label(I18N_UPPER_LIMIT_LABEL_ID).getText());
+		assertEquals(I18N_ALGORITHM_LABEL_VALUE, label(I18N_ALGORITHM_LABEL_ID).getText());
+		assertEquals(I18N_SAMPLES_LABEL_VALUE, label(I18N_SAMPLES_LABEL_ID).getText());
+		assertEquals(I18N_RESULT_LABEL_VALUE, label(RESULT_LABEL_ID).getText());
+		assertEquals(I18N_ERROR_LABEL_VALUE, label(ERROR_LABEL_ID).getText());
+		assertEquals(I18N_SCRIPT_LINK_VALUE, buttonBase(SCRIPT_LINK_ID).getText());
+		assertEquals(I18N_INTEGRATION_BUTTON_VALUE, buttonBase(INTEGRATION_BUTTON_ID).getText());
+		assertEquals(I18N_CLOSE_BUTTON_VALUE, buttonBase(CLOSE_BUTTON_ID).getText());
+		
 	}
 
 }
