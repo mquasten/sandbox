@@ -9,11 +9,12 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.io.ClassPathResource;
 
 import de.mq.analysis.integration.IntegrationService;
-
+@PropertySource("classpath:/analysis.properties")
 @ComponentScan(basePackages = { "de.mq.analysis.integration.support" })
 @Configuration
 class DefiniteIntegralConfiguration {
