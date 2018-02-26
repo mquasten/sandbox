@@ -199,7 +199,7 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 		closeButton.setOnAction(actionEvent -> closeWindow(actionEvent));
 	
 		
-		message.register(Message.Screne.DefiniteIntegral, message -> {
+		message.register(Message.SceneType.DefiniteIntegral, message -> {
 			final Stage stage = (Stage) lowerLimit.getScene().getWindow();
 			
 			stage.setTitle(message.message(I18N_DEFINITEINTEGRAL_TITLE));
@@ -238,10 +238,11 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 		try {
 			final Stage scriptDialog =  newStage();	
 			scriptDialog.setScene(newScene(scriptDialogParent()));
-			scriptDialog.setTitle("Script auswählen");
+			//scriptDialog.setTitle("Script auswählen");
 			scriptDialog.initModality(Modality.WINDOW_MODAL);
 			scriptDialog.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
 			definiteIntegralAO.setErrorMessage(null);
+			message.notifyObservers(Message.SceneType.Script);
 			scriptDialog.show();
 		} catch (final NestedRuntimeException ex) {
 			definiteIntegralAO.setErrorMessage(ex.getMostSpecificCause().getMessage());

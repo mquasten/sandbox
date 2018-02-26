@@ -66,8 +66,6 @@ public class DefiniteIntegralFXTest extends ApplicationTest {
 
 	private static final String ERROR_MESSAGE_VALUE = "It sucks...";
 
-	private static final String I18N_SCRIPT_DIALOG_TITLE = "Script auswählen";
-
 	private static final String SCRIPT_LINK_ID = "script";
 
 	private static final long NUMBER_OF_SAMPLES_VALUE = 10000L;
@@ -328,7 +326,7 @@ public class DefiniteIntegralFXTest extends ApplicationTest {
 		Mockito.verify(stage).setScene(scene);
 		assertEquals(parent, parentCaptor.getValue());
 
-		Mockito.verify(stage).setTitle(I18N_SCRIPT_DIALOG_TITLE);
+		Mockito.verify(message).notifyObservers(Message.SceneType.Script);
 		Mockito.verify(stage).initModality(Modality.WINDOW_MODAL);
 		Mockito.verify(stage).initOwner(window);
 		Mockito.verify(stage).show();
@@ -459,7 +457,7 @@ public class DefiniteIntegralFXTest extends ApplicationTest {
 	public final void i18N() {
 		final Stage stage = Mockito.mock(Stage.class);
 		
-		final ArgumentCaptor<Message.Screne> sceneCaptor = ArgumentCaptor.forClass(Message.Screne.class);
+		final ArgumentCaptor<Message.SceneType> sceneCaptor = ArgumentCaptor.forClass(Message.SceneType.class);
 		@SuppressWarnings("unchecked")
 		final ArgumentCaptor<Consumer<Message>> consumerCaptor = ArgumentCaptor.forClass(Consumer.class);
 		Mockito.verify(message).register(sceneCaptor.capture() , consumerCaptor.capture()); 		
@@ -470,7 +468,7 @@ public class DefiniteIntegralFXTest extends ApplicationTest {
 		Mockito.doReturn(scene).when(lowerLimit).getScene();
 		controls.put("lowerLimit", lowerLimit);
 		ReflectionTestUtils.setField(definiteIntegralFX, LOWER_LIMIT_INPUT_ID, lowerLimit);
-		assertEquals(Message.Screne.DefiniteIntegral, sceneCaptor.getValue());
+		assertEquals(Message.SceneType.DefiniteIntegral, sceneCaptor.getValue());
 		
 		Mockito.doReturn(I18N_LOWER_LIMIT_LABEL_VALUE ).when(message).message(DefiniteIntegralFX.I18N_DEFINITEINTEGRAL_PREFIX+(I18N_LOWER_LIMIT_LABEL_ID.toLowerCase()));
 		Mockito.doReturn(I18N_DEFINITE_INTEGRAL_TITLE_VALUE).when(message).message(DefiniteIntegralFX.I18N_DEFINITEINTEGRAL_TITLE);

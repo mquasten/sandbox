@@ -49,7 +49,7 @@ public class DefiniteIntegrationApplicationFXTest extends ApplicationTest {
 		final ArgumentCaptor<Scene> argumentCaptor = ArgumentCaptor.forClass(Scene.class);
 		Mockito.verify(stage).show();
 		Mockito.verify(stage).setScene(argumentCaptor.capture());
-		Mockito.verify(message).notifyObservers(Message.Screne.DefiniteIntegral);
+		Mockito.verify(message).notifyObservers(Message.SceneType.DefiniteIntegral);
 		assertEquals(parent, argumentCaptor.getValue().rootProperty().getValue());
 
 	}

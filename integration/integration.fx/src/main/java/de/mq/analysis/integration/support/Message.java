@@ -5,19 +5,21 @@ import java.util.function.Consumer;
 interface Message {
 	
 
-	public enum Screne {
+	public enum SceneType {
 		DefiniteIntegral,
 		Script;
 	}
 	
 	
 
-	void notifyObservers(Screne screne);
+	void notifyObservers(final SceneType sceneType);
 
 	void notifyObservers();
 
-	String message(String code);
+	String message(final String code);
 
-	void register(Screne scene, Consumer<Message> observer);
+	void register(final SceneType scene, final Consumer<Message> observer);
+	
+	void unRegister(final SceneType scene);
 
 }

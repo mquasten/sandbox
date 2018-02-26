@@ -1,6 +1,7 @@
 package de.mq.analysis.integration.support;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
@@ -21,10 +22,17 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 @Controller
 class ScriptFX implements Initializable, Observer {
+
+	static final String I18N_SCRIPT_PREFIX = "script_";
+
+	static final String I18N_SCRIPT_TITLE = I18N_SCRIPT_PREFIX + "title";
+
+	static final String I18N_SCRIPT_CODE_COLUMN = I18N_SCRIPT_PREFIX + "codecolumn";
 
 	@FXML
 	private Button cancelButton;
@@ -49,15 +57,21 @@ class ScriptFX implements Initializable, Observer {
 	
 	@FXML
 	private Label errorMessage;
+	
+	@FXML
+	private Pane parent;
 
 	private final ScriptController scriptController;
 
 	private final ScriptAO scriptAO = new ScriptAO();
+	
+	private final Message message;
 
-	ScriptFX(final ScriptController scriptController, final DefiniteIntegralFX definiteIntegralFX) {
+	ScriptFX(final ScriptController scriptController, final DefiniteIntegralFX definiteIntegralFX, final Message message) {
 		scriptAO.addObserver(definiteIntegralFX.getDefiniteIntegralAO());
 
 		this.scriptController = scriptController;
+		this.message=message;
 		scriptAO.addObserver(this);
 	}
 
@@ -80,7 +94,7 @@ class ScriptFX implements Initializable, Observer {
 
 		final TableColumn<Script, Script> col = new TableColumn<>();
 
-		col.setText("f(x)");
+		//col.setText("f(x)");
 		col.setPrefWidth(500);
 
 		col.setCellValueFactory(data -> new ObservableValueBase<Script>() {
@@ -143,6 +157,16 @@ class ScriptFX implements Initializable, Observer {
 
 		scriptTable.getSelectionModel().select(scriptAO.getSelectedScript());
 		
+		
+		message.register(Message.SceneType.Script, message -> {			
+			final Stage stage = (Stage) parent.getScene().getWindow();
+			stage.setTitle(message.message(I18N_SCRIPT_TITLE));
+			col.setText(message.message(I18N_SCRIPT_CODE_COLUMN));
+			
+			Arrays.asList(addScript, deleteScript, saveScript, cancelButton, selectButton).forEach(control -> control.setText(message.message(I18N_SCRIPT_PREFIX + control.getId().toLowerCase())));
+		
+			message.unRegister(Message.SceneType.Script);
+		});
 		
 	}
 

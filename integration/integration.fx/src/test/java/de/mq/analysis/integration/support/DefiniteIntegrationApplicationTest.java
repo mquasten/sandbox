@@ -68,7 +68,7 @@ public class DefiniteIntegrationApplicationTest {
 		
 		Mockito.verify(stage).setScene(scene);
 		Mockito.verify(stage).show();
-		Mockito.verify(MESSAGE).notifyObservers(Message.Screne.DefiniteIntegral);;
+		Mockito.verify(MESSAGE).notifyObservers(Message.SceneType.DefiniteIntegral);;
 	}
 	
 	@Test

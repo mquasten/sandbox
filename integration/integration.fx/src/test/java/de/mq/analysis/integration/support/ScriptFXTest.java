@@ -10,9 +10,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.support.DataAccessUtils;
@@ -26,15 +28,19 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonBase;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputControl;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class ScriptFXTest extends ApplicationTest   {
+	
+	private static final String I18N_SCRIPT_TITLE_VALUE = "Script auswählen";
+	
+	private static final String I18N_SCRIPT_CODE_COLUMN_VALUE  = "f(x)";
 	
 	private static final String I18N_FUNCTION_INVALID = "Funktion ist ungültig.";
 	private static final String ERROR_MESSAGE_LABEL_ID = "errorMessage";
@@ -45,10 +51,20 @@ public class ScriptFXTest extends ApplicationTest   {
 	private static final String DELETE_SCRIPT_BUTTON_ID = "deleteScript";
 	private static final String ADD_SCRIPT_BUTTON_ID = "addScript";
 	private static final String SCRIPT_INPUT_ID = "script";
-	private static final String I18N_SCRIPT_TABLE_DATA_HEADLINE = "f(x)";
+	
 	private static final String SCRIPT_TABLE_ID = "scriptTable";
 	private static final String CODE = "x**2";
 	private static final String ID = UUID.randomUUID().toString();
+
+	private static final Object ADD_SCRIPT_BUTTON_VALUE = "hinzufügen";
+
+	private static final Object DELETE_SCRIPT_BUTTON_VALUE = "löschen";
+
+	private static final Object SAVE_SCRIPT_BUTTON_VALUE = "speichern";
+
+	private static final Object CANCEL_BUTTON_VALUE = "abbrechen";
+
+	private static final Object SELECT_BUTTON_VALUE = "auswählen";
 	private final ScriptController scriptController = Mockito.mock(ScriptController.class);
 	private final DefiniteIntegralFX definiteIntegralFX = Mockito.mock(DefiniteIntegralFX.class);
 	private ScriptFX scriptFX;
@@ -59,17 +75,17 @@ public class ScriptFXTest extends ApplicationTest   {
 	
 	private final Script script = Mockito.mock(Script.class);
 	
-	private final Map<String, Control> controls = new HashMap<>();
+	private final Map<String, Node> controls = new HashMap<>();
 
 
-
+	private final Message message = Mockito.mock(Message.class);
 
 
 	@Override
 	public void start(final Stage primaryStage) throws Exception {
 	
 		Mockito.doReturn(definiteIntegralAO).when(definiteIntegralFX).getDefiniteIntegralAO();
-		scriptFX = new ScriptFX(scriptController, definiteIntegralFX);
+		scriptFX = new ScriptFX(scriptController, definiteIntegralFX, message);
 		scriptAO=(ScriptAO) DataAccessUtils.requiredSingleResult(Arrays.asList(ScriptFX.class.getDeclaredFields()).stream().filter(field -> field.getType().equals(ScriptAO.class)).map(field -> ReflectionTestUtils.getField(scriptFX, field.getName())).collect(Collectors.toList()));
 		
 		Mockito.doReturn(CODE).when(script).code();
@@ -81,7 +97,7 @@ public class ScriptFXTest extends ApplicationTest   {
 		
 		
 		Arrays.asList(ScriptFX.class.getDeclaredFields()).stream().filter(field -> field.isAnnotationPresent(FXML.class)).forEach(field -> {
-			final Control dependency = (Control) BeanUtils.instantiateClass(field.getType());
+			final Node dependency = (Node) BeanUtils.instantiateClass(field.getType());
 			dependency.setId(field.getName());
 			ReflectionTestUtils.setField(scriptFX, field.getName(), dependency);
 			controls.put(field.getName(), dependency);
@@ -118,8 +134,6 @@ public class ScriptFXTest extends ApplicationTest   {
 		assertEquals(1, scriptTable.getColumns().size());
 		
 		assertEquals(script, scriptTable.getColumns().get(0).getCellData(0));
-		
-		assertEquals(I18N_SCRIPT_TABLE_DATA_HEADLINE, scriptTable.getColumns().get(0).getText());
 	}
 
 
@@ -329,6 +343,52 @@ public class ScriptFXTest extends ApplicationTest   {
 		
 	}
 	
+	
+	@Test
+	public final void i18N() {
+		
+		final Pane pane = Mockito.mock(Pane.class);
+		final Scene scene = Mockito.mock(Scene.class);
+		Mockito.doReturn(scene).when(pane).getScene();
+		final Stage stage = Mockito.mock(Stage.class);
+		Mockito.doReturn(stage).when(scene).getWindow();
+		
+		
+		Mockito.doReturn(I18N_SCRIPT_TITLE_VALUE).when(message).message(ScriptFX.I18N_SCRIPT_TITLE);
+		Mockito.doReturn(I18N_SCRIPT_CODE_COLUMN_VALUE).when(message).message(ScriptFX.I18N_SCRIPT_CODE_COLUMN);
+		Mockito.doReturn(ADD_SCRIPT_BUTTON_VALUE).when(message).message(ScriptFX.I18N_SCRIPT_PREFIX + ADD_SCRIPT_BUTTON_ID.toLowerCase());
+		Mockito.doReturn(DELETE_SCRIPT_BUTTON_VALUE).when(message).message(ScriptFX.I18N_SCRIPT_PREFIX + DELETE_SCRIPT_BUTTON_ID.toLowerCase());
+		Mockito.doReturn(SAVE_SCRIPT_BUTTON_VALUE).when(message).message(ScriptFX.I18N_SCRIPT_PREFIX + SAVE_SCRIPT_BUTTON_ID.toLowerCase());
+		Mockito.doReturn(CANCEL_BUTTON_VALUE).when(message).message(ScriptFX.I18N_SCRIPT_PREFIX + CANCEL_BUTTON_ID.toLowerCase());
+		Mockito.doReturn(SELECT_BUTTON_VALUE).when(message).message(ScriptFX.I18N_SCRIPT_PREFIX + SELECT_BUTTON_ID.toLowerCase());
+		
+		ReflectionTestUtils.setField(scriptFX, "parent", pane);
+		final ArgumentCaptor<Message.SceneType> sceneTypeCaptor = ArgumentCaptor.forClass(Message.SceneType.class);
+		@SuppressWarnings("unchecked")
+		final ArgumentCaptor<Consumer<Message>> observerCaptor = ArgumentCaptor.forClass(Consumer.class);
+		
+		Mockito.verify(message).register(sceneTypeCaptor.capture(), observerCaptor.capture());
+		
+		assertEquals(Message.SceneType.Script, sceneTypeCaptor.getValue());
+		
+		observerCaptor.getValue().accept(message);
+		
+	
+		
+		Mockito.verify(stage).setTitle(I18N_SCRIPT_TITLE_VALUE);
+		
+		assertEquals(1, scriptTableView().getColumns().size());
+		assertEquals(I18N_SCRIPT_CODE_COLUMN_VALUE, scriptTableView().getColumns().stream().findAny().get().getText());
+		
+		assertEquals(ADD_SCRIPT_BUTTON_VALUE, buttonBase(ADD_SCRIPT_BUTTON_ID).getText());
+		assertEquals(DELETE_SCRIPT_BUTTON_VALUE, buttonBase(DELETE_SCRIPT_BUTTON_ID).getText());
+		assertEquals(SAVE_SCRIPT_BUTTON_VALUE, buttonBase(SAVE_SCRIPT_BUTTON_ID).getText());
+		assertEquals(CANCEL_BUTTON_VALUE, buttonBase(CANCEL_BUTTON_ID).getText());
+		assertEquals(SELECT_BUTTON_VALUE, buttonBase(SELECT_BUTTON_ID).getText());
+		
+		Mockito.verify(message).unRegister(Message.SceneType.Script);
+		
+	}
 	
 
 
