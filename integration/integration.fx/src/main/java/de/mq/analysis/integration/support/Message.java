@@ -12,7 +12,7 @@ interface Message {
 	
 	
 
-	void notifyObservers(final SceneType sceneType);
+	void notifyObserver(final SceneType sceneType);
 
 	void notifyObservers();
 

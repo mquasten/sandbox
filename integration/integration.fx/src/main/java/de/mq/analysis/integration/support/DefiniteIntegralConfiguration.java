@@ -4,15 +4,13 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
-import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
+
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.core.io.ClassPathResource;
-
 import de.mq.analysis.integration.IntegrationService;
 @PropertySource("classpath:/analysis.properties")
 @ComponentScan(basePackages = { "de.mq.analysis.integration.support" })
@@ -58,14 +56,5 @@ class DefiniteIntegralConfiguration {
 	        messageSource.setDefaultEncoding(MESSAGE_SOURCE_ENCODING);
 	        return messageSource;
 	    }
-	 
-	 @Bean
-		public PropertyPlaceholderConfigurer propertyPlaceholderConfigurer() {
-
-			PropertyPlaceholderConfigurer propertyPlaceholderConfigurer = new PropertyPlaceholderConfigurer();
-			propertyPlaceholderConfigurer.setLocation(new ClassPathResource("analysis.properties"));
-
-			return propertyPlaceholderConfigurer;
-		}
-
+	
 }

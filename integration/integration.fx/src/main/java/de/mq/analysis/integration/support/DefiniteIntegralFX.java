@@ -242,7 +242,7 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 			scriptDialog.initModality(Modality.WINDOW_MODAL);
 			scriptDialog.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
 			definiteIntegralAO.setErrorMessage(null);
-			message.notifyObservers(Message.SceneType.Script);
+			message.notifyObserver(Message.SceneType.Script);
 			scriptDialog.show();
 		} catch (final NestedRuntimeException ex) {
 			definiteIntegralAO.setErrorMessage(ex.getMostSpecificCause().getMessage());

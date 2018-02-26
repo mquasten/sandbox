@@ -27,7 +27,7 @@ public class DefiniteIntegrationApplication extends Application {
 	public void start(final Stage stage) throws IOException {
 		//stage.setTitle(TITLE);
 		stage.setScene(newScene(getDefiniteIntegralParent()));
-		message().notifyObservers(SceneType.DefiniteIntegral);
+		message().notifyObserver(SceneType.DefiniteIntegral);
 		stage.show();
 
 	}

@@ -3,6 +3,7 @@ package de.mq.analysis.integration.support;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp.BasicDataSource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -17,6 +18,12 @@ class JdbcDatabaseConfiguration {
 	static final String USER = "sa";
 	static final String URL = "jdbc:hsqldb:file:analysis";
 	static final String DRIVER_CLASS_NAME = "org.hsqldb.jdbcDriver";
+	
+	
+	private @Value( "${jdbc.url:jdbc:hsqldb:file:analysis}" ) String url; 
+	private @Value( "${jdbc.driver:org.hsqldb.jdbcDriver}" ) String driver; 
+	private @Value( "${jdbc.user:sa}" ) String user; 
+	private @Value( "${jdbc.password:}" ) String password; 
 
 	@Bean(destroyMethod = "close")
 	DataSource datasource() {

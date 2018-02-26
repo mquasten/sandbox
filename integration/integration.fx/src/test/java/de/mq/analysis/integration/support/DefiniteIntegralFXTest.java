@@ -326,7 +326,7 @@ public class DefiniteIntegralFXTest extends ApplicationTest {
 		Mockito.verify(stage).setScene(scene);
 		assertEquals(parent, parentCaptor.getValue());
 
-		Mockito.verify(message).notifyObservers(Message.SceneType.Script);
+		Mockito.verify(message).notifyObserver(Message.SceneType.Script);
 		Mockito.verify(stage).initModality(Modality.WINDOW_MODAL);
 		Mockito.verify(stage).initOwner(window);
 		Mockito.verify(stage).show();
