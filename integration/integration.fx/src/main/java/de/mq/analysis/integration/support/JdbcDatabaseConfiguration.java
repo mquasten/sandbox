@@ -14,10 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @Profile("jdbc")
 class JdbcDatabaseConfiguration {
 
-	static final String PASSWORD = "";
-	static final String USER = "sa";
-	static final String URL = "jdbc:hsqldb:file:analysis";
-	static final String DRIVER_CLASS_NAME = "org.hsqldb.jdbcDriver";
+	
 	
 	
 	private @Value( "${jdbc.url:jdbc:hsqldb:file:analysis}" ) String url; 
@@ -28,10 +25,10 @@ class JdbcDatabaseConfiguration {
 	@Bean(destroyMethod = "close")
 	DataSource datasource() {
 		final BasicDataSource datasource = new BasicDataSource();
-		datasource.setDriverClassName(DRIVER_CLASS_NAME);
-		datasource.setUrl(URL);
-		datasource.setUsername(USER);
-		datasource.setPassword(PASSWORD);
+		datasource.setDriverClassName(driver);
+		datasource.setUrl(url);
+		datasource.setUsername(user);
+		datasource.setPassword(password);
 		return datasource;
 	}
 

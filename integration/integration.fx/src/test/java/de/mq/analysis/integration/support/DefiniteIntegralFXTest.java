@@ -203,7 +203,7 @@ public class DefiniteIntegralFXTest extends ApplicationTest {
 	@Test
 	public final void defaultSamples() {
 		final ChoiceBox<Long> choiceBox = choiceBox(NUMBER_OFSAMPLES_INPUT_ID, Long.class);
-		assertEquals(Arrays.asList(1000L, 10000L, 100000L, 1000000L, 10000000L), choiceBox.getItems());
+		assertEquals(Arrays.asList(1000L, 10000L, 100000L, 1000000L), choiceBox.getItems());
 	}
 
 	@Test

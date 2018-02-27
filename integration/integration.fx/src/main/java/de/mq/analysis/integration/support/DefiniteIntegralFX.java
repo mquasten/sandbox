@@ -123,7 +123,7 @@ abstract class DefiniteIntegralFX implements Initializable, Observer {
 		definiteIntegralAO.addObserver(this);
 		code.setEditable(false);
 		algorithms.setItems(FXCollections.observableArrayList(IntegrationService.CalculationAlgorithm.values()));
-		samples.setItems(FXCollections.observableArrayList(1000L, 10000L, 100000L, 1000000L, 10000000L));
+		samples.setItems(FXCollections.observableArrayList(1000L, 10000L, 100000L, 1000000L));
 		lowerLimit.textProperty().addListener((observable, oldValue, newValue) -> {
 			definiteIntegralAO.setLowerLimit(null);
 			if (!validateDouble(newValue)) {
