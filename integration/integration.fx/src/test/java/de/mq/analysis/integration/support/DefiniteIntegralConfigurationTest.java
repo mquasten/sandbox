@@ -26,14 +26,18 @@ public class DefiniteIntegralConfigurationTest {
 	private final DefiniteIntegralConfiguration definiteIntegralConfiguration = new DefiniteIntegralConfiguration();
 
 	@Test
-	public void trapezoidIntegration() {
-		
+	public void trapezoidIntegration() {	
 		assertTrue(definiteIntegralConfiguration.trapezoidIntegration() instanceof TrapezoidIntegrationImpl); 
 	}
 	
 	@Test
 	public void  simpsonIntegrationService() {
 		assertTrue(definiteIntegralConfiguration.simpsonIntegrationService() instanceof SimpsonIntegrationServiceImpl); 
+	}
+	
+	@Test
+	public final void rectangleIntegrationService() {
+		assertTrue(definiteIntegralConfiguration.rectangleIntegrationService() instanceof RectangleIntegrationServiceImpl); 
 	}
 	
 	@Test

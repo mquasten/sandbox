@@ -29,6 +29,13 @@ class DefiniteIntegralConfiguration {
 	IntegrationService simpsonIntegrationService() {
 		return new SimpsonIntegrationServiceImpl();
 	}
+	
+	
+	@Bean
+	IntegrationService rectangleIntegrationService() {
+		return new RectangleIntegrationServiceImpl();
+		
+	}
 
 	@Bean
 	ScriptEngine scriptEngine() throws ScriptException {

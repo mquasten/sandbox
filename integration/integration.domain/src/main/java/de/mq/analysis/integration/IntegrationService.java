@@ -16,8 +16,10 @@ public interface IntegrationService {
 	 *
 	 */
 	public enum  CalculationAlgorithm {
+		Rectangle,
 		Trapezoid,
 		Simpson ; 
+		
 	}
 	
 	

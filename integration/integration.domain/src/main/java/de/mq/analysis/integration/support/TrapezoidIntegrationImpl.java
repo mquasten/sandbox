@@ -1,3 +1,4 @@
+
 package de.mq.analysis.integration.support;
 
 import java.util.stream.LongStream;
