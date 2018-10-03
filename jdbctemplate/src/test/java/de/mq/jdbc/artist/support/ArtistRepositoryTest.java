@@ -43,7 +43,7 @@ class ArtistRepositoryTest {
 		
 		final long t1 = System.currentTimeMillis();
 		List<Artist> artists = new ArrayList<>();
-		IntStream.range(0, 1000000).forEach( i -> {
+		IntStream.range(0, 500).forEach( i -> {
 			final Artist artist = new Artist();
 			artist.setFirstname("Kylie");
 			artist.setLastname("Minogue");
