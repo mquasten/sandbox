@@ -1,4 +1,4 @@
-package de.mq.jdbc.artist;
+package de.mq.jdbc.artist.support;
 
 import de.mq.jdbc.util.Persistence;
 

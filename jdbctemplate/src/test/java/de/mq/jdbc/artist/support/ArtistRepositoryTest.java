@@ -11,8 +11,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import de.mq.jdbc.artist.Artist;
-
 @ExtendWith(value = { SpringExtension.class })
 @ContextConfiguration({"/beans.xml"})
 class ArtistRepositoryTest {
