@@ -1,5 +1,12 @@
 package de.mq.jdbc.util.persistence;
 
+import java.util.Collection;
+import java.util.Optional;
+
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
+import org.springframework.util.CollectionUtils;
+
 class PersistenceInfo {
 	
 	private  String insertSql; 
@@ -8,14 +15,29 @@ class PersistenceInfo {
 
 	private final Class<?> clazz;
 	
-	
+	private Optional<SqlParameterSource[]> sqlParameterSource = Optional.empty(); 
 	
 	
 	PersistenceInfo(final Class<?> clazz) {
 		this.clazz=clazz;
 	}
+	
+	
+	public Optional<SqlParameterSource[]> getSqlParameterSource() {
+		return sqlParameterSource;
+	}
 
+	
 
+	public void setEntities(final Collection<?> entities) {
+		if( CollectionUtils.isEmpty(entities) ) {
+			sqlParameterSource=Optional.empty();
+			return;
+		}
+		sqlParameterSource=Optional.of(SqlParameterSourceUtils.createBatch(entities.toArray()));
+	}
+	
+	
 	@Override
 	public int hashCode() {
 		return clazz.hashCode();
