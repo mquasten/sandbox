@@ -14,7 +14,12 @@ class PersistenceInfo {
 	
 
 	private final Class<?> clazz;
+	private  int order = Integer.MAX_VALUE;
 	
+	public int getOrder() {
+		return order;
+	}
+
 	private Optional<SqlParameterSource[]> sqlParameterSource = Optional.empty(); 
 	
 	
@@ -60,6 +65,12 @@ class PersistenceInfo {
 	
 	public void setInsertSql(final String insertSql) {
 		this.insertSql = insertSql;
+	}
+
+
+	public void setOrder(final int order) {
+		this.order=order;
+		
 	}
 
 }

@@ -16,6 +16,8 @@ import de.mq.jdbc.artist.support.Artist;
 
 class PersistenceInfoTest {
 	
+	
+	private static final int ORDER = 42;
 	private static final String INSERT_SQL = "insert into...";
 
 	@Test
@@ -76,6 +78,16 @@ class PersistenceInfoTest {
 		persistenceInfo.setEntities(new ArrayList<>());
 		
 		assertFalse(persistenceInfo.getSqlParameterSource().isPresent());
+	}
+	
+	@Test
+	void order() {
+		final PersistenceInfo persistenceInfo = new PersistenceInfo(Artist.class);
+		assertEquals(Integer.MAX_VALUE, persistenceInfo.getOrder());
+	
+		persistenceInfo.setOrder(ORDER);
+		
+		assertEquals(ORDER, persistenceInfo.getOrder());
 	}
 
 }
