@@ -44,7 +44,33 @@ class MetaDataRepositoryTest {
 	
 	}
 	
+	@Test
+	@Disabled
+	final void video() throws Exception {
+		System.out.println(metaDataRepository.generateAnemicObject("video"));
 	
+	}
+	
+	@Test
+	@Disabled
+	final void videoInsert() throws Exception {
+		System.out.println(metaDataRepository.insertFor("video"));
+	
+	}
+	
+	@Test
+	@Disabled
+	final void award() throws Exception {
+		System.out.println(metaDataRepository.generateAnemicObject("award"));
+	
+	}
+	
+	@Test
+	@Disabled
+	final void awardInsert() throws Exception {
+		System.out.println(metaDataRepository.insertFor("award"));
+	
+	}
 	
 	
 }

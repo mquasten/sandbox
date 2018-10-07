@@ -25,6 +25,8 @@ class MetaDataRepositoryImpl {
 		types.put("int4", "Integer");
 		types.put("int8", "Long");
 		
+		types.put("date", "LocalDate");
+		
 	}
 
 	public final String generateAnemicObject(final String table) throws SQLException {
@@ -44,7 +46,7 @@ class MetaDataRepositoryImpl {
 
 			final String colName =JdbcUtils.convertUnderscoreNameToPropertyName(JdbcUtils.lookupColumnName(resultSetMetaData, i + 1));
 			
-		//	System.out.println(JdbcUtils.lookupColumnName(resultSetMetaData, i + 1) + "=" + resultSetMetaData.getColumnTypeName(i+1));
+			System.out.println(JdbcUtils.lookupColumnName(resultSetMetaData, i + 1) + "=" + resultSetMetaData.getColumnTypeName(i+1));
 			
 			
 			builder.append(String.format("   private %s %s;\n", types.get(resultSetMetaData.getColumnTypeName(i+1)), colName));

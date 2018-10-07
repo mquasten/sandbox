@@ -12,3 +12,18 @@ CREATE TABLE artist (
   select * from artist
 
   truncate table artist
+
+
+CREATE TABLE video (
+  id bigint NOT NULL,
+  publication_date date,
+  name varchar(250) not null,
+  PRIMARY KEY( id )
+  )
+
+
+CREATE TABLE award (
+  id bigint NOT NULL,
+  name varchar(250) not null,
+  PRIMARY KEY( id )
+  )
